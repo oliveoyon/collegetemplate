@@ -231,125 +231,30 @@
   <section class="menu-section">
     <div class="container">
       <div class="row">
+        @foreach($provider_menusWithSubMenus as $menu)
+        @if($menu->is_home == 1)
         <div class="col-sm-4 col-12 mb-4">
           <div class="menu-box d-flex flex-column h-100">
             <div class="col-sm-12 col-12 pt-3 pb-2" id="cart" data-aos="fade-in" data-aos-duration="1000">
-              <p class="session" style="font-weight: bold">&nbsp;&nbsp;প্রতিষ্ঠান পরিচিতি</p>
+              <p class="session" style="font-weight: bold">&nbsp;&nbsp;{{ $menu->menu_name }}</p>
               <div class="row">
                 <div class="col-sm-3 col-3">
-                  <img width="200" src="https://shalikhaschool.edu.bd/storage/img/menu_img/1694792981_1.png" class="img-fluid">
+                  <img width="200" src="{{ asset('storage/img/menu_img/'.$menu->upload) }}" class="img-fluid">
                 </div>
                 <div class="col-sm-9 col-9 p-0">
                   <ul class="menus">
-                    <li><i class="fa fa-caret-right"></i><a href="about-institution">প্রতিষ্ঠান সম্পর্কে</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="mission-vision">লক্ষ্য এবং উদ্দেশ্য</a></li>
 
-                    <li><i class="fa fa-caret-right"></i><a href="yearly-plan">বার্ষিক কর্ম পরিকল্পনা</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="head-master">প্রধান শিক্ষক পরিচিতি</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="contact">যোগাযোগের ঠিকানা</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="about-school">বিদ্যালয় সম্পর্কে</a></li>
+                    @foreach($menu->subMenus as $subMenu)
+                        <li><i class="fa fa-caret-right"></i><a href="{{ $subMenu->submenu_slug }}">{{ $subMenu->submenu_name }}</a></li>
+                    @endforeach
                   </ul>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-4 col-12 mb-4">
-          <div class="menu-box d-flex flex-column h-100">
-            <div class="col-sm-12 col-12 pt-3 pb-2" id="cart" data-aos="fade-in" data-aos-duration="1000">
-              <p class="session" style="font-weight: bold">&nbsp;&nbsp;প্রতিষ্ঠান পরিচিতি</p>
-              <div class="row">
-                <div class="col-sm-3 col-3">
-                  <img width="200" src="https://shalikhaschool.edu.bd/storage/img/menu_img/1694792981_1.png" class="img-fluid">
-                </div>
-                <div class="col-sm-9 col-9 p-0">
-                  <ul class="menus">
-                    <li><i class="fa fa-caret-right"></i><a href="about-institution">প্রতিষ্ঠান সম্পর্কে</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="mission-vision">লক্ষ্য এবং উদ্দেশ্য</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="history">ইতিহাস</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="citizen-charter">সিটিজেন চার্টার</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="permission">পাঠদানের অনুমতি ও স্বীকৃতি</a></li>
-
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4 col-12 mb-4">
-          <div class="menu-box d-flex flex-column h-100">
-            <div class="col-sm-12 col-12 pt-3 pb-2" id="cart" data-aos="fade-in" data-aos-duration="1000">
-              <p class="session" style="font-weight: bold">&nbsp;&nbsp;প্রতিষ্ঠান পরিচিতি</p>
-              <div class="row">
-                <div class="col-sm-3 col-3">
-                  <img width="200" src="https://shalikhaschool.edu.bd/storage/img/menu_img/1694792981_1.png" class="img-fluid">
-                </div>
-                <div class="col-sm-9 col-9 p-0">
-                  <ul class="menus">
-                    <li><i class="fa fa-caret-right"></i><a href="about-institution">প্রতিষ্ঠান সম্পর্কে</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="mission-vision">লক্ষ্য এবং উদ্দেশ্য</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="history">ইতিহাস</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="citizen-charter">সিটিজেন চার্টার</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="permission">পাঠদানের অনুমতি ও স্বীকৃতি</a></li>
-
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4 col-12 mb-4">
-          <div class="menu-box d-flex flex-column h-100">
-            <div class="col-sm-12 col-12 pt-3 pb-2" id="cart" data-aos="fade-in" data-aos-duration="1000">
-              <p class="session" style="font-weight: bold">&nbsp;&nbsp;প্রতিষ্ঠান পরিচিতি</p>
-              <div class="row">
-                <div class="col-sm-3 col-3">
-                  <img width="200" src="https://shalikhaschool.edu.bd/storage/img/menu_img/1694792981_1.png" class="img-fluid">
-                </div>
-                <div class="col-sm-9 col-9 p-0">
-                  <ul class="menus">
-                    <li><i class="fa fa-caret-right"></i><a href="about-institution">প্রতিষ্ঠান সম্পর্কে</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="mission-vision">লক্ষ্য এবং উদ্দেশ্য</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="history">ইতিহাস</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="citizen-charter">সিটিজেন চার্টার</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="permission">পাঠদানের অনুমতি ও স্বীকৃতি</a></li>
-
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4 col-12 mb-4">
-          <div class="menu-box d-flex flex-column h-100">
-            <div class="col-sm-12 col-12 pt-3 pb-2" id="cart" data-aos="fade-in" data-aos-duration="1000">
-              <p class="session" style="font-weight: bold">&nbsp;&nbsp;প্রতিষ্ঠান পরিচিতি</p>
-              <div class="row">
-                <div class="col-sm-3 col-3">
-                  <img width="200" src="https://shalikhaschool.edu.bd/storage/img/menu_img/1694792981_1.png" class="img-fluid">
-                </div>
-                <div class="col-sm-9 col-9 p-0">
-                  <ul class="menus">
-                    <li><i class="fa fa-caret-right"></i><a href="about-institution">প্রতিষ্ঠান সম্পর্কে</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="mission-vision">লক্ষ্য এবং উদ্দেশ্য</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="history">ইতিহাস</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="citizen-charter">সিটিজেন চার্টার</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="permission">পাঠদানের অনুমতি ও স্বীকৃতি</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="mpo-information">এমপিও/জাতীয়করণ তথ্য</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="infrastructure">ভৌত অবকাঠামো</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="yearly-plan">বার্ষিক কর্ম পরিকল্পনা</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="head-master">প্রধান শিক্ষক পরিচিতি</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="contact">যোগাযোগের ঠিকানা</a></li>
-                    <li><i class="fa fa-caret-right"></i><a href="about-school">বিদ্যালয় সম্পর্কে</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
+        @endif
+        @endforeach
 
 
       </div>

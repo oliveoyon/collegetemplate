@@ -31,7 +31,7 @@
     <!-- Template Main CSS File -->
     <link href="{{ asset('web/assets/css/style.css') }}" rel="stylesheet">
 
-    
+
 
 
 
@@ -48,11 +48,9 @@
                     <div class="news-update">Notice</div>
                     <div class="scroll-container">
                         <div class="scroll-content">
-                            <!-- Add your notices dynamically here -->
-                            <a href="#" class="notice-item"><span class="dot"></span>Hardik Pandya bowls at high speed in 1st match as Gujarat Titans captain</a>
-                            <a href="#" class="notice-item"><span class="dot"></span>Will Smith-Chris Rock’s punch drama aside, why Oscars 2022 made Twitter cringe </a>
-                            <a href="#" class="notice-item"><span class="dot"></span>Sensex rises 230 points, Nifty up at 17,222 | List of top gainers</a>
-                            <!-- Add more notices as needed -->
+                            @foreach ($provider_ntcs as $ntcs)
+                                <a href="#" class="notice-item"><span class="dot"></span>{{ $ntcs->event_title }}</a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -73,42 +71,28 @@
         <div class="container d-flex justify-content-between">
 
             <div class="logo">
-                <h1 class="text-light"><a href="index.html">Flattern</a></h1>
+                {{-- <h1 class="text-light"><a href="index.html">{{ config('custom.school_title') }}</a></h1> --}}
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+                <a href="index.html"><img width="150" height="100" src="{{ asset('storage/img/menu_img/1694792981_1.png') }}" alt="" class="img-fluid"></a>
             </div>
 
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="active" href="index.html">হোম</a></li>
-                    <li><a href="about.html">সম্পর্কে</a></li>
-                    <li><a href="services.html">সেবাসমূহ</a></li>
-                    <li><a href="testimonials.html">প্রশংসাপত্র</a></li>
-                    <li><a href="pricing.html">মূল্যনির্ধারণ</a></li>
-                    <li><a href="portfolio.html">পোর্টফোলিও</a></li>
-                    <li><a href="blog.html">ব্লগ</a></li>
-
-                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                    @foreach($provider_menusWithSubMenus as $menu)
+                    <li class="dropdown"><a href="#"><span>{{ $menu->menu_name }}</span></a>
                         <ul>
-                            <li><a href="#">Drop Down 1</a></li>
-                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Drop Down 1</a></li>
-                                    <li><a href="#">Deep Drop Down 2</a></li>
-                                    <li><a href="#">Deep Drop Down 3</a></li>
-                                    <li><a href="#">Deep Drop Down 4</a></li>
-                                    <li><a href="#">Deep Drop Down 5</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Drop Down 2</a></li>
-                            <li><a href="#">Drop Down 3</a></li>
-                            <li><a href="#">Drop Down 4</a></li>
+                            @foreach($menu->subMenus as $subMenu)
+                            <li><a href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
-                    <li><a href="contact.html">Contact</a></li>
+                    @endforeach
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
+
 
         </div>
     </header><!-- End Header -->
@@ -204,7 +188,7 @@
     <!-- Template Main JS File -->
     <script src="{{ asset('web/assets/js/main.js') }}"></script>
 
-    
+
 
 </body>
 

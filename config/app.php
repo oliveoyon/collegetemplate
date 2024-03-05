@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
     ])->toArray(),
 
     /*

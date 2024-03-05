@@ -12,13 +12,7 @@ class WebController extends Controller
 {
     public function index()
     {
-        $send['ntcs'] = DB::table('events')
-        ->select('event_title', 'url', 'start_date')
-        ->where(['event_status' => 1, 'event_type' => 2])
-        ->where('end_date', '>', now()) // Adding the condition for end_date
-        ->orderByDesc('start_date')
-        ->limit(6)
-        ->get();
+
 
         $send['histories'] = DB::table('histories')->first();
         $send['uploads'] = DB::table('uploads')->where(['status' => 1])
@@ -92,5 +86,5 @@ class WebController extends Controller
         return view('web.download', $send);
     }
 
-    
+
 }
