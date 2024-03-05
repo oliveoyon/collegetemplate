@@ -12,59 +12,60 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ asset('web/assets/img/favicon.png') }}" rel="icon"> 
-    <link href="{{ asset('web/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon"> 
+    <link href="{{ asset('web/assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ asset('web/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="{{ asset('web/assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet"> 
-    <link href="{{ asset('web/assets/vendor/aos/aos.css') }}" rel="stylesheet">  
-    <link href="{{ asset('web/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> 
-    <link href="{{ asset('web/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet"> 
-    <link href="{{ asset('web/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet"> 
-    <link href="{{ asset('web/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet"> 
-    <link href="{{ asset('web/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('web/assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/assets/vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="{{ asset('web/assets/css/style.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('web/assets/css/style.css') }}" rel="stylesheet">
+
+    
+
+
 
 </head>
 
 <body>
 
     <!-- ======= Top Bar ======= -->
-    <section id="topbar" class="d-flex align-items-center">
-        <div class="container d-flex justify-content-center justify-content-md-between">
-            <div class="contact-info d-flex align-items-center">
-                <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
-                <div class="notice-lists">
-
-
-                    <div class="marquee-container">
-                        <div class="marquee-content">
-                            <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-                                <a href="https://example.com/notice/1" class="notice-items">Important Announcement for Class 6-10</a>
-                                <a href="https://example.com/notice/2" class="notice-items">Meet the New School Principal - John Doe</a>
-                                <a href="https://example.com/notice/3" class="notice-items">Upcoming Events and Activities</a>
-                                <a href="https://example.com/notice/4" class="notice-items">Reminder: Parent-Teacher Meeting on February
-                                    15</a>
-                                <a href="https://example.com/notice/5" class="notice-items">School Holiday Schedule for the Month</a>
-                            </marquee>
+    <section id="custom-topbar">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="news-container">
+                    <div class="news-update">Notice</div>
+                    <div class="scroll-container">
+                        <div class="scroll-content">
+                            <!-- Add your notices dynamically here -->
+                            <a href="#" class="notice-item"><span class="dot"></span>Hardik Pandya bowls at high speed in 1st match as Gujarat Titans captain</a>
+                            <a href="#" class="notice-item"><span class="dot"></span>Will Smith-Chris Rock’s punch drama aside, why Oscars 2022 made Twitter cringe </a>
+                            <a href="#" class="notice-item"><span class="dot"></span>Sensex rises 230 points, Nifty up at 17,222 | List of top gainers</a>
+                            <!-- Add more notices as needed -->
                         </div>
                     </div>
                 </div>
-
             </div>
-
+        </div>
         </div>
     </section>
+
     <section style="padding: 30px 0;">
         <div class="container" style="text-align: center; ">
-            <img src="{{ asset('web/assets/img/test1.png') }}" alt=""> 
+            <img src="{{ asset('web/assets/img/test1.png') }}" alt="">
         </div>
+        <div class="box"></div>
     </section>
 
     <!-- ======= Header ======= -->
@@ -201,7 +202,9 @@
     <script src="{{ asset('web/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
 
     <!-- Template Main JS File -->
-    <script src="{{ asset('web/assets/js/main.js') }}"></script>   
+    <script src="{{ asset('web/assets/js/main.js') }}"></script>
+
+    
 
 </body>
 

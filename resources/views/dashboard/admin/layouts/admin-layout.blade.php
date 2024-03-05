@@ -67,7 +67,7 @@
     <aside class="main-sidebar sidebar-light-info elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.home') }}" class="brand-link bg-success">
-      <span class="brand-text font-weight-bold">{{ $webs->school_title }}</span>
+      <span class="brand-text font-weight-bold">tst</span>
     </a>
 
     <!-- Sidebar -->

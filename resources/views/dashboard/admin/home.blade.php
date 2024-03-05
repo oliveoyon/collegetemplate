@@ -29,7 +29,7 @@
       <div class="row">
           <div class="container">
               <div class="centered">
-                  {{ $webs->school_title }}
+                  test
               </div>
           </div>
       </div>
