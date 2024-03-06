@@ -49,7 +49,7 @@ class MenuController extends Controller
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
-            
+
             $menu = new Menu();
             $menu->menu_name = $request->input('menu_name');
             $menu->slug = Str::slug($request->input('menu_name'));
@@ -174,7 +174,7 @@ class MenuController extends Controller
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
-            
+
             $submenu = new SubMenu();
             $submenu->menu_id = $request->input('menu_id');
             $submenu->submenu_name = $request->input('submenu_name');
@@ -294,7 +294,7 @@ class MenuController extends Controller
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
-            
+
             $notice = new Events();
             $notice->event_title = $request->input('event_title');
             $notice->url = Str::slug($request->input('event_title'));
@@ -416,7 +416,7 @@ class MenuController extends Controller
         $send['links'] = ImportantLink::get();
         return view('dashboard.admin.others.links', $send);
     }
-    
+
     public function addLink(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -456,7 +456,7 @@ class MenuController extends Controller
         $validator = Validator::make($request->all(), [
             'link_name' => 'required|string|max:255|unique:important_links,link_name,' . $link_id,
             'link' => 'required|string|max:255|unique:important_links,link,' . $link_id,
-            
+
         ]);
 
         if (!$validator->passes()) {
@@ -481,7 +481,7 @@ class MenuController extends Controller
         $query = ImportantLink::find($link_id);
         $query = $query->delete();
 
-        
+
         if ($query) {
             return response()->json(['code' => 1, 'msg' => 'Link has been deleted from database', 'redirect' => 'admin/link-list']);
         } else {
@@ -498,7 +498,7 @@ class MenuController extends Controller
     public function addSlider(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'upload' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:min_width=1000,min_height=200,max_width=1200,max_height=300',
+            'upload' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:min_width=1000,min_height=200,max_width=2000,max_height=1500',
             'slider_status' => 'required',
         ]);
 
@@ -514,9 +514,11 @@ class MenuController extends Controller
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
-            
+
             $slider = new Slider();
             $slider->upload = $file_name;
+            $slider->title = $request->input('title');
+            $slider->desc = $request->input('desc');
             $slider->slider_status = $request->input('slider_status');
             $query = $slider->save();
 
@@ -528,7 +530,7 @@ class MenuController extends Controller
         }
     }
 
-    
+
 
     public function deleteSlider(Request $request)
     {
@@ -573,7 +575,7 @@ class MenuController extends Controller
         return view('dashboard.admin.others.websettings', $send);
     }
 
-    
+
 
     public function updatewebsettings(Request $request)
     {
@@ -658,7 +660,7 @@ class MenuController extends Controller
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
-            
+
             $upload = new Uploads();
             $upload->title = $request->input('title');
             $upload->url = Str::slug($request->input('title'));
@@ -777,7 +779,7 @@ class MenuController extends Controller
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
-            
+
             $mujib = new MujibCorners();
             $mujib->title = $request->input('title');
             $mujib->url = Str::slug($request->input('title'));
@@ -897,7 +899,7 @@ class MenuController extends Controller
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
-            
+
             $message = new Messages();
             $message->message_type = $request->input('message_type');
             $message->name = $request->input('name');
@@ -994,5 +996,5 @@ class MenuController extends Controller
 
 
 
-    
+
 }

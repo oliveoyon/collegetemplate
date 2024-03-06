@@ -44,7 +44,7 @@
                         <div class="card-tools">
                           <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
-                                
+
                               <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#addnotices"><i class="fas fa-plus-square mr-1"></i> নোটিশ/ইভেন্ট যোগ করুন</button>
                             </li>
                           </ul>
@@ -84,13 +84,13 @@
                                   </td>
                                 </tr>
                                 @endforeach
-                                
+
                               </tbody>
                           </table>
                       </div>
                   </div>
             </div>
-            
+
         </div>
 
 
@@ -107,13 +107,13 @@
         <div class="modal-body">
           <form action="{{ route('admin.addNotice') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="add-notice-form">
             @csrf
-        
+
             <div class="form-group">
                 <label for="menu_name">শিরোনাম</label>
                 <input type="text" class="form-control" name="event_title" required placeholder="নোটিশ/ইভেন্ট যোগ করুন">
                 <span class="text-danger error-text event_title_error"></span>
             </div>
-            
+
             <div class="form-group">
                 <label for="menu_name">বর্ণনা</label>
                     <textarea name="event_description" class="summernote" id="event_description"></textarea>
@@ -125,13 +125,15 @@
                     <div class="form-group">
                         <label for="event_type">টাইপ</label>
                         <select class="form-control" name="event_type" id="event_type">
-                            <option value="2">নোটিশ</option>
-                            <option value="1">ইভেন্ট</option>
+                            <option value="1">একাডেমিক</option>
+                            <option value="2">ইভেন্ট</option>
+                            <option value="3">বিজ্ঞপ্তি</option>
+                            <option value="4">এনওসি</option>
                         </select>
                         <span class="text-danger error-text event_type_error"></span>
                     </div>
                 </div>
-            
+
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="start_date">শুরুর তারিখ</label>
@@ -139,7 +141,7 @@
                         <span class="text-danger error-text start_date_error"></span>
                     </div>
                 </div>
-            
+
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="end_date">শেষের তারিখ</label>
@@ -148,15 +150,15 @@
                     </div>
                 </div>
             </div>
-            
-        
-        
+
+
+
             <div class="form-group">
                 <label for="upload">আপলোড</label>
                 <input type="file" class="form-control" name="upload" id="upload">
                 <span class="text-danger error-text upload_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="status">স্ট্যাটাস</label>
                 <select class="form-control" name="event_status" id="event_status">
@@ -165,26 +167,26 @@
                 </select>
                 <span class="text-danger error-text event_status_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="image_preview">Image Preview</label>
                 <div class="img-holder" id="image_preview"></div>
             </div>
-        
+
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-success">যোগ করুন</button>
             </div>
         </form>
 
-        
+
         </div>
-        
+
       </div>
     </div>
   </div>
   {{-- Modal End --}}
 
-  
+
 {{-- Edit Modal --}}
   <div class="modal fade editNotice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
@@ -205,13 +207,13 @@
                     <input type="text" class="form-control" name="event_title" required placeholder="নোটিশ/ইভেন্ট যোগ করুন">
                     <span class="text-danger error-text event_title_error"></span>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="menu_name">বর্ণনা</label>
                         <textarea name="event_description" class="summernote" id="event_description1"></textarea>
                         <span class="text-danger error-text event_description_error"></span>
                 </div>
-    
+
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -223,7 +225,7 @@
                             <span class="text-danger error-text event_type_error"></span>
                         </div>
                     </div>
-                
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="start_date">শুরুর তারিখ</label>
@@ -231,7 +233,7 @@
                             <span class="text-danger error-text start_date_error"></span>
                         </div>
                     </div>
-                
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="end_date">শেষের তারিখ</label>
@@ -240,15 +242,15 @@
                         </div>
                     </div>
                 </div>
-                
-            
-            
+
+
+
                 <div class="form-group">
                     <label for="upload">আপলোড</label>
                     <input type="file" class="form-control" name="upload" id="upload">
                     <span class="text-danger error-text upload_error"></span>
                 </div>
-            
+
                 <div class="form-group">
                     <label for="status">স্ট্যাটাস</label>
                     <select class="form-control" name="event_status" id="event_status">
@@ -257,13 +259,13 @@
                     </select>
                     <span class="text-danger error-text event_status_error"></span>
                 </div>
-            
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-success">আপডেট করুন</button>
                 </div>
             </form>
-                
-  
+
+
             </div>
         </div>
     </div>
@@ -282,7 +284,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  
+
 @endsection
 
 
@@ -301,7 +303,7 @@
 <script>
   new DataTable('#menu-table');
 </script>
-    
+
 
 
 <script>
@@ -331,7 +333,7 @@ $.ajaxSetup({
         }
     }
 
-    
+
       $('#add-notice-form').on('submit', function(e){
         e.preventDefault();
         var form = this;
@@ -367,7 +369,7 @@ $.ajaxSetup({
 
     $(document).on('click','#editEventBtn', function(){
       var event_id = $(this).data('id');
-      
+
       $('.editNotice').find('form')[0].reset();
       $('.editNotice').find('span.error-text').text('');
       $.post("{{ route('admin.getNoticeDetails') }}",{event_id:event_id}, function(data){
@@ -380,8 +382,8 @@ $.ajaxSetup({
           $('.editNotice').find('input[name="start_date"]').val(data.details.start_date);
           $('.editNotice').find('input[name="end_date"]').val(data.details.end_date);
           $('.editNotice').find('select[name="event_status"]').val(data.details.event_status);
-          
-          
+
+
           $('.editNotice').modal('show');
       },'json');
     });
@@ -410,11 +412,11 @@ $.ajaxSetup({
                     $('.editNotice').modal('hide');
                     $('.editNotice').find('form')[0].reset();
                     toastr.success(data.msg);
-                    
+
                     setTimeout(function() {
                         window.location.href = redirectUrl;
                     }, 2000); // Adjust the delay as needed (in milliseconds)
-                    
+
                 }
           }
       });
@@ -458,6 +460,6 @@ $.ajaxSetup({
 </script>
 
 
-    
+
 @endpush
 

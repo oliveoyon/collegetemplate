@@ -8,44 +8,17 @@
 
     <div class="carousel-inner" role="listbox">
 
-      <!-- Slide 1 -->
-      <div class="carousel-item active" style="background-image: url(assets/img/slide/slide-1.jpg);">
+      @foreach ($sliders as $slider)
+      <div class="carousel-item active" style="background-image: url({{ asset('storage/img/slider/'.$slider->upload) }});">
         <div class="carousel-container">
           <div class="carousel-content animate__animated animate__fadeInUp">
-            <h2>Welcome to <span>Flattern</span></h2>
-            <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam.
-              Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus
-              deleniti vel. Minus et tempore modi architecto.</p>
+            <h2>{{ $slider->title }}</h2>
+            <p>{{ $slider->desc }}</p>
             <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
           </div>
         </div>
       </div>
-
-      <!-- Slide 2 -->
-      <div class="carousel-item" style="background-image: url(assets/img/slide/slide-2.jpg);">
-        <div class="carousel-container">
-          <div class="carousel-content animate__animated animate__fadeInUp">
-            <h2>Lorem Ipsum Dolor</h2>
-            <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam.
-              Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus
-              deleniti vel. Minus et tempore modi architecto.</p>
-            <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 3 -->
-      <div class="carousel-item" style="background-image: url(assets/img/slide/slide-3.jpg);">
-        <div class="carousel-container">
-          <div class="carousel-content animate__animated animate__fadeInUp">
-            <h2>Sequi ea ut et est quaerat</h2>
-            <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam.
-              Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus
-              deleniti vel. Minus et tempore modi architecto.</p>
-            <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
-          </div>
-        </div>
-      </div>
+      @endforeach
 
     </div>
 
@@ -70,18 +43,10 @@
 
       <div class="row">
         <div class="col-lg-12 text-center text-lg-left">
-          <h3>ইডেন মহিলা কলেজে <span>স্বাগতম</span> আপনাকে</h3>
-          <p> ইডেন মহিলা কলেজ একটি প্রাখ্যাত প্রাচীন ও ঐতিহ্যবাহী শিক্ষা প্রতিষ্ঠান। বিগত এক শতাব্দিতে যে শিক্ষিত,
-            জাগ্রত, সচেতন, স্বাধীন চিন্তামনস্ক অগ্রসারমান নারীসমাজ এদেশে গড়ে উঠেছে তার মৃত্তিকাগর্ভ ইডেন মহিলা কলেজ।
-            বায়ান্নর ভাষা আন্দোলন, ঊনসত্তরের গণঅভ্যুত্থান এবং একাত্তরের মহান মুক্তিযুদ্ধে ইডেন মহিলা কলেজের
-            শিক্ষার্থীদের প্রত্যক্ষ, প্রতিবাদী ও সাহসী ভূমিকা রয়েছে। বর্তমানেও দেশচালনা, প্রশাসন, রাজনীতি, শিক্ষা,
-            গবেষণা, বিজ্ঞান-প্রকৌশল-আদিপত্য-প্রযুক্তি, পুলিশ তথা কর্মের সকল ক্ষেত্রে ইডেন মহিলা কলেজের ছাত্রীদের রয়েছে
-            গর্বিত বিচরণ।
-            নারী শিক্ষার বৃহৎ ও অনন্য শিক্ষা প্রতিষ্ঠান ইডেন মহিলা কলেজের ১৫০ বছরের পথ পরিক্রমণের ইতিহাস রয়েছে।
-            ‘শুভস্বাধিনী সেবা’ নামক সংঘের নারীহিত চিন্তা থেকে ১৮৭৩ সালে স্বল্পসংখ্যাক বিদ্যার্থী নিয়ে একটি ক্ষুদ্র
-            শিক্ষা প্রতিষ্ঠান ভূমিষ্ঠ হয়েছিল তা আজ মহাগৌরবে</p>
+          <h3 class="mb-4">ইডেন মহিলা কলেজে <span>স্বাগতম</span> আপনাকে</h3>
+          <p>{!! $histories->history !!}</p>
 
-          <a class="cta-btn align-middle" href="#">Request a quote</a>
+          <a class="cta-btn align-middle mt-4" href="#">আরও পড়ুন</a>
         </div>
 
       </div>
@@ -95,19 +60,13 @@
       <div class="row">
         <div class="col-md-4 text-center mb-4 mb-md-0">
           <div class="image-container" data-aos="fade-right">
-            <img src="assets/img/blog/blog-author.jpg" height="200" class="principal-image float-left" alt="">
+            <img src="{{ asset('storage/img/message_img/'.$messages->upload) }}" height="200" class="principal-image float-left" alt="">
           </div>
         </div>
         <div class="col-md-8">
           <div class="principal-message" data-aos="fade-left">
-            <h2>অধ্যক্ষের বাণী</h2>
-            <p>ইডেন মহিলা কলেজ একটি প্রাখ্যাত প্রাচীন ও ঐতিহ্যবাহী শিক্ষা প্রতিষ্ঠান। বিগত এক শতাব্দিতে যে শিক্ষিত,
-              জাগ্রত, সচেতন, স্বাধীন চিন্তামনস্ক অগ্রসারমান নারীসমাজ এদেশে গড়ে উঠেছে তার মৃত্তিকাগর্ভ ইডেন মহিলা কলেজ।
-              বায়ান্নর ভাষা আন্দোলন, ঊনসত্তরের গণঅভ্যুত্থান এবং একাত্তরের মহান মুক্তিযুদ্ধে ইডেন মহিলা কলেজের
-              শিক্ষার্থীদের প্রত্যক্ষ, প্রতিবাদী ও সাহসী ভূমিকা রয়েছে। বর্তমানেও দেশচালনা, প্রশাসন, রাজনীতি, শিক্ষা,
-              গবেষণা, বিজ্ঞান-প্রকৌশল-আদিপত্য-প্রযুক্তি, পুলিশ তথা কর্মের সকল ক্ষেত্রে ইডেন মহিলা কলেজের ছাত্রীদের
-              রয়েছে গর্বিত বিচরণ। নারী শিক্ষার বৃহৎ ও অনন্য শিক্ষা প্রতিষ্ঠান ইডেন মহিলা কলেজের ১৫০ বছরের পথ
-              পরিক্রমণের ইতিহাস রয়েছে।</p>
+            <h2>{{ $messages->message_type }}</h2>
+            <p>{!! $messages->message_desc !!}</p>
             <!-- Add more content or styling as needed -->
           </div>
         </div>
@@ -156,69 +115,108 @@
         <div class="col-lg-8 ml-auto" data-aos="fade-left" data-aos-delay="100">
           <div class="tab-content">
             <div class="tab-pane active show" id="tab-1">
-              <table class="table table-bordered notices">
-                <thead>
-                  <tr style="background-color: #007bff;">
-                    <th>#</th>
-                    <th>তারিখ</th>
-                    <th>নোটিস শিরোনাম</th>
-                    <th>বিবরণ</th>
-                    <th>পোস্ট করেছে</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>2024-03-05</td>
-                    <td>গুরুত্বপূর্ণ ঘোষণা</td>
-                    <td>লোরেম ইপসাম ডোলর সিট অ্যামেট, কনসেক্টেটুর অ্যাডিপিসিং এলিট।</td>
-                    <td>অ্যাডমিন</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>2024-03-06</td>
-                    <td>মনে রাখতে হবে: পরীক্ষার সময়সূচি</td>
-                    <td>কুইস ভেস্টিবুলাম ড্যাপিবাস ডিয়াম, ইউ টিনসিডান্ট নুল্লা ভেনেনাটিস ভেল।</td>
-                    <td>শিক্ষক</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>2024-03-08</td>
-                    <td>ক্যাম্পাস ইভেন্ট: সাংস্কৃতিক রাত</td>
-                    <td>সেড এট এরোস এইউ তুর্পিস ভিভারা কমদো এগেট সেড লিবেরো।</td>
-                    <td>ছাত্র কর্মকর্তা</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>2024-03-10</td>
-                    <td>লাইব্রেরি বন্ধ</td>
-                    <td>ভিভামুস টেমপাস, টুর্পিস সিট আমেট ভিভারা কমদো মি।</td>
-                    <td>লাইব্রেরি কর্মকর্তা</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>2024-03-12</td>
-                    <td>ক্লাস পুনঃসূচনা</td>
-                    <td>নুল্লাম এট লিও কুইস নুংক ত্রিস্টিক অ্যাকমুসান এগেট উট অডিও।</td>
-                    <td>রেজিস্ট্রার</td>
-                  </tr>
-                </tbody>
-              </table>
+                <table class="table bottom-border-table">
+
+                    <tbody>
+                        @php $count = 0; @endphp
+                        @foreach ($provider_ntcs as $ntcs)
+                                    @if ($ntcs->event_type == 1)
+                                        @if ($count < 10)
+                                        <tr>
+                                            <td>{{ $ntcs->event_title }}</td>
+                                            <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small></td>
+                                            <td>
+                                                <a href="{{ $ntcs->url }}" class="btn btn-sm btn-info">View</a>
+                                            </td>
+                                        </tr>
+                                            @php $count++; @endphp
+                                            @else
+                                            @break
+                                        @endif
+                                    @endif
+                                @endforeach
+
+
+                    </tbody>
+                </table>
             </div>
             <div class="tab-pane" id="tab-2">
-              <figure>
-                <img src="assets/img/features-2.png" alt="" class="img-fluid">
-              </figure>
+                <table class="table bottom-border-table">
+
+                    <tbody>
+                        @php $count = 0; @endphp
+                        @foreach ($provider_ntcs as $ntcs)
+                                    @if ($ntcs->event_type == 2)
+                                        @if ($count < 10)
+                                        <tr>
+                                            <td>{{ $ntcs->event_title }}</td>
+                                            <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small></td>
+                                            <td>
+                                                <a href="{{ $ntcs->url }}" class="btn btn-sm btn-info">View</a>
+                                            </td>
+                                        </tr>
+                                            @php $count++; @endphp
+                                            @else
+                                            @break
+                                        @endif
+                                    @endif
+                                @endforeach
+
+
+                    </tbody>
+                </table>
             </div>
             <div class="tab-pane" id="tab-3">
-              <figure>
-                <img src="assets/img/features-3.png" alt="" class="img-fluid">
-              </figure>
+                <table class="table bottom-border-table">
+
+                    <tbody>
+                        @php $count = 0; @endphp
+                        @foreach ($provider_ntcs as $ntcs)
+                                    @if ($ntcs->event_type == 3)
+                                        @if ($count < 10)
+                                        <tr>
+                                            <td>{{ $ntcs->event_title }}</td>
+                                            <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small></td>
+                                            <td>
+                                                <a href="{{ $ntcs->url }}" class="btn btn-sm btn-info">View</a>
+                                            </td>
+                                        </tr>
+                                            @php $count++; @endphp
+                                            @else
+                                            @break
+                                        @endif
+                                    @endif
+                                @endforeach
+
+
+                    </tbody>
+                </table>
             </div>
             <div class="tab-pane" id="tab-4">
-              <figure>
-                <img src="assets/img/features-4.png" alt="" class="img-fluid">
-              </figure>
+                <table class="table bottom-border-table">
+
+                    <tbody>
+                        @php $count = 0; @endphp
+                        @foreach ($provider_ntcs as $ntcs)
+                                    @if ($ntcs->event_type == 4)
+                                        @if ($count < 10)
+                                        <tr>
+                                            <td>{{ $ntcs->event_title }}</td>
+                                            <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small></td>
+                                            <td>
+                                                <a href="{{ $ntcs->url }}" class="btn btn-sm btn-info">View</a>
+                                            </td>
+                                        </tr>
+                                            @php $count++; @endphp
+                                            @else
+                                            @break
+                                        @endif
+                                    @endif
+                                @endforeach
+
+
+                    </tbody>
+                </table>
             </div>
           </div>
         </div>

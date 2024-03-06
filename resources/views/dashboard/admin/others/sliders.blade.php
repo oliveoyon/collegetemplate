@@ -42,7 +42,7 @@
                         <div class="card-tools">
                           <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
-                                
+
                               <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#addsliders"><i class="fas fa-plus-square mr-1"></i> স্লাইডার যোগ করুন</button>
                             </li>
                           </ul>
@@ -53,6 +53,8 @@
                               <thead class="font-weight-bold bg-info">
                                   <th>#</th>
                                   <th>স্লাইডারের ছবি</th>
+                                  <th>স্লাইডারের টাইটেল</th>
+                                  <th>স্লাইডারের ্বর্ণনা</th>
                                   <th>স্ট্যাটাস</th>
                                   <th>একশন <button class="btn btn-sm btn-danger d-none" id="deleteAllBtn">{{ __('language.deleteall') }}</button></th>
                               </thead>
@@ -61,7 +63,8 @@
                                 <tr>
                                   <td>{{ $loop->iteration }}</td>
                                   <td><img height="50" src="{{ asset('storage/img/slider/'.$slider->upload) }}" alt=""></td>
-                                  
+                                <td> {{ $slider->title }}</td>
+                                <td>{{ Str::substr($slider->desc, 0, 100) }}</td>
                                   <td class="{{ $slider->slider_status == 1 ? 'text-success' : 'text-danger' }} font-weight-bold">
                                     {{ $slider->slider_status == 1 ? 'একটিভ' : 'একটিভ নয়' }}
                                   </td>
@@ -70,13 +73,13 @@
                                   </td>
                                 </tr>
                                 @endforeach
-                                
+
                               </tbody>
                           </table>
                       </div>
                   </div>
             </div>
-            
+
         </div>
 
 
@@ -93,14 +96,25 @@
         <div class="modal-body">
           <form action="{{ route('admin.addSlider') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="add-slider-form">
             @csrf
-        
-        
+
+            <div class="form-group">
+                <label for="title">স্লাইডার শিরোনাম</label>
+                <input type="text" class="form-control" name="title" id="title">
+                <span class="text-danger error-text title_error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="desc">বিস্তারিত</label>
+                <input type="text" class="form-control" name="desc" id="desc">
+                <span class="text-danger error-text desc_error"></span>
+            </div>
+
             <div class="form-group">
                 <label for="upload">ছবি আপলোড</label>
                 <input type="file" class="form-control" name="upload" id="upload">
                 <span class="text-danger error-text upload_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="status">স্ট্যাটাস</label>
                 <select class="form-control" name="slider_status" id="slider_status">
@@ -109,27 +123,27 @@
                 </select>
                 <span class="text-danger error-text slider_status_error"></span>
             </div>
-        
-                    
+
+
             <div class="form-group">
                 <label for="image_preview">Image Preview</label>
                 <div class="img-holder" id="image_preview"></div>
             </div>
-        
+
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-success">স্লাইডার যোগ করুন</button>
             </div>
         </form>
 
-        
+
         </div>
-        
+
       </div>
     </div>
   </div>
   {{-- Modal End --}}
 
-  
+
 
 
 
@@ -145,7 +159,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  
+
 @endsection
 
 
@@ -162,7 +176,7 @@
 <script>
   new DataTable('#menu-table');
 </script>
-    
+
 
 
 <script>
@@ -192,7 +206,7 @@ $.ajaxSetup({
         }
     }
 
-    
+
       $('#add-slider-form').on('submit', function(e){
         e.preventDefault();
         var form = this;
@@ -226,8 +240,8 @@ $.ajaxSetup({
         });
     });
 
-    
-   
+
+
   //DELETE Version RECORD
   $(document).on('click','#deleteSliderBtn', function(){
       var slider_id = $(this).data('id');
@@ -266,6 +280,6 @@ $.ajaxSetup({
 </script>
 
 
-    
+
 @endpush
 

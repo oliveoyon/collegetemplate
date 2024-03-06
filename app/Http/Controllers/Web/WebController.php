@@ -12,12 +12,14 @@ class WebController extends Controller
 {
     public function index()
     {
-
-
         $send['histories'] = DB::table('histories')->first();
+        $send['messages'] = DB::table('messages')->orderByDesc('created_at')->first();
         $send['uploads'] = DB::table('uploads')->where(['status' => 1])
         ->orderByDesc('created_at')
         ->limit(6) // Replace '5' with your desired limit
+        ->get();
+        $send['sliders'] = DB::table('sliders')->where(['slider_status' => 1])
+        ->limit(3) // Replace '5' with your desired limit
         ->get();
         return view('web.webhome' , $send);
     }

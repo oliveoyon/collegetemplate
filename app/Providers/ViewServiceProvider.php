@@ -38,11 +38,11 @@ class ViewServiceProvider extends ServiceProvider
             // $send['webmessages'] = DB::table('messages')->where('message_status', 1)->get();
 
             $send['provider_ntcs'] = DB::table('events')
-            ->select('event_title', 'url', 'start_date')
-            ->where(['event_status' => 1, 'event_type' => 2])
+            ->select('event_title', 'url', 'start_date', 'event_type', 'created_at')
+            ->where(['event_status' => 1])
             ->where('end_date', '>', now()) // Adding the condition for end_date
             ->orderByDesc('start_date')
-            ->limit(6)
+            // ->limit(6)
             ->get();
             View::share($send);
         }
