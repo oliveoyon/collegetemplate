@@ -26,8 +26,8 @@ class WebController extends Controller
 
     public function notice($slug=null)
     {
-        $send['events'] = DB::table('events')->where(['event_status' => 1, 'event_type' => 2, 'url'=>$slug])->first();
-        return view('web.notice', $send);
+        $send['events'] = DB::table('events')->where(['event_status' => 1,  'url'=>$slug])->first();
+        return view('web.notice_detail', $send);
     }
 
     public function menudesc($slug=null)

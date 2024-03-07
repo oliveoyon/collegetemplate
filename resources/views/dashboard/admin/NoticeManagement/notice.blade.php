@@ -69,7 +69,15 @@
                                   <td>{{ $loop->iteration }}</td>
                                   <td class="font-weight-bold">{{ $notice->event_title }}</td>
                                   <td>{{ strip_tags(substr($notice->event_description, 0, 500)) }}</td>
-                                  <td class="font-weight-bold">{{ $notice->event_type == 2 ? 'নোটিশ' : 'ইভেন্ট' }}</td>
+                                  <td class="font-weight-bold">
+                                    {{
+                                        $notice->event_type == 1 ? 'একাডেমিক' :
+                                        ($notice->event_type == 2 ? 'ইভেন্ট' :
+                                        ($notice->event_type == 3 ? 'বিজ্ঞপ্তি' :
+                                        ($notice->event_type == 4 ? 'এন ও সি' : 'Unknown Type')))
+                                    }}
+
+                                  </td>
                                   <td class="{{ $notice->upload  ? 'text-success' : 'text-danger' }} font-weight-bold">
                                     {{ $notice->upload ? 'সংযুক্ত' : 'সংযুক্ত নয়' }}
                                   </td>

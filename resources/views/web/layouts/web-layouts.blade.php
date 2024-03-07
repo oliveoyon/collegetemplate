@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Flattern Bootstrap Template - Index</title>
+    <title>সিটি কলেজ, ফরিদপুর</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -59,7 +59,7 @@
                                 @foreach ($provider_ntcs as $ntcs)
                                     @if ($ntcs->event_type == 1)
                                         @if ($count < 10)
-                                            <a href="{{ $ntcs->url }}" class="notice-item">
+                                            <a href="{{ url('notice/'.$ntcs->url) }}" class="notice-item">
                                                 <span class="dot"></span>{{ $ntcs->event_title }}
                                             </a>
                                             @php $count++; @endphp
@@ -93,25 +93,29 @@
             {{-- <h1 class="text-light"><a href="index.html">{{ config('custom.school_title') }}</a></h1> --}}
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-            <a href="index.html"><img width="150" height="100"
-                    src="{{ asset('storage/img/menu_img/1694792981_1.png') }}" alt=""
+            <a href="{{ route('index') }}"><img width="150" height="100"
+                    src="{{ asset('web/assets/img/fcc.png') }}" alt=""
                     class="img-fluid"></a>
         </div>
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="active" href="index.html">হোম</a></li>
+                <li><a class="active" href="{{ route('index') }}">হোম</a></li>
                 @foreach ($provider_menusWithSubMenus as $menu)
-                    <li class="dropdown"><a href="#"><span>{{ $menu->menu_name }}</span></a>
-                        <ul>
-                            @foreach ($menu->subMenus as $subMenu)
-                                <li><a
-                                        href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                @endforeach
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ $menu->menu_name }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown{{ $menu->id }}">
+            @foreach ($menu->subMenus as $subMenu)
+                <li><a class="dropdown-item" href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a></li>
+            @endforeach
+        </ul>
+    </li>
+@endforeach
+
+
+
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
@@ -178,14 +182,10 @@
 
         <div class="me-md-auto text-center text-md-start">
             <div class="copyright">
-                &copy; Copyright <strong><span>Flattern</span></strong>. All Rights Reserved
+                &copy; কপিরাইট <strong><span>{{ config('custom.school_title') }}</span></strong>. সর্বস্বত্ব সংরক্ষিত
             </div>
             <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flattern-multipurpose-bootstrap-template/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                Developed By <a href="https://iconbangla.net/">IconBangla</a>
             </div>
         </div>
         <div class="social-links text-center text-md-right pt-3 pt-md-0">

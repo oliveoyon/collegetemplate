@@ -303,60 +303,61 @@ h6 {
 }
 
 .navbar .dropdown ul {
-  display: block;
-  position: absolute;
-  left: 14px;
-  top: calc(100% + 30px);
-  margin: 0;
-  padding: 10px 0;
-  z-index: 99;
-  opacity: 0;
-  visibility: hidden;
-  background: #fff;
-  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-  transition: 0.3s;
-}
+    display: block;
+    position: absolute;
+    right: -15px; /* Adjusted from left to right */
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    transition: 0.3s;
+  }
 
-.navbar .dropdown ul li {
-  min-width: 200px;
-}
+  .navbar .dropdown ul li {
+    min-width: 200px;
+  }
 
-.navbar .dropdown ul a {
-  padding: 10px 20px;
-  font-size: 13px;
-  text-transform: none;
-  font-weight: 500;
-  color: #581601;
-}
+  .navbar .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 13px;
+    text-transform: none;
+    font-weight: 500;
+    color: #581601;
+  }
 
-.navbar .dropdown ul a i {
-  font-size: 12px;
-}
+  .navbar .dropdown ul a i {
+    font-size: 12px;
+  }
 
-.navbar .dropdown ul a:hover,
-.navbar .dropdown ul .active:hover,
-.navbar .dropdown ul li:hover>a {
-  color: #f03c02;
-}
+  .navbar .dropdown ul a:hover,
+  .navbar .dropdown ul .active:hover,
+  .navbar .dropdown ul li:hover>a {
+    color: #f03c02;
+  }
 
-.navbar .dropdown:hover>ul {
-  opacity: 1;
-  top: 100%;
-  visibility: visible;
-}
+  .navbar .dropdown:hover>ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
 
-.navbar .dropdown .dropdown ul {
-  top: 0;
-  left: calc(100% - 30px);
-  visibility: hidden;
-}
+  .navbar .dropdown .dropdown ul {
+    top: 0;
+    right: calc(100% - 30px); /* Adjusted from left to right */
+    visibility: hidden;
+  }
 
-.navbar .dropdown .dropdown:hover>ul {
-  opacity: 1;
-  top: 0;
-  left: 100%;
-  visibility: visible;
-}
+  .navbar .dropdown .dropdown:hover>ul {
+    opacity: 1;
+    top: 0;
+    right: 100%; /* Adjusted from left to right */
+    visibility: visible;
+  }
+
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
