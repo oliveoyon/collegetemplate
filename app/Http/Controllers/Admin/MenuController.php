@@ -644,7 +644,7 @@ class MenuController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'upload' => 'image|mimes:jpeg,png,jpg,gif|max:5012', // Adjust the allowed file types and size as needed
+            'upload' => 'image|mimes:pdf,jpeg,png,jpg,gif|max:5012', // Adjust the allowed file types and size as needed
             'status' => 'required',
         ]);
 

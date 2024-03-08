@@ -133,46 +133,46 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-3 col-md-6 footer-contact">
-                    <h3>Flattern</h3>
-                    <p>
-                        A108 Adam Street <br>
-                        New York, NY 535022<br>
-                        United States <br><br>
-                        <strong>Phone:</strong> +1 5589 55488 55<br>
-                        <strong>Email:</strong> info@example.com<br>
+                <div class="col-lg-4 col-md-6 footer-contact">
+                    <h3>ফরিদপুর সিটি কলেজ</h3>
+                    {{-- <img width="50" height="50" src="{{ asset('web/assets/img/fcc.png') }}" alt="" class="img-fluid"> --}}
+                    <p style="font-family: solaimanlipi">
+                        ডঃ কাজী মোতাহার হোসাইন রোড<br>
+                        কমলাপুর, ফরিদপুর, <br><br>
+                        <strong>ফোন:</strong> +৮৮ ০১৩০৯ ১০৮৭৯৮<br>
+                        <strong>ফোন:</strong> +৮৮ ০১৭১১ ৪৬৮৭৩৬<br>
+                        <strong>ইমেইল:</strong> faridpurcityc@gmail.com<br>
                     </p>
                 </div>
 
-                <div class="col-lg-2 col-md-6 footer-links">
-                    <h4>Useful Links</h4>
+                <div class="col-lg-4 col-md-6 footer-links">
+                    <h4>প্রয়োজনীয় লিঙ্ক</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ route('index') }}">হোম</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ route('allnotice', ['cat' => 'all-notice']) }}">একাডেমিক নোটিশ</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="{{ route('allnotice', ['cat' => 'all-event']) }}">ইভেন্ট সমুহ</a>">Services</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">যোগাযোগ</a></li>
                     </ul>
                 </div>
 
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Our Services</h4>
+                <div class="col-lg-4 col-md-6 footer-links">
+                    <h4>সুযোগ-সুবিধা</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">অত্যাধুনিক ল্যাব</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">সুবিশাল অডিটোরিয়াম</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">সমৃদ্ধ লাইব্রেরী</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">ক্লাব</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">খেলার মাঠ</a></li>
                     </ul>
                 </div>
 
-                <div class="col-lg-4 col-md-6 footer-newsletter">
+                {{-- <div class="col-lg-4 col-md-6 footer-newsletter">
                     <h4>Join Our Newsletter</h4>
                     <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
                     <form action="" method="post">
                         <input type="email" name="email"><input type="submit" value="Subscribe">
                     </form>
-                </div>
+                </div> --}}
 
             </div>
         </div>

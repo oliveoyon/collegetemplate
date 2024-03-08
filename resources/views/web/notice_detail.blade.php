@@ -38,7 +38,7 @@
                 @endif
 
               <h2 class="entry-title">
-                <a href="blog-single.html">{{ $events->event_title }}</a>
+                <a href="">{{ $events->event_title }}</a>
               </h2>
 
               <div class="entry-meta">
@@ -95,7 +95,7 @@
                                 <img src="{{ asset('web/assets/img/noimg.png') }}" alt="" class="img-fluid">
                                 @endif
                                 <h4><a href="{{ url('notice/'.$ntcs->url) }}">{{ $ntcs->event_title }}</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
+                                <time>{{ date('F j, Y', strtotime($ntcs->created_at)) }}</time>
                             </div>
                             @php $count++; @endphp
                             @else

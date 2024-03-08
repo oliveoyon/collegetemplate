@@ -39,13 +39,23 @@ class WebController extends Controller
         return view('web.menudesc', $send);
     }
 
-    public function allnotice()
+    public function allnotice($slug = Null)
     {
+        if ($slug == 'all-notice') {
+            $eventType = 1;
+        } elseif ($slug == 'all-event') {
+            $eventType = 2;
+        } elseif ($slug == 'all-advertisement') {
+            $eventType = 3;
+        } else {
+            $eventType = 4;
+        }
+
         $send['notices'] = DB::table('events')
-        ->select('event_title', 'url', 'start_date')
+        ->where(['event_type' => $eventType])
         ->where(['event_status' => 1])
         ->orderByDesc('start_date')
-        ->limit(6) // Replace '5' with your desired limit
+        // ->limit(6) // Replace '5' with your desired limit
         ->get();
         return view('web.allnotice' , $send);
     }
@@ -86,6 +96,11 @@ class WebController extends Controller
     {
         $send['upload'] = DB::table('uploads')->where(['status' => 1, 'url'=>$slug])->first();
         return view('web.download', $send);
+    }
+
+    public function contact()
+    {
+        return view('web.contact');
     }
 
 

@@ -12,28 +12,35 @@
           <div class="col-lg-8 entries">
 
             <article class="entry">
-
-                <h2 class="entry-title">
-                    <a href="">{{ $menudesc->submenu_name }}</a>
-                  </h2>
-
-                @if ($menudesc->upload)
-                    @if (pathinfo($menudesc->upload, PATHINFO_EXTENSION) === 'pdf')
-                        <object data="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" type="application/pdf" width="100%" height="800">
-                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}">Download</a> instead.</p>
+                @if ($upload->upload)
+                    @if (pathinfo($upload->upload, PATHINFO_EXTENSION) === 'pdf')
+                        <object data="{{ asset('storage/img/upload/' . $upload->upload) }}" type="application/pdf" width="100%" height="800">
+                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/submenu_img/' . $upload->upload) }}">Download</a> instead.</p>
                         </object>
                     @else
                         <div class="entry-img">
-                            <img src="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" alt="" class="img-fluid">
+                            <img src="{{ asset('storage/img/upload/' . $upload->upload) }}" alt="" class="img-fluid">
                         </div>
                     @endif
                 @endif
+
+                <h2 class="entry-title">
+                    <a href="blog-single.html">{{ $upload->title }}</a>
+                  </h2>
+
+                  <div class="entry-meta">
+                    <ul>
+
+                      <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href=""><time>{{ \Carbon\Carbon::parse($upload->created_at)->format('F j, Y') }}
+                    </time></a></li>
+                    </ul>
+                  </div>
 
 
 
               <div class="entry-content mt-5">
                 <p>
-                    {!! $menudesc->submenu_desc !!}
+                    {!! $upload->description !!}
                 </p>
 
               </div>

@@ -14,30 +14,39 @@
             <article class="entry">
 
                 <h2 class="entry-title">
-                    <a href="">{{ $menudesc->submenu_name }}</a>
+                    <a href="">নোটিশ বোর্ড</a>
                   </h2>
 
-                @if ($menudesc->upload)
-                    @if (pathinfo($menudesc->upload, PATHINFO_EXTENSION) === 'pdf')
-                        <object data="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" type="application/pdf" width="100%" height="800">
-                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}">Download</a> instead.</p>
-                        </object>
-                    @else
-                        <div class="entry-img">
-                            <img src="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" alt="" class="img-fluid">
-                        </div>
-                    @endif
-                @endif
+                    <div class="card-body table-container">
+                        <!-- Notice List -->
+                        <table class="custom-table table-striped">
+                            <tr>
+                                <th>নং</th>
+                                <th>নোটিশের ধরন</th>
+                                <th>শিরোনাম</th>
+                                <th>তারিখ</th>
+                                <th>একশন</th>
+                            </tr>
+                            @foreach ($notices as $notice)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        {{
+                                            $notice->event_type == 1 ? 'একাডেমিক' :
+                                            ($notice->event_type == 2 ? 'ইভেন্ট' :
+                                            ($notice->event_type == 3 ? 'বিজ্ঞপ্তি' :
+                                            ($notice->event_type == 4 ? 'এন ও সি' : 'Unknown Type')))
+                                        }}
+                                    </td>
+                                    <td>{{ $notice->event_title }}</td>
+                                    <td>{{ date('M j, Y', strtotime($notice->created_at)) }}</td>
+                                    <td><a href="{{ url('notice/'.$notice->url) }}"
+                                            class="btn btn-sm btn-success">বিস্তারিত</a></td>
+                                </tr>
+                            @endforeach
+                        </table>
 
-
-
-              <div class="entry-content mt-5">
-                <p>
-                    {!! $menudesc->submenu_desc !!}
-                </p>
-
-              </div>
-
+                    </div>
             </article><!-- End blog entry -->
 
 

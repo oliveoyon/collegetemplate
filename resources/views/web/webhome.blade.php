@@ -1,6 +1,7 @@
 @extends('web.layouts.web-layouts')
 
 @section('webcontent')
+
     <!-- ======= Hero Section ======= -->
     <section id="hero">
         <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -10,13 +11,15 @@
                 @foreach ($sliders as $slider)
                     <div class="carousel-item active"
                         style="background-image: url({{ asset('storage/img/slider/' . $slider->upload) }});">
+                        @if ($slider->title)
                         <div class="carousel-container">
                             <div class="carousel-content animate__animated animate__fadeInUp">
                                 <h2>{{ $slider->title }}</h2>
                                 <p>{{ $slider->desc }}</p>
-                                <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
+                                {{-- <div class="text-center"><a href="" class="btn-get-started">Read More</a></div> --}}
                             </div>
                         </div>
+                        @endif
                     </div>
                 @endforeach
 
@@ -46,7 +49,7 @@
                         <h3 class="mb-4">ইডেন মহিলা কলেজে <span>স্বাগতম</span> আপনাকে</h3>
                         <p>{!! $histories->history !!}</p>
 
-                        <a class="cta-btn align-middle mt-4" href="#">আরও পড়ুন</a>
+                        {{-- <a class="cta-btn align-middle mt-4" href="#">আরও পড়ুন</a> --}}
                     </div>
 
                 </div>
@@ -80,12 +83,14 @@
             <div class="container">
 
                 <div class="section-title" data-aos="fade-up">
-                    <h2>কলেজ <strong>নোটিশ বোর্ড</strong> সকল তথ্য</h2>
-                    <p>আপনি এখান থেকে সকল নোটিশ, ইভেন্ট, সেমিনার, ওয়ার্কশপ ও অন্যান্য তথ্য পাবেন</p>
+                    <h2><strong>নোটিশ বোর্ড</strong></h2>
+                    <p>সকল নোটিশ, ইভেন্ট, সেমিনার, ওয়ার্কশপ ও অন্যান্য তথ্য</p>
+                    <hr>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-4 mb-5 mb-lg-0" data-aos="fade-right">
+                    <div class="col-lg-4 mb-5 mb-lg-0" data-aos="fade-right"
+                        style="border-right: 1px solid rgb(189, 189, 189)">
                         <ul class="nav nav-tabs flex-column">
                             <li class="nav-item">
                                 <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">
@@ -128,7 +133,7 @@
                                                         <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small>
                                                         </td>
                                                         <td>
-                                                            <a href="{{ url('notice/'.$ntcs->url) }}"
+                                                            <a href="{{ url('notice/' . $ntcs->url) }}"
                                                                 class="btn btn-sm btn-info">View</a>
                                                         </td>
                                                     </tr>
@@ -139,11 +144,12 @@
                                         @endif
                                     @endforeach
 
-                                    @if ($count > 5)
+                                    @if ($count > 8)
                                         <tr>
                                             <td colspan="3" class="text-center">
-                                                <a href="{{ url('notice/'.$ntcs->url) }}" class="btn btn-info btn-block">View
-                                                    All Notices</a>
+                                                <a href="{{ route('allnotice', ['cat' => 'all-notice']) }}" class="btn btn-success show-all-button btn-sm">
+                                                    সকল নোটিশ
+                                                </a>
                                             </td>
                                         </tr>
                                     @endif
@@ -163,7 +169,7 @@
                                                     <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small>
                                                     </td>
                                                     <td>
-                                                        <a href="{{ url('notice/'.$ntcs->url) }}"
+                                                        <a href="{{ url('notice/' . $ntcs->url) }}"
                                                             class="btn btn-sm btn-info">View</a>
                                                     </td>
                                                 </tr>
@@ -174,11 +180,12 @@
                                     @endif
                                 @endforeach
 
-                                @if ($count > 5)
+                                @if ($count > 8)
                                     <tr>
                                         <td colspan="3" class="text-center">
-                                            <a href="{{ url('notice/'.$ntcs->url) }}" class="btn btn-info btn-block">View
-                                                All Notices</a>
+                                            <a href="{{ route('allnotice', ['cat' => 'all-event']) }}" class="btn btn-success show-all-button btn-sm">
+                                                সকল ইভেন্ট
+                                            </a>
                                         </td>
                                     </tr>
                                 @endif
@@ -198,7 +205,7 @@
                                                 <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ url('notice/'.$ntcs->url) }}"
+                                                    <a href="{{ url('notice/' . $ntcs->url) }}"
                                                         class="btn btn-sm btn-info">View</a>
                                                 </td>
                                             </tr>
@@ -208,12 +215,13 @@
                                     @endif
                                 @endif
                             @endforeach
-                            @if ($count > 5)
+                            @if ($count > 8)
                                 <tr>
                                     <td colspan="3" class="text-center">
-                                        <a href="{{ route('allnotice') }}"
-                                            class="btn btn-info btn-block">View All Notices</a>
-                                    </td>
+                                    <a href="{{ route('allnotice', ['cat' => 'all-advertisement']) }}" class="btn btn-success show-all-button btn-sm">
+                                        সকল বিজ্ঞপ্তি
+                                    </a>
+                                </td>
                                 </tr>
                             @endif
 
@@ -232,7 +240,7 @@
                                             <td><small>{{ \Carbon\Carbon::parse($ntcs->created_at)->format('d F, Y') }}</small>
                                             </td>
                                             <td>
-                                                <a href="{{ url('notice/'.$ntcs->url) }}"
+                                                <a href="{{ url('notice/' . $ntcs->url) }}"
                                                     class="btn btn-sm btn-info">View</a>
                                             </td>
                                         </tr>
@@ -243,11 +251,12 @@
                             @endif
                         @endforeach
 
-                        @if ($count > 5)
+                        @if ($count > 8)
                             <tr>
                                 <td colspan="3" class="text-center">
-                                    <a href="{{ route('allnotice') }}"
-                                        class="btn btn-info btn-block">View All Notices</a>
+                                    <a href="{{ route('allnotice', ['cat' => 'all-noc']) }}" class="btn btn-success show-all-button btn-sm">
+                                        সকল এন ও সি
+                                    </a>
                                 </td>
                             </tr>
                         @endif
@@ -306,256 +315,115 @@
 </div>
 </section>
 
-<!-- ======= Services Section ======= -->
-<section id="services" class="services" style="background-color: antiquewhite;">
-<div class="container">
 
-<div class="row">
-    <div class="col-lg-4 col-md-6">
-        <div class="icon-box" data-aos="fade-up">
-            <div class="icon"><i class="bi bi-briefcase"></i></div>
-            <h4 class="title" style="text-align: left;"><a href="">Lorem Ipsum</a></h4>
-            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
-                excepturi sint
-                occaecati cupiditate non provident</p>
+
+<!-- ======= Services Section ======= -->
+<section class="custom-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center text-lg-left">
+                <h3 class="mb-4"><strong>ডাউনলোড</strong></h3>
+                <div class="card-body table-container">
+                    <!-- Notice List -->
+                    <table class="custom-table table-striped">
+                        <tr>
+                            <th>নং</th>
+                            <th>শিরোনাম</th>
+                            <th>বর্ণনা</th>
+                            <th>তারিখ</th>
+                            <th>একশন</th>
+                        </tr>
+                        @foreach ($uploads as $upload)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $upload->title }}</td>
+                                <td>{!! Str::substr($upload->description, 0, 100) !!}</td>
+                                <td>{{ date('M j, Y', strtotime($upload->created_at)) }}</td>
+                                <td><a href="{{ url('download/' . $upload->url) }}"
+                                        class="btn btn-sm btn-success">বিস্তারিত</a></td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    <div class="show-all-notices">
+                        <a href="{{ route('alldownload') }}" class="btn btn-success show-all-button btn-sm">সকল
+                            ডাউনলোড</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6">
-        <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon"><i class="bi bi-card-checklist"></i></div>
-            <h4 class="title"><a href="">Dolor Sitema</a></h4>
-            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea
-                commodo consequat tarad limino ata</p>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-        <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon"><i class="bi bi-bar-chart"></i></div>
-            <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
-            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                dolore eu
-                fugiat nulla pariatur</p>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-        <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon"><i class="bi bi-binoculars"></i></div>
-            <h4 class="title"><a href="">Magni Dolores</a></h4>
-            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                officia deserunt
-                mollit anim id est laborum</p>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-        <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon"><i class="bi bi-brightness-high"></i></div>
-            <h4 class="title"><a href="">Nemo Enim</a></h4>
-            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                blanditiis
-                praesentium voluptatum deleniti atque</p>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-        <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bi bi-calendar4-week"></i></div>
-            <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
-            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero
-                tempore, cum
-                soluta nobis est eligendi</p>
-        </div>
-    </div>
-</div>
+</section>
+
 
 </div>
 </section><!-- End Services Section -->
 
+<section style="padding: 0; margin:0">
+<div class="message-box">
+<a href="{{ route('mujib-corner') }}"><img width="100%" class="image-responsive img-fluid"
+        src="{{ asset('web/assets/img/mujib-corner.jpg') }}" alt="মুজিব কর্ণার"></a>
+</div>
+</section>
+
 <!-- ======= Portfolio Section ======= -->
-<section id="portfolio" class="portfolio" style="background-color: #f3f1f0;">
-<div class="container">
 
-<div class="row" data-aos="fade-up">
-    <div class="col-lg-12 d-flex justify-content-center">
-        <ul id="portfolio-flters">
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">App</li>
-            <li data-filter=".filter-card">Card</li>
-            <li data-filter=".filter-web">Web</li>
-        </ul>
-    </div>
-</div>
-
-<div class="row portfolio-container" data-aos="fade-up">
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-        <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>App 1</h4>
-            <p>App</p>
-            <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-        <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>Web 3</h4>
-            <p>Web</p>
-            <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-        <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>App 2</h4>
-            <p>App</p>
-            <a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="App 2"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-        <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>Card 2</h4>
-            <p>Card</p>
-            <a href="assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="Card 2"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-        <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>Web 2</h4>
-            <p>Web</p>
-            <a href="assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="Web 2"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-        <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>App 3</h4>
-            <p>App</p>
-            <a href="assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="App 3"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-        <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>Card 1</h4>
-            <p>Card</p>
-            <a href="assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="Card 1"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-        <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>Card 3</h4>
-            <p>Card</p>
-            <a href="assets/img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-        <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-        <div class="portfolio-info">
-            <h4>Web 3</h4>
-            <p>Web</p>
-            <a href="assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery"
-                class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-            <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                    class="bx bx-link"></i></a>
-        </div>
-    </div>
-
-</div>
-
-</div>
-</section><!-- End Portfolio Section -->
 
 <!-- ======= Our Clients Section ======= -->
-<section id="clients" class="clients">
+<section id="clients" class="clients" style="background-color:#f2f2f2">
 <div class="container">
 
 <div class="section-title" data-aos="fade-up">
-    <h2>Our <strong>Clubs</strong></h2>
-    <p>Our college has some beautifull active clubs for the development of our students</p>
+    <h2>আমাদের  <strong>ক্লাবসমূহ</strong></h2>
+    <p>ছাত্র-ছাত্রীদের উন্নতির জন্য কার্য্যকর ক্লাব-সমুহের তালিকা</p>
 </div>
 
 <div class="row no-gutters clients-wrap clearfix" data-aos="fade-up">
 
     <div class="col-lg-3 col-md-4 col-xs-6 mb-2">
         <div class="client-logo">
-            <img src="assets/img/clients/client-1.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-1.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="assets/img/clients/client-2.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-2.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="assets/img/clients/client-3.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-3.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="assets/img/clients/client-4.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-4.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="assets/img/clients/client-5.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-5.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="assets/img/clients/client-6.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-6.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="assets/img/clients/client-7.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-7.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="assets/img/clients/client-8.png" class="img-fluid" alt="">
+            <img src="{{asset('web/assets/img/clients/client-8.png')}}" class="img-fluid" alt="">
         </div>
     </div>
 

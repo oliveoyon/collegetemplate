@@ -41,7 +41,7 @@ class ViewServiceProvider extends ServiceProvider
             ->select('event_title', 'url', 'start_date', 'event_type', 'created_at' , 'upload')
             ->where(['event_status' => 1])
             ->where('end_date', '>', now()) // Adding the condition for end_date
-            ->orderByDesc('start_date')
+            ->orderByDesc('end_date')
             // ->limit(6)
             ->get();
             View::share($send);

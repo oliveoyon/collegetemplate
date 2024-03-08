@@ -14,30 +14,32 @@
             <article class="entry">
 
                 <h2 class="entry-title">
-                    <a href="">{{ $menudesc->submenu_name }}</a>
+                    <a href=রl">সকল ডাউনলোড</a>
                   </h2>
 
-                @if ($menudesc->upload)
-                    @if (pathinfo($menudesc->upload, PATHINFO_EXTENSION) === 'pdf')
-                        <object data="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" type="application/pdf" width="100%" height="800">
-                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}">Download</a> instead.</p>
-                        </object>
-                    @else
-                        <div class="entry-img">
-                            <img src="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" alt="" class="img-fluid">
-                        </div>
-                    @endif
-                @endif
+                    <div class="card-body table-container">
+                        <!-- Notice List -->
+                        <table class="custom-table table-striped">
+                            <tr>
+                                <th>নং</th>
+                                <th>শিরোনাম</th>
+                                <th>বর্ণনা</th>
+                                <th>তারিখ</th>
+                                <th>একশন</th>
+                            </tr>
+                            @foreach ($uploads as $upload)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $upload->title }}</td>
+                                    <td>{!! Str::substr($upload->description, 0, 100) !!}</td>
+                                    <td>{{ date('M j, Y', strtotime($upload->created_at)) }}</td>
+                                    <td><a href="{{ url('download/' . $upload->url) }}"
+                                            class="btn btn-sm btn-success">বিস্তারিত</a></td>
+                                </tr>
+                            @endforeach
+                        </table>
 
-
-
-              <div class="entry-content mt-5">
-                <p>
-                    {!! $menudesc->submenu_desc !!}
-                </p>
-
-              </div>
-
+                    </div>
             </article><!-- End blog entry -->
 
 

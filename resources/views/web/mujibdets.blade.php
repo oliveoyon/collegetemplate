@@ -1,7 +1,19 @@
 @extends('web.layouts.web-layouts')
 
 @section('webcontent')
+<section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
 
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>মুজিব কর্ণার</h2>
+          <ol>
+            <li><a href="{{route('index')}}">হোম</a></li>
+            <li>মুজিব কর্ণার</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
 
     <!-- ======= Blog Section ======= -->
     <section id="blog" class="blog">
@@ -13,27 +25,33 @@
 
             <article class="entry">
 
-                <h2 class="entry-title">
-                    <a href="">{{ $menudesc->submenu_name }}</a>
-                  </h2>
-
-                @if ($menudesc->upload)
-                    @if (pathinfo($menudesc->upload, PATHINFO_EXTENSION) === 'pdf')
-                        <object data="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" type="application/pdf" width="100%" height="800">
-                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}">Download</a> instead.</p>
+                @if ($mujibdet->upload)
+                    @if (pathinfo($mujibdet->upload, PATHINFO_EXTENSION) === 'pdf')
+                        <object data="{{ asset('storage/img/mujib/' . $mujibdet->upload) }}" type="application/pdf" width="100%" height="800">
+                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/mujib/' . $mujibdet->upload) }}">Download</a> instead.</p>
                         </object>
                     @else
                         <div class="entry-img">
-                            <img src="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" alt="" class="img-fluid">
+                            <img src="{{ asset('storage/img/mujib/' . $mujibdet->upload) }}" alt="" class="img-fluid">
                         </div>
                     @endif
                 @endif
 
+              <h2 class="entry-title">
+                <a href="">{{ $mujibdet->title }}</a>
+              </h2>
 
+              <div class="entry-meta">
+                <ul>
 
-              <div class="entry-content mt-5">
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href=""><time>{{ \Carbon\Carbon::parse($mujibdet->created_at)->format('F j, Y') }}
+                </time></a></li>
+                </ul>
+              </div>
+
+              <div class="entry-content">
                 <p>
-                    {!! $menudesc->submenu_desc !!}
+                    {!! $mujibdet->description !!}
                 </p>
 
               </div>

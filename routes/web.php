@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [WebController::class, 'index'])->name('index');
-Route::get('all-notice', [WebController::class, 'allnotice'])->name('allnotice');
+Route::get('notice-board/{cat}', [WebController::class, 'allnotice'])->name('allnotice');
+Route::get('contact', [WebController::class, 'contact'])->name('contact');
 Route::get('all-download', [WebController::class, 'alldownload'])->name('alldownload');
 Route::get('history-details', [WebController::class, 'history_details'])->name('history-details');
 Route::get('notice/{slug}', [WebController::class, 'notice'])->name('notice');
@@ -92,7 +93,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('getSubMenuDetails', [MenuController::class, 'getSubMenuDetails'])->name('getSubMenuDetails');
         Route::post('updateSubMenuDetails', [MenuController::class, 'updateSubMenuDetails'])->name('updateSubMenuDetails');
         Route::post('deleteSubMenu', [MenuController::class, 'deleteSubMenu'])->name('deleteSubMenu');
-        
+
         //Notice Management
         Route::get('notice-list', [MenuController::class, 'noticelist'])->name('notice-list');
         Route::post('addNotice', [MenuController::class, 'addNotice'])->name('addNotice');
@@ -111,7 +112,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('slider-list', [MenuController::class, 'sliderlist'])->name('slider-list');
         Route::post('addSlider', [MenuController::class, 'addSlider'])->name('addSlider');
         Route::post('deleteSlider', [MenuController::class, 'deleteSlider'])->name('deleteSlider');
-        
+
         // History
         Route::get('institute-history', [MenuController::class, 'history'])->name('history');
         Route::post('updatehistory', [MenuController::class, 'updatehistory'])->name('updatehistory');
@@ -122,7 +123,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('getMujibCornerDetails', [MenuController::class, 'getMujibCornerDetails'])->name('getMujibCornerDetails');
         Route::post('updateMujibCornerDetails', [MenuController::class, 'updateMujibCornerDetails'])->name('updateMujibCornerDetails');
         Route::post('deleteMujibCorner', [MenuController::class, 'deleteMujibCorner'])->name('deleteMujibCorner');
-        
+
         //Upload Management
         Route::get('upload-list', [MenuController::class, 'uploadlist'])->name('upload-list');
         Route::post('addUpload', [MenuController::class, 'addUpload'])->name('addUpload');
