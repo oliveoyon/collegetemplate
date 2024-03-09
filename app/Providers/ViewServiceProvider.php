@@ -29,11 +29,11 @@ class ViewServiceProvider extends ServiceProvider
                 $query->where('submenu_status', 1); // Filter submenus by submenu_status
             }])->where('menu_status', 1)->get();
 
-            // $send['important_links'] = DB::table('important_links')->select('link_name', 'link')->get();
+            $send['important_links'] = DB::table('important_links')->select('link_name', 'link')->get();
 
             // $send['sliders'] = DB::table('sliders')->where('slider_status', 1)->get();
 
-            // $send['webs'] = DB::table('web_settings')->first();
+            $send['webs'] = DB::table('web_settings')->first();
 
             // $send['webmessages'] = DB::table('messages')->where('message_status', 1)->get();
 

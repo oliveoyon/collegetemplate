@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Events;
 use App\Models\Admin\Menu;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +23,24 @@ class WebController extends Controller
         $send['sliders'] = DB::table('sliders')->where(['slider_status' => 1])
         ->limit(3) // Replace '5' with your desired limit
         ->get();
+
+        $events = Events::where('event_status', 1)
+        // ->whereDate('start_date', '>=', now())
+        ->select('event_title', 'start_date', 'end_date', 'url')
+        ->get()
+        ->map(function ($event) {
+            return [
+                'title' => $event->event_title,
+                'start' => Carbon::parse($event->start_date)->toDateTimeString(),
+                'end' => Carbon::parse($event->end_date)->toDateTimeString(),
+                'url' => 'notice/'.$event->url,
+            ];
+        });
+
+        $send['eventsJson'] = $events->toJson();
+
+
+
         return view('web.webhome' , $send);
     }
 

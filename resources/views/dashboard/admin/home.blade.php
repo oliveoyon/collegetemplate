@@ -29,7 +29,7 @@
       <div class="row">
           <div class="container">
               <div class="centered">
-                  test
+                {{ $webs->school_title }}
               </div>
           </div>
       </div>
@@ -51,7 +51,7 @@
   </aside>
   <!-- /.control-sidebar -->
 
-  
-  
+
+
 @endsection
 

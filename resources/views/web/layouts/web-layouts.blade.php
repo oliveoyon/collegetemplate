@@ -7,9 +7,21 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>সিটি কলেজ, ফরিদপুর</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    <title>{{ $webs->school_title }}</title>
+    <meta name="author" content="IconBangla <contact@iconbangla.net>">
+    <meta name="description" content="{{ $webs->school_title }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ route('index') }}">
+    <meta property="og:title" content="{{ $webs->school_title }}">
+    <meta property="og:description" content="{{ $webs->school_title }}">
+    <meta property="og:image" content="{{ asset('web/img/mujib-corner.jpg') }}">
+    <meta property="og:url" content="{{ route('index') }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $webs->school_title }}">
+    <meta name="twitter:description" content="{{ $webs->school_title }}">
+    <meta property="og:image" content="{{ asset('web/img/mujib-corner.jpg') }}">
+
 
     <!-- Favicons -->
     <link href="{{ asset('web/assets/img/favicon.png') }}" rel="icon">
@@ -29,6 +41,8 @@
     <link href="{{ asset('web/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('web/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('web/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+    @stack('admincss')
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('web/assets/css/style.css') }}" rel="stylesheet">
@@ -59,12 +73,12 @@
                                 @foreach ($provider_ntcs as $ntcs)
                                     @if ($ntcs->event_type == 1)
                                         @if ($count < 10)
-                                            <a href="{{ url('notice/'.$ntcs->url) }}" class="notice-item">
+                                            <a href="{{ url('notice/' . $ntcs->url) }}" class="notice-item">
                                                 <span class="dot"></span>{{ $ntcs->event_title }}
                                             </a>
                                             @php $count++; @endphp
-                                            @else
-                                            @break
+                                        @else
+                                        @break
                                     @endif
                                 @endif
                             @endforeach
@@ -78,41 +92,133 @@
     </div>
 </section>
 
-<section style="padding: 30px 0;">
+<style>
+.website-section {
+    padding: 40px 0;
+    background-color: #ffffff; White background
+    /* background: linear-gradient(to right, #dcdcdc, #ffffff); */
+}
+
+.text-primary {
+    color: #007bff; /* Primary color for the school title */
+}
+
+.text-dark {
+    color: #343a40; /* Dark color for the text */
+}
+
+.col-lg-3 img,
+.col-lg-6,
+.col-lg-3 img {
+    margin: 0; /* Center the content horizontally */
+    padding: 0;
+}
+
+.col-lg-6 h1 {
+    font-size: 35px; /* Adjust the font size as needed */
+    color: #4150f1;
+    /* font-weight: bold; */
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 #000;
+    text-align: center;
+}
+
+.col-lg-6 p {
+    font-size: 20px; /* Adjust the font size as needed */
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .col-lg-3,
+    .col-lg-6 {
+        margin-bottom: 20px; /* Add some space between columns on smaller screens */
+    }
+
+    .col-lg-3,
+    .col-lg-6,
+    .col-lg-3 img {
+        width: 100%; /* Make columns and images full width on smaller screens */
+        margin: 0; /* Remove margin for images */
+    }
+
+    .col-lg-6 h1 {
+        font-size: 25px; /* Adjust the font size for mobile */
+    }
+
+    .col-lg-6 p {
+        font-size: 16px; /* Adjust the font size for mobile */
+    }
+}
+
+
+
+</style>
+
+{{-- <section class="gradient-section" style="padding: 30px 0; background-color:red;">
     <div class="container" style="text-align: center; ">
         <img src="{{ asset('web/assets/img/test1.png') }}" alt="">
     </div>
     <div class="box"></div>
+</section> --}}
+
+<section class="website-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 d-none d-md-block">
+                <!-- Left logo (hidden on mobile and tablet) -->
+                <img height="100" src="{{ asset('storage/img/logo/'.$webs->logo) }}" alt="Left Logo">
+            </div>
+            <div class="col-lg-6 text-center">
+                <!-- School information -->
+                <h1 class="mb-4">{{$webs->school_title}}</h1>
+                <p class="text-dark">{{ $webs->address_one }} <br>
+                    {{ $webs->address_two }}</p>
+            </div>
+            <div class="col-lg-3 d-none d-md-block" style="text-align: right">
+                <!-- Right logo (hidden on mobile and tablet) -->
+                <img height="100" src="{{ asset('web/assets/img/shikkha.png') }}" alt="Right Logo">
+            </div>
+        </div>
+    </div>
 </section>
+
+
+
+
 
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex justify-content-between">
 
         <div class="logo">
-            {{-- <h1 class="text-light"><a href="index.html">{{ config('custom.school_title') }}</a></h1> --}}
+            {{-- <h1 class="text-light"><a href="index.html">FCC</a></h1> --}}
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-            <a href="{{ route('index') }}"><img width="150" height="100"
-                    src="{{ asset('web/assets/img/fcc.png') }}" alt=""
-                    class="img-fluid"></a>
+            <a href="{{ route('index') }}"><img style="padding:5px 0; height:40px; width: 30px;" src="{{ asset('web/assets/img/home.png') }}" alt="" class="img-fluid"></a>
         </div>
 
         <nav id="navbar" class="navbar">
             <ul>
                 <li><a class="active" href="{{ route('index') }}">হোম</a></li>
                 @foreach ($provider_menusWithSubMenus as $menu)
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ $menu->menu_name }}
-        </a>
-        <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown{{ $menu->id }}">
-            @foreach ($menu->subMenus as $subMenu)
-                <li><a class="dropdown-item" href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a></li>
-            @endforeach
-        </ul>
-    </li>
-@endforeach
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}"
+                            role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ $menu->menu_name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-start"
+                            aria-labelledby="navbarDropdown{{ $menu->id }}">
+                            @foreach ($menu->subMenus as $subMenu)
+                                <li><a class="dropdown-item"
+                                        href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endforeach
+                <li><a class="" href="{{ route('contact') }}">যোগাযোগ</a></li>
 
 
 
@@ -134,14 +240,14 @@
             <div class="row">
 
                 <div class="col-lg-4 col-md-6 footer-contact">
-                    <h3>ফরিদপুর সিটি কলেজ</h3>
+                    <h3>{{ $webs->school_title }}</h3>
                     {{-- <img width="50" height="50" src="{{ asset('web/assets/img/fcc.png') }}" alt="" class="img-fluid"> --}}
                     <p style="font-family: solaimanlipi">
-                        ডঃ কাজী মোতাহার হোসাইন রোড<br>
-                        কমলাপুর, ফরিদপুর, <br><br>
-                        <strong>ফোন:</strong> +৮৮ ০১৩০৯ ১০৮৭৯৮<br>
-                        <strong>ফোন:</strong> +৮৮ ০১৭১১ ৪৬৮৭৩৬<br>
-                        <strong>ইমেইল:</strong> faridpurcityc@gmail.com<br>
+                        {{ $webs->address_one }} <br>
+                        {{ $webs->address_two }} <br><br>
+                        <strong>ফোন:</strong> {{ $webs->phone1 }}<br>
+                        <strong>ফোন:</strong> {{ $webs->phone2 }}<br>
+                        <strong>ইমেইল:</strong> {{ $webs->email }}<br>
                     </p>
                 </div>
 
@@ -149,8 +255,11 @@
                     <h4>প্রয়োজনীয় লিঙ্ক</h4>
                     <ul>
                         <li><i class="bx bx-chevron-right"></i> <a href="{{ route('index') }}">হোম</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{{ route('allnotice', ['cat' => 'all-notice']) }}">একাডেমিক নোটিশ</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="{{ route('allnotice', ['cat' => 'all-event']) }}">ইভেন্ট সমুহ</a>">Services</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a
+                                href="{{ route('allnotice', ['cat' => 'all-notice']) }}">একাডেমিক নোটিশ</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a
+                                href="{{ route('allnotice', ['cat' => 'all-event']) }}">ইভেন্ট
+                                সমুহ</a></li>
                         <li><i class="bx bx-chevron-right"></i> <a href="#">যোগাযোগ</a></li>
                     </ul>
                 </div>
@@ -182,15 +291,16 @@
 
         <div class="me-md-auto text-center text-md-start">
             <div class="copyright">
-                &copy; কপিরাইট <strong><span>{{ config('custom.school_title') }}</span></strong>. সর্বস্বত্ব সংরক্ষিত
+                &copy; কপিরাইট <strong><span>{{ $webs->school_title }}</span></strong>. সর্বস্বত্ব
+                সংরক্ষিত
             </div>
             <div class="credits">
                 Developed By <a href="https://iconbangla.net/">IconBangla</a>
             </div>
         </div>
         <div class="social-links text-center text-md-right pt-3 pt-md-0">
+            <a href="{{ $webs->facebook }}" target="_blank" class="facebook"><i class="bx bxl-facebook"></i></a>
             <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
             <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
             <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
             <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
@@ -209,8 +319,44 @@
 <script src="{{ asset('web/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('web/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
 
+
+
+
 <!-- Template Main JS File -->
 <script src="{{ asset('web/assets/js/main.js') }}"></script>
+
+<?php
+    if (isset($eventsJson)){}else{$eventsJson = '';}
+?>
+<script>
+    $(document).ready(function() {
+        // Use PHP to echo the dynamic data from the controller
+        var noticedata = <?php echo $eventsJson; ?>;
+
+        // Initialize FullCalendar
+        $('#fullCalendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay',
+            },
+            events: noticedata,
+            eventRender: function(event, element) {
+                // Check if the event has a URL
+                if (event.url) {
+                    // Make the event a clickable link
+                    element.css('cursor', 'pointer');
+                    element.attr('onclick', "window.location='" + event.url + "'");
+                }
+
+                // Set the title attribute for additional information
+                element.attr('title', event.title);
+            },
+        });
+    });
+</script>
+
+
 
 
 

@@ -1,7 +1,12 @@
 @extends('web.layouts.web-layouts')
 
 @section('webcontent')
-
+@push('admincss')
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
+@endpush
     <!-- ======= Hero Section ======= -->
     <section id="hero">
         <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -46,7 +51,7 @@
 
                 <div class="row">
                     <div class="col-lg-12 text-center text-lg-left">
-                        <h3 class="mb-4">ইডেন মহিলা কলেজে <span>স্বাগতম</span> আপনাকে</h3>
+                        <h3 class="mb-4"><span>কলেজের ইতিহাস</span></h3>
                         <p>{!! $histories->history !!}</p>
 
                         {{-- <a class="cta-btn align-middle mt-4" href="#">আরও পড়ুন</a> --}}
@@ -381,49 +386,49 @@
 
     <div class="col-lg-3 col-md-4 col-xs-6 mb-2">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-1.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-1.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-2.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-2.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-3.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-3.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-4.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-4.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-5.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-5.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-6.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-6.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-7.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-7.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
     <div class="col-lg-3 col-md-4 col-xs-6">
         <div class="client-logo">
-            <img src="{{asset('web/assets/img/clients/client-8.png')}}" class="img-fluid" alt="">
+            {{-- <img src="{{asset('web/assets/img/clients/client-8.png')}}" class="img-fluid" alt=""> --}}
         </div>
     </div>
 
@@ -431,6 +436,40 @@
 
 </div>
 </section><!-- End Our Clients Section -->
+
+<section>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-9">
+                <h3 class="mb-4"><strong>একাডেমিক ক্যালেন্ডার</strong></h3>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+                            <div id="fullCalendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h3 class="mb-4"><strong>গুরুত্বপূর্ণ লিঙ্ক</strong></h3>
+
+                <div class="card important-links-card">
+                    <div class="card-body">
+                        <ul class="menus">
+
+                            @foreach($important_links as $link)
+                            <li class="list-group-item"><a href="{{ $link->link }}">{{ $link->link_name }}</a></li>
+                            @endforeach
+                            <!-- Add more links as needed -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 </main><!-- End #main -->
 @endsection

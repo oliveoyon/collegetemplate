@@ -22,11 +22,11 @@
 
 
   @stack('admincss')
-  
+
 
 
   <link rel="stylesheet" href="dist/css/custom.css">
-  
+
   <style>
     [class*="sidebar-light-"] .nav-sidebar > .nav-item > .nav-treeview {
     background-color: rgb(6 59 229 / 5%);
@@ -58,7 +58,7 @@
       </li>
     </ul>
 
-   
+
   </nav>
   <!-- /.navbar -->
 
@@ -67,12 +67,12 @@
     <aside class="main-sidebar sidebar-light-info elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.home') }}" class="brand-link bg-success">
-      <span class="brand-text font-weight-bold">tst</span>
+      <span class="brand-text font-weight-bold">{{ $webs->school_title }}</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      
+
       <!-- SidebarSearch Form -->
       {{-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
@@ -88,7 +88,7 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar text-sm flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          
+
           {{-- <li class="nav-item">
             <a href="{{ route('admin.home') }}" class="nav-link">
               <i class="fas fa-tachometer-alt nav-icon"></i>
@@ -227,7 +227,7 @@
 @stack('adminjs')
 
 <script type="text/javascript">
- 
+
 // AdminLTe 3.0.x
 /** add active class and stay opened when selected */
 var url = window.location;
@@ -245,7 +245,7 @@ var url = window.location;
   $('.select2bs4').select2({
       theme: 'bootstrap4'
     });
-    
+
 
 </script>
 
@@ -256,7 +256,7 @@ var url = window.location;
 
   $('.datepicker').datepicker().on('changeDate', function(){
     $(this).datepicker('hide');
-        }); 
+        });
 </script>
 
 <script>

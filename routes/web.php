@@ -10,12 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-
-// Route::get('এসএসসি২৪-নির্বাচনী-পরীক্ষা-সংক্রান্ত', function () {
-//     echo "test";
-//     // return redirect('/admin/login');
-// });
-
 Route::get('/', [WebController::class, 'index'])->name('index');
 Route::get('notice-board/{cat}', [WebController::class, 'allnotice'])->name('allnotice');
 Route::get('contact', [WebController::class, 'contact'])->name('contact');
