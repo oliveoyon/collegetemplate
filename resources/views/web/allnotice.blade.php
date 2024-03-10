@@ -31,12 +31,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        {{
-                                            $notice->event_type == 1 ? 'একাডেমিক' :
-                                            ($notice->event_type == 2 ? 'ইভেন্ট' :
-                                            ($notice->event_type == 3 ? 'বিজ্ঞপ্তি' :
-                                            ($notice->event_type == 4 ? 'এন ও সি' : 'Unknown Type')))
-                                        }}
+                                        {{ $notice->type_name }}
                                     </td>
                                     <td>{{ $notice->event_title }}</td>
                                     <td>{{ date('M j, Y', strtotime($notice->created_at)) }}</td>
@@ -62,7 +57,6 @@
                 @php $count = 0; @endphp
 
                 @foreach ($provider_ntcs as $ntcs)
-                    @if ($ntcs->event_type == 1)
                         @if ($count < 10)
                             <div class="post-item clearfix">
                                 @if ($ntcs->upload)
@@ -83,7 +77,6 @@
                             @else
                             @break
                         @endif
-                    @endif
                 @endforeach
 
 

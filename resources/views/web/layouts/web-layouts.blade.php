@@ -68,10 +68,10 @@
                         <div class="news-update">Notice</div>
                         <div class="scroll-container">
                             <div class="scroll-content">
-                                @php $count = 0; @endphp
+                                @php $count = 0;  @endphp
 
                                 @foreach ($provider_ntcs as $ntcs)
-                                    @if ($ntcs->event_type == 1)
+                                    @if ($ntcs->event_type_id == 1)
                                         @if ($count < 10)
                                             <a href="{{ url('notice/' . $ntcs->url) }}" class="notice-item">
                                                 <span class="dot"></span>{{ $ntcs->event_title }}
@@ -95,7 +95,7 @@
 <style>
 .website-section {
     padding: 40px 0;
-    background-color: #ffffff; White background
+    background-color: #ffffff; 
     /* background: linear-gradient(to right, #dcdcdc, #ffffff); */
 }
 
@@ -351,6 +351,7 @@
 
                 // Set the title attribute for additional information
                 element.attr('title', event.title);
+                element.css('background-color', event.color);
             },
         });
     });

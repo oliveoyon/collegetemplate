@@ -26,7 +26,7 @@ class WebController extends Controller
 
         $events = Events::where('event_status', 1)
         // ->whereDate('start_date', '>=', now())
-        ->select('event_title', 'start_date', 'end_date', 'url')
+        ->select('event_title', 'start_date', 'end_date', 'url', 'color')
         ->get()
         ->map(function ($event) {
             return [
@@ -34,6 +34,7 @@ class WebController extends Controller
                 'start' => Carbon::parse($event->start_date)->toDateTimeString(),
                 'end' => Carbon::parse($event->end_date)->toDateTimeString(),
                 'url' => 'notice/'.$event->url,
+                'color' => $event->color,
             ];
         });
 
@@ -46,7 +47,13 @@ class WebController extends Controller
 
     public function notice($slug=null)
     {
-        $send['events'] = DB::table('events')->where(['event_status' => 1,  'url'=>$slug])->first();
+        $send['events'] = DB::table('events')
+        ->select('events.*',  'event_types.type_name')
+        ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
+        ->where(['events.event_status' => 1, 'events.url' => $slug])
+        ->first();
+
+
         return view('web.notice_detail', $send);
     }
 
@@ -61,22 +68,18 @@ class WebController extends Controller
 
     public function allnotice($slug = Null)
     {
-        if ($slug == 'all-notice') {
-            $eventType = 1;
-        } elseif ($slug == 'all-event') {
-            $eventType = 2;
-        } elseif ($slug == 'all-advertisement') {
-            $eventType = 3;
-        } else {
-            $eventType = 4;
-        }
+        $eventType = DB::table('event_types')
+        ->where('type_name', $slug)
+        ->first();
 
         $send['notices'] = DB::table('events')
-        ->where(['event_type' => $eventType])
-        ->where(['event_status' => 1])
-        ->orderByDesc('start_date')
+        ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
+        ->where(['events.event_type_id' => $eventType->id, 'events.event_status' => 1])
+        ->orderByDesc('events.start_date')
         // ->limit(6) // Replace '5' with your desired limit
-        ->get();
+        ->get(['event_types.type_name', 'events.*']);
+
+
         return view('web.allnotice' , $send);
     }
 

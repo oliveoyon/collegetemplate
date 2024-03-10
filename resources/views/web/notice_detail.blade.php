@@ -45,12 +45,7 @@
                 <ul>
                   <li class="d-flex align-items-center"><i class="bi bi-person"></i>
                     <a href="blog-single.html">
-                        {{
-                            $events->event_type == 1 ? 'একাডেমিক' :
-                            ($events->event_type == 2 ? 'ইভেন্ট' :
-                            ($events->event_type == 3 ? 'বিজ্ঞপ্তি' :
-                            ($events->event_type == 4 ? 'এন ও সি' : 'Unknown Type')))
-                        }}
+                    {{ $events->type_name }}
                     </a>
                 </li>
                   <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href=""><time>{{ \Carbon\Carbon::parse($events->created_at)->format('F j, Y') }}
@@ -80,7 +75,6 @@
                 @php $count = 0; @endphp
 
                 @foreach ($provider_ntcs as $ntcs)
-                    @if ($ntcs->event_type == $events->event_type)
                         @if ($count < 10)
                             <div class="post-item clearfix">
                                 @if ($ntcs->upload)
@@ -101,7 +95,6 @@
                             @else
                             @break
                         @endif
-                    @endif
                 @endforeach
 
 

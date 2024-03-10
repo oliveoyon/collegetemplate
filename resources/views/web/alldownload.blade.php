@@ -55,7 +55,6 @@
                 @php $count = 0; @endphp
 
                 @foreach ($provider_ntcs as $ntcs)
-                    @if ($ntcs->event_type == 1)
                         @if ($count < 10)
                             <div class="post-item clearfix">
                                 @if ($ntcs->upload)
@@ -76,7 +75,6 @@
                             @else
                             @break
                         @endif
-                    @endif
                 @endforeach
 
 

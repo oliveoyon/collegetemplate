@@ -70,13 +70,7 @@
                                   <td class="font-weight-bold">{{ $notice->event_title }}</td>
                                   <td>{{ strip_tags(substr($notice->event_description, 0, 500)) }}</td>
                                   <td class="font-weight-bold">
-                                    {{
-                                        $notice->event_type == 1 ? 'একাডেমিক' :
-                                        ($notice->event_type == 2 ? 'ইভেন্ট' :
-                                        ($notice->event_type == 3 ? 'বিজ্ঞপ্তি' :
-                                        ($notice->event_type == 4 ? 'এন ও সি' : 'Unknown Type')))
-                                    }}
-
+                                    {{$notice->type_name}}
                                   </td>
                                   <td class="{{ $notice->upload  ? 'text-success' : 'text-danger' }} font-weight-bold">
                                     {{ $notice->upload ? 'সংযুক্ত' : 'সংযুক্ত নয়' }}
@@ -132,12 +126,11 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="event_type">টাইপ</label>
-                        <select class="form-control" name="event_type" id="event_type">
-                            <option value="1">একাডেমিক</option>
-                            <option value="2">ইভেন্ট</option>
-                            <option value="3">বিজ্ঞপ্তি</option>
-                            <option value="4">এনওসি</option>
-                        </select>
+                        <select class="form-control" name="event_type_id" id="event_type_id">
+                                    @foreach ($eventTypes as $eventType)
+                                        <option value="{{ $eventType->id }}">{{ $eventType->type_name }}</option>
+                                    @endforeach
+                                </select>
                         <span class="text-danger error-text event_type_error"></span>
                     </div>
                 </div>
@@ -145,7 +138,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="start_date">শুরুর তারিখ</label>
-                        <input type="text" class="form-control form-control-sm datepicker" name="start_date">
+                        <input type="datetime-local" class="form-control" name="start_date" id="start_date">
                         <span class="text-danger error-text start_date_error"></span>
                     </div>
                 </div>
@@ -153,7 +146,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="end_date">শেষের তারিখ</label>
-                        <input type="text" class="form-control form-control-sm datepicker" name="end_date">
+                        <input type="datetime-local" class="form-control" name="end_date" id="end_date">
                         <span class="text-danger error-text end_date_error"></span>
                     </div>
                 </div>
@@ -223,32 +216,33 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="event_type">টাইপ</label>
-                            <select class="form-control" name="event_type" id="event_type">
-                                <option value="2">নোটিশ</option>
-                                <option value="1">ইভেন্ট</option>
-                            </select>
-                            <span class="text-danger error-text event_type_error"></span>
-                        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="event_type">টাইপ</label>
+                        <select class="form-control" name="event_type_id" id="event_type_id">
+                                    @foreach ($eventTypes as $eventType)
+                                        <option value="{{ $eventType->id }}">{{ $eventType->type_name }}</option>
+                                    @endforeach
+                                </select>
+                        <span class="text-danger error-text event_type_error"></span>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="start_date">শুরুর তারিখ</label>
-                            <input type="text" class="form-control form-control-sm datepicker" name="start_date" value="09/11/2023">
-                            <span class="text-danger error-text start_date_error"></span>
-                        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="start_date">শুরুর তারিখ</label>
+                        <input type="datetime-local" class="form-control" name="start_date" id="start_date">
+                        <span class="text-danger error-text start_date_error"></span>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="end_date">শেষের তারিখ</label>
-                            <input type="text" class="form-control form-control-sm datepicker" name="end_date">
-                            <span class="text-danger error-text end_date_error"></span>
-                        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="end_date">শেষের তারিখ</label>
+                        <input type="datetime-local" class="form-control" name="end_date" id="end_date">
+                        <span class="text-danger error-text end_date_error"></span>
                     </div>
+                </div>
                 </div>
 
 

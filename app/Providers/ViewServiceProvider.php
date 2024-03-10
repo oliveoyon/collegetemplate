@@ -22,9 +22,8 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (request()->routeIs('guest.*') OR request()->routeIs('admin.*')) {
-
-        }else{
+        if (request()->routeIs('guest.*') or request()->routeIs('admin.*')) {
+        } else {
             $send['provider_menusWithSubMenus'] = Menu::with(['subMenus' => function ($query) {
                 $query->where('submenu_status', 1); // Filter submenus by submenu_status
             }])->where('menu_status', 1)->get();
@@ -38,12 +37,14 @@ class ViewServiceProvider extends ServiceProvider
             // $send['webmessages'] = DB::table('messages')->where('message_status', 1)->get();
 
             $send['provider_ntcs'] = DB::table('events')
-            ->select('event_title', 'url', 'start_date', 'event_type', 'created_at' , 'upload')
-            ->where(['event_status' => 1])
-            ->where('end_date', '>', now()) // Adding the condition for end_date
-            ->orderByDesc('end_date')
-            // ->limit(6)
-            ->get();
+                ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
+                ->select('events.event_title','events.event_type_id', 'events.url', 'events.start_date', 'event_types.type_name', 'events.created_at', 'events.upload')
+                ->where(['events.event_status' => 1])
+                // ->where('events.end_date', '>=', now())
+                ->orderByDesc('events.end_date')
+                ->get();
+
+
             View::share($send);
         }
     }

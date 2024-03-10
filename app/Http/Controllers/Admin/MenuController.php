@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Menu;
 use App\Models\Admin\SubMenu;
 use App\Models\Admin\Events;
+use App\Models\Admin\EventType;
 use App\Models\Admin\History;
 use App\Models\Admin\ImportantLink;
 use App\Models\Admin\Messages;
@@ -61,7 +62,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Menu has been successfully saved', 'redirect'=> 'admin/menu-list']);
+                return response()->json(['code' => 1, 'msg' => 'Menu has been successfully saved', 'redirect' => 'admin/menu-list']);
             }
         }
     }
@@ -114,7 +115,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Menu has been successfully saved', 'redirect'=> 'admin/menu-list']);
+                return response()->json(['code' => 1, 'msg' => 'Menu has been successfully saved', 'redirect' => 'admin/menu-list']);
             }
         }
     }
@@ -187,7 +188,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Menu has been successfully saved', 'redirect'=> 'admin/submenu-list']);
+                return response()->json(['code' => 1, 'msg' => 'Menu has been successfully saved', 'redirect' => 'admin/submenu-list']);
             }
         }
     }
@@ -240,7 +241,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Sub Menu has been successfully saved', 'redirect'=> 'admin/submenu-list']);
+                return response()->json(['code' => 1, 'msg' => 'Sub Menu has been successfully saved', 'redirect' => 'admin/submenu-list']);
             }
         }
     }
@@ -270,60 +271,70 @@ class MenuController extends Controller
 
     public function noticelist()
     {
-        $send['notices'] = Events::get();
+        // $send['notices'] = Events::get();
+        $send['eventTypes'] = EventType::where('status', 1)->get();
+        $send['notices'] = DB::table('events')
+            ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
+            ->select('events.*', 'event_types.type_name')
+            // ->where(['events.event_status' => 1])
+            // ->where('events.end_date', '>', now())
+            ->orderByDesc('events.end_date')
+            ->get();
         return view('dashboard.admin.NoticeManagement.notice', $send);
     }
 
     public function addNotice(Request $request)
     {
+        // Validation rules
         $validator = Validator::make($request->all(), [
-            'event_title' => 'required|string|max:255',
-            'upload' => 'file|mimes:pdf,jpeg,png,jpg,gif|max:5012', // Adjust the allowed file types and size as needed
-            'event_status' => 'required',
+            'event_title' => 'required|string|max:200',
+            'event_description' => 'required|string',
+            'event_type_id' => 'required|exists:event_types,id',
+            'upload' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'event_status' => 'required|integer',
         ]);
 
+        // Check validation results
         if (!$validator->passes()) {
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        }
+
+        // Process file upload
+        $file_name = '';
+        if ($request->file('upload')) {
+            $path = 'img/events/';
+            $file = $request->file('upload');
+            $file_name = time() . $file->getClientOriginalName();
+            $file->storeAs($path, $file_name, 'public');
+        }
+
+        // Retrieve color from EventType model
+        $color = EventType::where('id', $request->input('event_type_id'))->first();
+
+        // Create new Events instance
+        $notice = new Events();
+        $notice->event_hash_id = md5(uniqid(rand(), true));
+        $notice->event_title = $request->input('event_title');
+        $notice->url = Str::slug($request->input('event_title'));
+        $notice->event_description = $request->input('event_description');
+        $notice->event_type_id = $request->input('event_type_id');
+        $notice->start_date = date('Y-m-d', strtotime($request->input('start_date')));
+        $notice->end_date = date('Y-m-d', strtotime($request->input('end_date')));
+        $notice->color = $color->color;
+        $notice->school_id = auth()->user()->school_id;
+        $notice->event_status = $request->input('event_status');
+        $notice->upload = $file_name;
+
+        // Save the notice
+        $query = $notice->save();
+
+        // Return response based on query result
+        if (!$query) {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
         } else {
-
-            $file_name = '';
-            if ($request->file('upload')) {
-                $path = 'img/events/';
-                $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
-                //$upload = $file->storeAs($path, $file_name);
-                $file->storeAs($path, $file_name, 'public');
-            }
-
-            $notice = new Events();
-            $notice->event_title = $request->input('event_title');
-            $notice->url = Str::slug($request->input('event_title'));
-            $notice->event_description = $request->input('event_description');
-            $notice->event_type = $request->input('event_type');
-            if($request->input('start_date')){
-                $startDate = $request->input('start_date'); // Assuming it's in some format like "d/m/Y" or "m/d/Y"
-                $formattedStartDate = date('Y-m-d', strtotime($startDate));
-                $notice->start_date = $formattedStartDate;
-            }else{
-                $notice->start_date = date('Y-m-d');
-            }
-            if($request->input('end_date')){
-                $endDate = $request->input('end_date'); // Assuming it's in some format like "d/m/Y" or "m/d/Y"
-                $formattedEndDate = date('Y-m-d', strtotime($endDate));
-                $notice->end_date = $formattedEndDate;
-            }else{
-                $notice->end_date = '';
-            }
-
-            $notice->event_status = $request->input('event_status');
-            $notice->upload = $file_name;
-            $query = $notice->save();
-
-            if (!$query) {
-                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
-            } else {
-                return response()->json(['code' => 1, 'msg' => 'Notice has been successfully saved', 'redirect'=> 'admin/notice-list']);
-            }
+            return response()->json(['code' => 1, 'msg' => 'Notice has been successfully saved', 'redirect' => 'admin/notice-list']);
         }
     }
 
@@ -341,11 +352,16 @@ class MenuController extends Controller
         $notice = Events::find($event_id);
         $path = 'img/events/';
         $file_name = $notice->upload;
+        $color = EventType::where('id', $request->input('event_type_id'))->first();
 
         $validator = Validator::make($request->all(), [
             'event_title' => 'required|string|max:255|unique:events,event_title,' . $event_id,
-            'upload' => 'file|mimes:pdf,jpeg,png,jpg,gif|max:5012', // Adjust the allowed file types and size as needed
-            'event_status' => 'required',
+            'event_description' => 'required|string',
+            'event_type_id' => 'required|exists:event_types,id',
+            'upload' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'event_status' => 'required|integer',
         ]);
 
         if (!$validator->passes()) {
@@ -367,15 +383,30 @@ class MenuController extends Controller
             $notice->event_title = $request->input('event_title');
             $notice->url = Str::slug($request->input('event_title'));
             $notice->event_description = $request->input('event_description');
-            $notice->event_type = $request->input('event_type');
-            $startDate = $request->input('start_date'); // Assuming it's in some format like "d/m/Y" or "m/d/Y"
-            $formattedStartDate = date('Y-m-d', strtotime($startDate));
-            $notice->start_date = $formattedStartDate;
-            $endDate = $request->input('end_date'); // Assuming it's in some format like "d/m/Y" or "m/d/Y"
-            $formattedEndDate = date('Y-m-d', strtotime($endDate));
-            $notice->end_date = $formattedEndDate;
-
+            $notice->event_type_id = $request->input('event_type_id');
+            $notice->start_date = $request->input('start_date');
             $notice->end_date = $request->input('end_date');
+            $notice->color = $color->color;
+            $notice->school_id = auth()->user()->school_id;
+
+
+
+
+            if ($request->input('start_date')) {
+                $startDate = $request->input('start_date'); // Assuming it's in some format like "d/m/Y" or "m/d/Y"
+                $formattedStartDate = date('Y-m-d', strtotime($startDate));
+                $notice->start_date = $formattedStartDate;
+            } else {
+                $notice->start_date = date('Y-m-d');
+            }
+            if ($request->input('end_date')) {
+                $endDate = $request->input('end_date'); // Assuming it's in some format like "d/m/Y" or "m/d/Y"
+                $formattedEndDate = date('Y-m-d', strtotime($endDate));
+                $notice->end_date = $formattedEndDate;
+            } else {
+                $notice->end_date = '';
+            }
+
             $notice->event_status = $request->input('event_status');
             $notice->upload = $file_name;
 
@@ -384,7 +415,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Notice has been successfully saved', 'redirect'=> 'admin/notice-list']);
+                return response()->json(['code' => 1, 'msg' => 'Notice has been successfully saved', 'redirect' => 'admin/notice-list']);
             }
         }
     }
@@ -435,7 +466,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Link has been successfully saved', 'redirect'=> 'admin/link-list']);
+                return response()->json(['code' => 1, 'msg' => 'Link has been successfully saved', 'redirect' => 'admin/link-list']);
             }
         }
     }
@@ -470,7 +501,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Link has been successfully saved', 'redirect'=> 'admin/link-list']);
+                return response()->json(['code' => 1, 'msg' => 'Link has been successfully saved', 'redirect' => 'admin/link-list']);
             }
         }
     }
@@ -525,7 +556,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Slider has been successfully saved', 'redirect'=> 'admin/slider-list']);
+                return response()->json(['code' => 1, 'msg' => 'Slider has been successfully saved', 'redirect' => 'admin/slider-list']);
             }
         }
     }
@@ -634,7 +665,7 @@ class MenuController extends Controller
 
     // Upload Section
 
-        public function uploadlist()
+    public function uploadlist()
     {
         $send['uploads'] = Uploads::get();
         return view('dashboard.admin.others.upload', $send);
@@ -672,7 +703,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Upload has been successfully saved', 'redirect'=> 'admin/upload-list']);
+                return response()->json(['code' => 1, 'msg' => 'Upload has been successfully saved', 'redirect' => 'admin/upload-list']);
             }
         }
     }
@@ -725,7 +756,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Upload has been successfully saved', 'redirect'=> 'admin/upload-list']);
+                return response()->json(['code' => 1, 'msg' => 'Upload has been successfully saved', 'redirect' => 'admin/upload-list']);
             }
         }
     }
@@ -791,7 +822,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Item has been successfully saved', 'redirect'=> 'admin/upload-list']);
+                return response()->json(['code' => 1, 'msg' => 'Item has been successfully saved', 'redirect' => 'admin/upload-list']);
             }
         }
     }
@@ -844,7 +875,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Item has been successfully saved', 'redirect'=> 'admin/upload-list']);
+                return response()->json(['code' => 1, 'msg' => 'Item has been successfully saved', 'redirect' => 'admin/upload-list']);
             }
         }
     }
@@ -912,7 +943,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Message has been successfully saved', 'redirect'=> 'admin/message-list']);
+                return response()->json(['code' => 1, 'msg' => 'Message has been successfully saved', 'redirect' => 'admin/message-list']);
             }
         }
     }
@@ -966,7 +997,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => 'Sub Menu has been successfully saved', 'redirect'=> 'admin/message-list']);
+                return response()->json(['code' => 1, 'msg' => 'Sub Menu has been successfully saved', 'redirect' => 'admin/message-list']);
             }
         }
     }
@@ -991,10 +1022,4 @@ class MenuController extends Controller
             return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
         }
     }
-
-
-
-
-
-
 }
