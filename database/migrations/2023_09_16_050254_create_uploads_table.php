@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 200);
             $table->text('description')->nullable();
-            $table->string('upload', 50);
+            $table->string('upload')->nullable();
             $table->string('url', 200);
             $table->integer('status');
             $table->timestamps();

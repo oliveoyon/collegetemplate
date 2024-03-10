@@ -46,7 +46,7 @@ class MenuController extends Controller
             if ($request->file('upload')) {
                 $path = 'img/menu_img/';
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
@@ -99,7 +99,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $upload = $file->storeAs($path, $file_name, 'public');
             }
@@ -171,7 +171,7 @@ class MenuController extends Controller
             if ($request->file('upload')) {
                 $path = 'img/submenu_img/';
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
@@ -225,7 +225,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $upload = $file->storeAs($path, $file_name, 'public');
             }
@@ -306,7 +306,7 @@ class MenuController extends Controller
         if ($request->file('upload')) {
             $path = 'img/events/';
             $file = $request->file('upload');
-            $file_name = time() . $file->getClientOriginalName();
+            $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
             $file->storeAs($path, $file_name, 'public');
         }
 
@@ -374,7 +374,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $upload = $file->storeAs($path, $file_name, 'public');
             }
@@ -541,7 +541,7 @@ class MenuController extends Controller
             if ($request->file('upload')) {
                 $path = 'img/slider/';
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
@@ -633,7 +633,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('logo');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 $file->storeAs($path, $file_name, 'public');
             }
 
@@ -687,7 +687,7 @@ class MenuController extends Controller
             if ($request->file('upload')) {
                 $path = 'img/upload/';
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
@@ -739,7 +739,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $upload = $file->storeAs($path, $file_name, 'public');
             }
@@ -806,7 +806,7 @@ class MenuController extends Controller
             if ($request->file('upload')) {
                 $path = 'img/mujib/';
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
@@ -858,7 +858,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $upload = $file->storeAs($path, $file_name, 'public');
             }
@@ -926,7 +926,7 @@ class MenuController extends Controller
             if ($request->file('upload')) {
                 $path = 'img/message_img/';
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $file->storeAs($path, $file_name, 'public');
             }
@@ -980,7 +980,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('upload');
-                $file_name = time() . '_' . $file->getClientOriginalName();
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $upload = $file->storeAs($path, $file_name, 'public');
             }

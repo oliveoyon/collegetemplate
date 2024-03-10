@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('message_slug')->unique();
             $table->string('name');
             $table->text('message_desc')->nullable();
-            $table->string('upload')->unique();
+            $table->string('upload')->nullable();
             $table->integer('message_status');
             $table->timestamps();
         });

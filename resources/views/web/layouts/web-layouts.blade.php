@@ -95,7 +95,7 @@
 <style>
 .website-section {
     padding: 40px 0;
-    background-color: #ffffff; 
+    background-color: #ffffff;
     /* background: linear-gradient(to right, #dcdcdc, #ffffff); */
 }
 
@@ -203,6 +203,7 @@
             <ul>
                 <li><a class="active" href="{{ route('index') }}">হোম</a></li>
                 @foreach ($provider_menusWithSubMenus as $menu)
+                @if ($menu->is_home == 0)
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}"
                             role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -217,6 +218,7 @@
                             @endforeach
                         </ul>
                     </li>
+                @endif
                 @endforeach
                 <li><a class="" href="{{ route('contact') }}">যোগাযোগ</a></li>
 
