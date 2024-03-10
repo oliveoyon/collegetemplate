@@ -43,7 +43,7 @@
                         <div class="card-tools">
                           <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
-                                
+
                               <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#addsubmenus"><i class="fas fa-plus-square mr-1"></i> সাবমেনু যোগ করুন</button>
                             </li>
                           </ul>
@@ -85,13 +85,13 @@
                                   </td>
                                 </tr>
                                 @endforeach
-                                
+
                               </tbody>
                           </table>
                       </div>
                   </div>
             </div>
-            
+
         </div>
 
 
@@ -108,7 +108,7 @@
         <div class="modal-body">
           <form action="{{ route('admin.addSubMenu') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="add-submenu-form">
             @csrf
-        
+
             <div class="form-group">
                 <label for="menu_name">মেনুর নাম</label>
                 <select name="menu_id" id="menu_id" class="form-control">
@@ -130,13 +130,13 @@
                   <textarea name="submenu_desc" class="summernote" id="submenu_desc"></textarea>
                   <span class="text-danger error-text submenu_desc_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="upload">আপলোড</label>
                 <input type="file" class="form-control" name="upload" id="upload">
                 <span class="text-danger error-text upload_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="status">স্ট্যাটাস</label>
                 <select class="form-control" name="submenu_status" id="menu_status">
@@ -145,22 +145,22 @@
                 </select>
                 <span class="text-danger error-text submenu_status_error"></span>
             </div>
-        
-        
+
+
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-success">যোগ করুন</button>
             </div>
         </form>
 
-        
+
         </div>
-        
+
       </div>
     </div>
   </div>
   {{-- Modal End --}}
 
-  
+
 {{-- Edit Modal --}}
   <div class="modal fade editSubMenu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
@@ -176,7 +176,7 @@
               <form action="{{ route('admin.updateSubMenuDetails') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="update-submenu-form">
                 @csrf
                 <input type="hidden" name="sid">
-                
+
                 <div class="form-group">
                   <label for="menu_name">মেনুর নাম</label>
                   <select name="menu_id" class="form-control">
@@ -189,7 +189,7 @@
 
                 <div class="form-group">
                     <label for="submenu_name">সাবমেনুর নাম</label>
-                    <input type="text" class="form-control" name="submenu_name" readonly placeholder="Enter Menu Name">
+                    <input type="text" class="form-control" name="submenu_name"  placeholder="Enter Menu Name">
                     <span class="text-danger error-text submenu_name_error"></span>
                 </div>
 
@@ -198,13 +198,13 @@
                       <textarea name="submenu_desc" class="summernote" id="summernote"></textarea>
                       <span class="text-danger error-text submenu_desc_error"></span>
                 </div>
-            
+
                 <div class="form-group">
                     <label for="upload">আপলোড</label>
                     <input type="file" class="form-control" name="upload" >
                     <span class="text-danger error-text upload_error"></span>
                 </div>
-            
+
                 <div class="form-group">
                     <label for="submenu_status">স্ট্যাটাস</label>
                     <select class="form-control" name="submenu_status" >
@@ -213,14 +213,14 @@
                     </select>
                     <span class="text-danger error-text submenu_status_error"></span>
                 </div>
-            
-            
+
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-success">আপডেট</button>
                 </div>
             </form>
-                
-  
+
+
             </div>
         </div>
     </div>
@@ -239,7 +239,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  
+
 @endsection
 
 
@@ -258,7 +258,7 @@
 <script>
   new DataTable('#menu-table');
 </script>
-    
+
 
 
 <script>
@@ -271,7 +271,7 @@ $.ajaxSetup({
 
 
   $(document).ready(function () {
-            
+
       $('#add-submenu-form').on('submit', function(e){
         e.preventDefault();
         var form = this;
@@ -307,7 +307,7 @@ $.ajaxSetup({
 
     $(document).on('click','#editSubMenuBtn', function(){
       var submenu_id = $(this).data('id');
-      
+
       $('.editSubMenu').find('form')[0].reset();
       $('.editSubMenu').find('span.error-text').text('');
       $.post("{{ route('admin.getSubMenuDetails') }}",{submenu_id:submenu_id}, function(data){
@@ -317,7 +317,7 @@ $.ajaxSetup({
           $('.editSubMenu').find('select[name="menu_id"]').val(data.details.menu_id);
           $('.editSubMenu').find('input[name="submenu_name"]').val(data.details.submenu_name);
 
-          
+
 
 
 
@@ -355,11 +355,11 @@ $.ajaxSetup({
                     $('.editSubMenu').modal('hide');
                     $('.editSubMenu').find('form')[0].reset();
                     toastr.success(data.msg);
-                    
+
                     setTimeout(function() {
                         window.location.href = redirectUrl;
                     }, 2000); // Adjust the delay as needed (in milliseconds)
-                    
+
                 }
           }
       });
@@ -403,6 +403,6 @@ $.ajaxSetup({
 </script>
 
 
-    
+
 @endpush
 
