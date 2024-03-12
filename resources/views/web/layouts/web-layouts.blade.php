@@ -221,8 +221,38 @@
                 @endif
                 @endforeach
                 <li><a class="" href="{{ route('contact') }}">যোগাযোগ</a></li>
-
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutUsDropdown" role="button" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Departmant
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aboutUsDropdown">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="ourTeamDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Social Science
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="ourTeamDropdown">
+                                <li><a class="dropdown-item" href="">Bangla</a></li>
+                                <li><a class="dropdown-item" href="">History</a></li>
+                                <li><a class="dropdown-item" href="">Economics</a></li>
+                                <!-- Add more child items as needed -->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="ourTeamDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Schience
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="ourTeamDropdown">
+                                <li><a class="dropdown-item" href="">Physics</a></li>
+                                <li><a class="dropdown-item" href="">Chemistry</a></li>
+                                <li><a class="dropdown-item" href="">Math</a></li>
+                                <!-- Add more child items as needed -->
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
 
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
