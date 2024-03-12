@@ -35,21 +35,21 @@
               <div class="col-lg-4 info">
                 <i class="bi bi-geo-alt"></i>
                 <h4>ঠিকানা:</h4>
-                <p>ডঃ কাজী মোতাহার হোসাইন রোড<br>
-                    কমলাপুর, ফরিদপুর।
+                <p>{{ $webs->address_one }}<br>
+                    {{ $webs->address_two }}
                 </p>
               </div>
 
               <div class="col-lg-4 info mt-4 mt-lg-0">
                 <i class="bi bi-envelope"></i>
                 <h4>ইমেইল:</h4>
-                <p>faridpurcityc@gmail.com</p>
+                <p>{{ $webs->email }}</p>
               </div>
 
               <div class="col-lg-4 info mt-4 mt-lg-0">
                 <i class="bi bi-phone"></i>
                 <h4>ফোন:</h4>
-                <p>+৮৮ ০১৩০৯ ১০৮৭৯৮<br>+৮৮ ০১৭১১ ৪৬৮৭৩৬</p>
+                <p>{{ $webs->phone1 }}<br>{{ $webs->phone2 }}</p>
               </div>
             </div>
           </div>
