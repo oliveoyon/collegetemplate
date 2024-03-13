@@ -16,11 +16,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">সাবমেনু ম্যানেজমেন্ট</h1>
+            <h1 class="m-0">চাইল্ডমেনু ম্যানেজমেন্ট</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">সাবমেনু ম্যানেজমেন্ট</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">চাইল্ডমেনু ম্যানেজমেন্ট</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -38,13 +38,13 @@
                       <div class="card-header bg-success">
                         <h3 class="card-title">
                           <i class="fas fa-chalkboard-teacher mr-1"></i>
-                          সাবমেনুর তালিকা
+                          চাইল্ডমেনু তালিকা
                         </h3>
                         <div class="card-tools">
                           <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
 
-                              <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#addchildmenus"><i class="fas fa-plus-square mr-1"></i> সাবমেনু যোগ করুন</button>
+                              <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#addchildmenus"><i class="fas fa-plus-square mr-1"></i> চাইল্ডমেনু যোগ করুন</button>
                             </li>
                           </ul>
                         </div>
@@ -120,7 +120,7 @@
                 </select>
                 <span class="text-danger error-text menu_id_error"></span>
             </div>
-            
+
             <div class="form-group">
                 <label for="menu_name">সাবমেনুর নাম</label>
                 <select class="form-control form-control-sm submenu_id" name="submenu_id" id="submenu_id" disabled>
@@ -129,7 +129,7 @@
                 <span class="text-danger error-text submenu_id_error"></span>
             </div>
 
-            
+
 
             <div class="form-group">
               <label for="menu_name">চাইল্ড মেনুর নাম</label>
@@ -198,7 +198,7 @@
                 </select>
                 <span class="text-danger error-text menu_id_error"></span>
             </div>
-            
+
             <div class="form-group">
                 <label for="menu_name">সাবমেনুর নাম</label>
                 <select class="form-control form-control-sm submenu_id" name="submenu_id" id="submenu_id">
@@ -209,7 +209,7 @@
                 <span class="text-danger error-text submenu_id_error"></span>
             </div>
 
-            
+
 
             <div class="form-group">
               <label for="menu_name">চাইল্ড মেনুর নাম</label>
@@ -439,7 +439,7 @@ $.ajaxSetup({
                             setTimeout(function() {
                                 window.location.href = redirectUrl;
                             }, 1000); // Adjust the delay as needed (in milliseconds)
-  
+
                         }else{
                             toastr.error(data.msg);
                         }

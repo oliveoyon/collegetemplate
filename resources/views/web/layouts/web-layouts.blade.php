@@ -214,13 +214,14 @@
                         @foreach ($menu->subMenus as $subMenu)
                             @if($subMenu->childMenus->isNotEmpty())
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="" 
+                                    <a class="nav-link dropdown-toggle" href="#"
                                         role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{ $subMenu->submenu_name }}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="submenuDropdown{{ $subMenu->id }}">
                                         @foreach ($subMenu->childMenus as $childMenu)
-                                            <li><a class="dropdown-item" href="{{$subMenu->submenu_slug.'/'.$childMenu->child_menu_slug}}">{{ $childMenu->childmenu_name }}</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('submenudesc', ['childSlug' => $childMenu->child_menu_slug]) }}
+                                                ">{{ $childMenu->childmenu_name }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>

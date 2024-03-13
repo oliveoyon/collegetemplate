@@ -14,7 +14,7 @@
             <article class="entry">
 
                 <h2 class="entry-title">
-                    <a href="">{{ $childmenudesc->childmenu_name }}</a>
+                    <a href=""></a>
                   </h2>
 
                 @if ($childmenudesc->upload)

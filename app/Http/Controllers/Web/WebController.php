@@ -66,7 +66,7 @@ class WebController extends Controller
         return view('web.menudesc', $send);
     }
 
-    public function submenudesc($slug=null, $submenu_slug)
+    public function submenudesc($submenu_slug=null)
     {
         $send['childmenudesc'] = DB::table('child_menus')
             ->select('childmenu_name', 'child_menu_slug', 'child_menu_desc', 'upload')

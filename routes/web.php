@@ -25,7 +25,7 @@ Route::get('/symlink', function () {
 });
 // Move the catch-all route to the end
 Route::get('/{slug}', [WebController::class, 'menudesc'])->name('menudesc');
-Route::get('/{slug}/{childslug}', [WebController::class, 'submenudesc'])->name('submenudesc');
+Route::get('/child-menu/{childSlug}', [WebController::class, 'submenudesc'])->name('submenudesc');
 
 
 
