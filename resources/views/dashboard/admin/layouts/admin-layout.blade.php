@@ -125,6 +125,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ route('admin.childmenu-list') }}" class="nav-link">
+                  <i class="fas fa-bars nav-icon"></i>
+                  <p>চাইল্ড মেনু ম্যানেজমেন্ট</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('admin.notice-list') }}" class="nav-link">
                   <i class="far fa-bell nav-icon"></i>
                   <p>নোটিশ ম্যানেজমেন্ট</p>

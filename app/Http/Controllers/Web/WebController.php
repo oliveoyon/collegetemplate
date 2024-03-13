@@ -66,6 +66,15 @@ class WebController extends Controller
         return view('web.menudesc', $send);
     }
 
+    public function submenudesc($slug=null, $submenu_slug)
+    {
+        $send['childmenudesc'] = DB::table('child_menus')
+            ->select('childmenu_name', 'child_menu_slug', 'child_menu_desc', 'upload')
+            ->where(['child_menu_status' => 1, 'child_menu_slug' => $submenu_slug])
+            ->first();
+        return view('web.childmenudesc', $send);
+    }
+
     public function allnotice($slug = Null)
     {
         $eventType = DB::table('event_types')

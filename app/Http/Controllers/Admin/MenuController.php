@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\child_menu;
 use App\Models\Admin\Menu;
 use App\Models\Admin\SubMenu;
 use App\Models\Admin\Events;
@@ -196,7 +197,7 @@ class MenuController extends Controller
     public function getSubMenuDetails(Request $request)
     {
         $submenu_id = $request->submenu_id;
-        $submenuDetails = SubMenu::find($submenu_id);
+        $submenuDetails = chil::find($submenu_id);
         return response()->json(['details' => $submenuDetails]);
     }
 
@@ -232,7 +233,7 @@ class MenuController extends Controller
 
 
             $submenu->submenu_name = $request->input('submenu_name');
-            // $submenu->submenu_slug = Str::slug($request->input('submenu_name'));
+            $submenu->submenu_slug = Str::slug($request->input('submenu_name'));
             $submenu->submenu_desc = $request->input('submenu_desc');
             $submenu->submenu_status = $request->input('submenu_status');
             $submenu->upload = $file_name;
@@ -262,6 +263,145 @@ class MenuController extends Controller
 
         if ($query1) {
             return response()->json(['code' => 1, 'msg' => 'Sub Menu has been deleted from database', 'redirect' => 'admin/submenu-list']);
+        } else {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
+    public function childmenulist()
+    {
+        $send['menus'] = Menu::get();
+        $send['submenus'] = SubMenu::get();
+        $send['childmenus'] =  DB::table('child_menus')
+            ->join('menus', 'child_menus.menu_id', '=', 'menus.id')
+            ->join('sub_menus', 'child_menus.submenu_id', '=', 'sub_menus.id')
+            ->select('child_menus.*', 'menus.menu_name', 'sub_menus.submenu_name')
+            ->get();
+
+        // dd($send['childmenus']);
+        return view('dashboard.admin.MenuManagement.childmenu', $send);
+    }
+
+    public function getSubmenuByMenu(Request $request)
+    {
+        $menuId = $request->input('menu_id');
+
+        $menus = Submenu::where(['menu_id' => $menuId])->get();
+        return response()->json(['submenus' => $menus]);
+    }
+
+    public function addChildMenu(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'menu_id' => 'required',
+            'submenu_id' => 'required',
+            'childmenu_name' => 'required|string|max:255',
+            'childmenu_desc' => 'string',
+            'upload' => 'file|mimes:pdf,jpeg,png,jpg,gif|max:5120', // Adjust the allowed file types and size as needed
+            'child_menu_status' => 'required',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+
+            $file_name = '';
+            if ($request->file('upload')) {
+                $path = 'img/childmenu_img/';
+                $file = $request->file('upload');
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
+                //$upload = $file->storeAs($path, $file_name);
+                $file->storeAs($path, $file_name, 'public');
+            }
+
+            $childmenu = new child_menu();
+            $childmenu->menu_id = $request->input('menu_id');
+            $childmenu->submenu_id = $request->input('submenu_id');
+            $childmenu->childmenu_name = $request->input('childmenu_name');
+            $childmenu->child_menu_slug = Str::slug($request->input('childmenu_name'));
+            $childmenu->child_menu_status = $request->input('child_menu_status');
+            $childmenu->child_menu_desc = $request->input('child_menu_desc');
+            $childmenu->upload = $file_name;
+            $query = $childmenu->save();
+
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => 'Menu has been successfully saved', 'redirect' => 'admin/child-menu-list']);
+            }
+        }
+    }
+
+    public function getChildMenuDetails(Request $request)
+    {
+        $childmenu_id = $request->childmenu_id;
+        $childmenuDetails = child_menu::find($childmenu_id);
+        return response()->json(['details' => $childmenuDetails]);
+    }
+
+    public function updateChildMenuDetails(Request $request)
+    {
+        $childmenu_id = $request->sid;
+        $childmenu = child_menu::find($childmenu_id);
+        $path = 'img/childmenu_img/';
+        $file_name = $childmenu->upload;
+
+        $validator = Validator::make($request->all(), [
+            'menu_id' => 'required',
+            'childmenu_name' => 'required|string|max:255|unique:child_menus,childmenu_name,' . $childmenu_id,
+            'submenu_id' => 'required',
+            'child_menu_desc' => 'string',
+            'upload' => 'file|mimes:pdf,jpeg,png,jpg,gif|max:5120', // Adjust the allowed file types and size as needed
+            'child_menu_status' => 'required',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+
+            if ($request->hasFile('upload')) {
+                $file_path = $path . $childmenu->upload;
+                if ($childmenu->upload != null && \Storage::disk('public')->exists($file_path)) {
+                    \Storage::disk('public')->delete($file_path);
+                }
+                $file = $request->file('upload');
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
+                //$upload = $file->storeAs($path, $file_name);
+                $upload = $file->storeAs($path, $file_name, 'public');
+            }
+
+
+            $childmenu->childmenu_name = $request->input('childmenu_name');
+            $childmenu->childmenu_slug = Str::slug($request->input('childmenu_name'));
+            $childmenu->child_menu_desc = $request->input('child_menu_desc');
+            $childmenu->child_menu_status = $request->input('child_menu_status');
+            $childmenu->upload = $file_name;
+            $query = $childmenu->save();
+
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => 'Child Menu has been successfully saved', 'redirect' => 'admin/child-menu-list']);
+            }
+        }
+    }
+
+    public function deleteChildMenu(Request $request)
+    {
+        $childmenu_id = $request->childmenu_id;
+        $query = child_menu::find($childmenu_id);
+
+        $path = 'img/childmenu_img/';
+        $img_path = $path . $query->upload;
+        if ($query->upload != null && \Storage::disk('public')->exists($img_path)) {
+            \Storage::disk('public')->delete($img_path);
+        }
+        $query1 = $query->delete();
+
+        // ->delete()
+
+        if ($query1) {
+            return response()->json(['code' => 1, 'msg' => 'Child Menu has been deleted from database', 'redirect' => 'admin/child-menu-list']);
         } else {
             return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
         }

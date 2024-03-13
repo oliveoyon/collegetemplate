@@ -25,6 +25,7 @@ Route::get('/symlink', function () {
 });
 // Move the catch-all route to the end
 Route::get('/{slug}', [WebController::class, 'menudesc'])->name('menudesc');
+Route::get('/{slug}/{childslug}', [WebController::class, 'submenudesc'])->name('submenudesc');
 
 
 
@@ -87,6 +88,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('getSubMenuDetails', [MenuController::class, 'getSubMenuDetails'])->name('getSubMenuDetails');
         Route::post('updateSubMenuDetails', [MenuController::class, 'updateSubMenuDetails'])->name('updateSubMenuDetails');
         Route::post('deleteSubMenu', [MenuController::class, 'deleteSubMenu'])->name('deleteSubMenu');
+
+        //Child Menu Management
+        Route::get('child-menu-list', [MenuController::class, 'childmenulist'])->name('childmenu-list');
+        Route::post('addChildMenu', [MenuController::class, 'addChildMenu'])->name('addChildMenu');
+        Route::post('getChildMenuDetails', [MenuController::class, 'getChildMenuDetails'])->name('getChildMenuDetails');
+        Route::post('updateChildMenuDetails', [MenuController::class, 'updateChildMenuDetails'])->name('updateChildMenuDetails');
+        Route::post('deleteChildMenu', [MenuController::class, 'deleteChildMenu'])->name('deleteChildMenu');
+        Route::post('/getSubmenuByMenu', [MenuController::class, 'getSubmenuByMenu'])->name('getSubmenuByMenu');
+
 
         //Notice Management
         Route::get('notice-list', [MenuController::class, 'noticelist'])->name('notice-list');

@@ -200,63 +200,46 @@
         </div>
 
         <nav id="navbar" class="navbar">
-            <ul>
-                <li><a class="active" href="{{ route('index') }}">হোম</a></li>
-                @foreach ($provider_menusWithSubMenus as $menu)
-                @if ($menu->is_home == 0)
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}"
-                            role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ $menu->menu_name }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-start"
-                            aria-labelledby="navbarDropdown{{ $menu->id }}">
-                            @foreach ($menu->subMenus as $subMenu)
-                                <li><a class="dropdown-item"
-                                        href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                @endif
-                @endforeach
-                <li><a class="" href="{{ route('contact') }}">যোগাযোগ</a></li>
+    <ul>
+        <li><a class="active" href="{{ route('index') }}">হোম</a></li>
+        @foreach ($provider_menusWithSubMenus as $menu)
+            @if ($menu->is_home == 0)
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="aboutUsDropdown" role="button" data-bs-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        Departmant
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}"
+                        role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ $menu->menu_name }}
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="aboutUsDropdown">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="ourTeamDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Social Science
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="ourTeamDropdown">
-                                <li><a class="dropdown-item" href="">Bangla</a></li>
-                                <li><a class="dropdown-item" href="">History</a></li>
-                                <li><a class="dropdown-item" href="">Economics</a></li>
-                                <!-- Add more child items as needed -->
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="ourTeamDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Schience
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="ourTeamDropdown">
-                                <li><a class="dropdown-item" href="">Physics</a></li>
-                                <li><a class="dropdown-item" href="">Chemistry</a></li>
-                                <li><a class="dropdown-item" href="">Math</a></li>
-                                <!-- Add more child items as needed -->
-                            </ul>
-                        </li>
+                    <ul class="dropdown-menu dropdown-menu-start"
+                        aria-labelledby="navbarDropdown{{ $menu->id }}">
+                        @foreach ($menu->subMenus as $subMenu)
+                            @if($subMenu->childMenus->isNotEmpty())
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="" 
+                                        role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ $subMenu->submenu_name }}
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="submenuDropdown{{ $subMenu->id }}">
+                                        @foreach ($subMenu->childMenus as $childMenu)
+                                            <li><a class="dropdown-item" href="{{$subMenu->submenu_slug.'/'.$childMenu->child_menu_slug}}">{{ $childMenu->childmenu_name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @else
+                                <li><a class="dropdown-item"
+                                    href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
                 </li>
+            @endif
+        @endforeach
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+</nav>
 
-            </ul>
-            <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
+
+<!-- .navbar -->
 
 
     </div>
