@@ -235,6 +235,7 @@
                 </li>
             @endif
         @endforeach
+        <li><a class="active" href="{{ route('contact') }}">যোগাযোগ</a></li>
     </ul>
     <i class="bi bi-list mobile-nav-toggle"></i>
 </nav>

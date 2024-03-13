@@ -773,7 +773,7 @@ class MenuController extends Controller
                     \Storage::disk('public')->delete($file_path);
                 }
                 $file = $request->file('logo');
-                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
+                $file_name = time() . '.' . $request->file('logo')->getClientOriginalExtension();
                 $file->storeAs($path, $file_name, 'public');
             }
 
