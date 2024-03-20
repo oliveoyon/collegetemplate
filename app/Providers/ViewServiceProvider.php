@@ -32,8 +32,6 @@ class ViewServiceProvider extends ServiceProvider
                     $query->where('child_menu_status', 1); // Filter child_menus by child_menu_status
                 },
             ])->where('menu_status', 1)->get();
-            
-            
 
             $send['important_links'] = DB::table('important_links')->select('link_name', 'link')->get();
 

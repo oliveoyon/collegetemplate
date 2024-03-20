@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('submenu_name');
             $table->string('submenu_slug')->unique();
             $table->text('submenu_desc')->nullable();
+            $table->integer('dept_id')->default(0);
             $table->integer('submenu_status');
             $table->timestamps();
         });

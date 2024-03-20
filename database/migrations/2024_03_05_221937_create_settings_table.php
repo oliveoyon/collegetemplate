@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('key')->unique();
             $table->text('value');
             $table->string('name')->nullable();
+            $table->integer('dept_id')->default(0);
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('menu_name');
             $table->string('menu_slug')->unique();
             $table->integer('menu_status');
+            $table->integer('dept_id')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

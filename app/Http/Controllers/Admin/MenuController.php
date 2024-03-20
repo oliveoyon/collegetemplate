@@ -753,7 +753,7 @@ class MenuController extends Controller
         $wsid = $request->input('wsid');
         $ws = WebSetting::find($wsid);
         $path = 'img/logo/';
-        $file_name = $ws->upload;
+        $file_name = $ws->logo;
 
         $validator = Validator::make($request->all(), [
             'school_title' => 'required|string|max:255|unique:web_settings,school_title,' . $wsid,

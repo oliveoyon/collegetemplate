@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('link_name');
             $table->string('link');
+            $table->integer('dept_id')->default(0);
             $table->timestamps();
         });
     }

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('logo');
             $table->string('phone1');
             $table->string('phone2')->nullable();
-            $table->string('fax')->nullable();
+            $table->text('fax')->nullable();
             $table->string('email');
-            $table->string('address_one');
-            $table->string('address_two')->nullable();
+            $table->text('address_one');
+            $table->text('address_two')->nullable();
             $table->string('eiin')->nullable();
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
