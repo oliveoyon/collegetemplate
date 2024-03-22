@@ -22,8 +22,8 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (request()->routeIs('guest.*') or request()->routeIs('admin.*')) {
-        } else {
+        View::composer('*', function ($view) {
+
             $send['provider_menusWithSubMenus'] = Menu::with([
                 'subMenus' => function ($query) {
                     $query->where('submenu_status', 1); // Filter submenus by submenu_status
@@ -43,14 +43,14 @@ class ViewServiceProvider extends ServiceProvider
 
             $send['provider_ntcs'] = DB::table('events')
                 ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
-                ->select('events.event_title','events.event_type_id', 'events.url', 'events.start_date', 'event_types.type_name', 'events.created_at', 'events.upload')
-                ->where(['events.event_status' => 1])
-                // ->where('events.end_date', '>=', now())
+                ->select('events.event_title', 'events.event_type_id', 'events.url', 'events.start_date', 'events.end_date', 'event_types.type_name', 'events.created_at', 'events.upload')
+                ->where('events.event_status', 1)
                 ->orderByDesc('events.end_date')
                 ->get();
 
 
-            View::share($send);
-        }
+
+            $view->with($send);
+        });
     }
 }

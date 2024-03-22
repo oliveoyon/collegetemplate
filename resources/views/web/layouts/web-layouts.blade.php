@@ -1,5 +1,3 @@
-<!-- href="{{ asset('web/css/custom.css') }}" -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,67 +91,75 @@
 </section>
 
 <style>
-.website-section {
-    padding: 40px 0;
-    background-color: #ffffff;
-    /* background: linear-gradient(to right, #dcdcdc, #ffffff); */
-}
-
-.text-primary {
-    color: #007bff; /* Primary color for the school title */
-}
-
-.text-dark {
-    color: #343a40; /* Dark color for the text */
-}
-
-.col-lg-3 img,
-.col-lg-6,
-.col-lg-3 img {
-    margin: 0; /* Center the content horizontally */
-    padding: 0;
-}
-
-.col-lg-6 h1 {
-    font-size: 35px; /* Adjust the font size as needed */
-    color: #4150f1;
-    /* font-weight: bold; */
-    text-transform: uppercase;
-    text-shadow: 1px 1px 0 #000;
-    text-align: center;
-}
-
-.col-lg-6 p {
-    font-size: 20px; /* Adjust the font size as needed */
-    margin: 0;
-    font-weight: bold;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .col-lg-3,
-    .col-lg-6 {
-        margin-bottom: 20px; /* Add some space between columns on smaller screens */
+    .website-section {
+        padding: 40px 0;
+        background-color: #ffffff;
+        /* background: linear-gradient(to right, #dcdcdc, #ffffff); */
     }
 
-    .col-lg-3,
+    .text-primary {
+        color: #007bff;
+        /* Primary color for the school title */
+    }
+
+    .text-dark {
+        color: #343a40;
+        /* Dark color for the text */
+    }
+
+    .col-lg-3 img,
     .col-lg-6,
     .col-lg-3 img {
-        width: 100%; /* Make columns and images full width on smaller screens */
-        margin: 0; /* Remove margin for images */
+        margin: 0;
+        /* Center the content horizontally */
+        padding: 0;
     }
 
     .col-lg-6 h1 {
-        font-size: 25px; /* Adjust the font size for mobile */
+        font-size: 35px;
+        /* Adjust the font size as needed */
+        color: #4150f1;
+        /* font-weight: bold; */
+        text-transform: uppercase;
+        text-shadow: 1px 1px 0 #000;
+        text-align: center;
     }
 
     .col-lg-6 p {
-        font-size: 16px; /* Adjust the font size for mobile */
+        font-size: 20px;
+        /* Adjust the font size as needed */
+        margin: 0;
+        font-weight: bold;
     }
-}
 
+    /* Responsive Styles */
+    @media (max-width: 768px) {
 
+        .col-lg-3,
+        .col-lg-6 {
+            margin-bottom: 20px;
+            /* Add some space between columns on smaller screens */
+        }
 
+        .col-lg-3,
+        .col-lg-6,
+        .col-lg-3 img {
+            width: 100%;
+            /* Make columns and images full width on smaller screens */
+            margin: 0;
+            /* Remove margin for images */
+        }
+
+        .col-lg-6 h1 {
+            font-size: 25px;
+            /* Adjust the font size for mobile */
+        }
+
+        .col-lg-6 p {
+            font-size: 16px;
+            /* Adjust the font size for mobile */
+        }
+    }
 </style>
 
 {{-- <section class="gradient-section" style="padding: 30px 0; background-color:red;">
@@ -168,11 +174,11 @@
         <div class="row align-items-center">
             <div class="col-lg-3 d-none d-md-block">
                 <!-- Left logo (hidden on mobile and tablet) -->
-                <img height="100" src="{{ asset('storage/img/logo/'.$webs->logo) }}" alt="Left Logo">
+                <img height="100" src="{{ asset('storage/img/logo/' . $webs->logo) }}" alt="Left Logo">
             </div>
             <div class="col-lg-6 text-center">
                 <!-- School information -->
-                <h1 class="mb-4">{{$webs->school_title}}</h1>
+                <h1 class="mb-4">{{ $webs->school_title }}</h1>
                 <p class="text-dark">{{ $webs->address_one }} <br>
                     {{ $webs->address_two }}</p>
             </div>
@@ -196,52 +202,58 @@
             {{-- <h1 class="text-light"><a href="index.html">FCC</a></h1> --}}
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-            <a href="{{ route('index') }}"><img style="padding:5px 0; height:40px; width: 30px;" src="{{ asset('web/assets/img/home.png') }}" alt="" class="img-fluid"></a>
+            <a href="{{ route('index') }}"><img style="padding:5px 0; height:40px; width: 30px;"
+                    src="{{ asset('web/assets/img/home.png') }}" alt="" class="img-fluid"></a>
         </div>
 
         <nav id="navbar" class="navbar">
-    <ul>
-        <li><a class="active" href="{{ route('index') }}">হোম</a></li>
-        @foreach ($provider_menusWithSubMenus as $menu)
-            @if ($menu->is_home == 0)
-                <li class="nav-item dropdown">
+            <ul>
+                <li><a class="active" href="{{ route('index') }}">হোম</a></li>
+                @foreach ($provider_menusWithSubMenus as $menu)
+    @if ($menu->is_home == 0)
+        <li class="nav-item">
+            @if ($menu->subMenus->isNotEmpty())
+                <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}"
                         role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ $menu->menu_name }}
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-start"
-                        aria-labelledby="navbarDropdown{{ $menu->id }}">
+                    <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown{{ $menu->id }}">
                         @foreach ($menu->subMenus as $subMenu)
                             @if($subMenu->childMenus->isNotEmpty())
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#"
-                                        role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <li class="dropdown-item dropdown">
+                                    <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{ $subMenu->submenu_name }}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="submenuDropdown{{ $subMenu->id }}">
                                         @foreach ($subMenu->childMenus as $childMenu)
-                                            <li><a class="dropdown-item" href="{{ route('submenudesc', ['childSlug' => $childMenu->child_menu_slug]) }}
-                                                ">{{ $childMenu->childmenu_name }}</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('submenudesc', ['childSlug' => $childMenu->child_menu_slug]) }}">{{ $childMenu->childmenu_name }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
                             @else
-                                <li><a class="dropdown-item"
-                                    href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
-                                </li>
+                                <li><a class="dropdown-item" href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a></li>
                             @endif
                         @endforeach
                     </ul>
-                </li>
+                </div>
+            @else
+                <a class="nav-link" href="{{ route('menudesc', ['slug' => $menu->menu_slug]) }}">{{ $menu->menu_name }}</a>
             @endif
-        @endforeach
-        <li><a class="active" href="{{ route('contact') }}">যোগাযোগ</a></li>
-    </ul>
-    <i class="bi bi-list mobile-nav-toggle"></i>
-</nav>
+        </li>
+    @endif
+@endforeach
 
 
-<!-- .navbar -->
+
+
+                <li><a class="active" href="{{ route('contact') }}">যোগাযোগ</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+
+
+        <!-- .navbar -->
 
 
     </div>
@@ -316,7 +328,8 @@
             </div>
         </div>
         <div class="social-links text-center text-md-right pt-3 pt-md-0">
-            <a href="{{ $webs->facebook }}" target="_blank" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="{{ $webs->facebook }}" target="_blank" class="facebook"><i
+                    class="bx bxl-facebook"></i></a>
             <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
             <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
             <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
@@ -343,7 +356,10 @@
 <script src="{{ asset('web/assets/js/main.js') }}"></script>
 
 <?php
-    if (isset($eventsJson)){}else{$eventsJson = '';}
+if (isset($eventsJson)) {
+} else {
+    $eventsJson = '';
+}
 ?>
 <script>
     $(document).ready(function() {

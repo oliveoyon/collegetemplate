@@ -51,8 +51,9 @@
             <div class="row">
                 <div class="col-lg-12 text-center text-lg-left">
                     <h3 class="mb-4"><span>কলেজের ইতিহাস</span></h3>
+                    @if($histories)
                     <p>{!! $histories->history !!}</p>
-
+                    @endif
                     {{-- <a class="cta-btn align-middle mt-4" href="#">আরও পড়ুন</a> --}}
                 </div>
 
@@ -64,6 +65,7 @@
 
     <section class="principal-message-section">
         <div class="container principal-container">
+            @if($messages)
             <div class="row">
                 <div class="col-md-4 text-center mb-4 mb-md-0">
                     <div class="image-container" data-aos="fade-right">
@@ -78,6 +80,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </section>
 
@@ -90,6 +93,10 @@
                 <p>সকল নোটিশ, ইভেন্ট, সেমিনার, ওয়ার্কশপ ও অন্যান্য তথ্য</p>
                 <hr>
             </div>
+
+            @if (isset($provider_ntcs))
+
+
 
             <div class="row">
                 <div class="col-lg-4 mb-5 mb-lg-0" data-aos="fade-right" style="border-right: 1px solid rgb(189, 189, 189)">
@@ -149,6 +156,8 @@
                 </div>
             </div>
 
+            @endif
+
 
         </div>
     </section><!-- End Features Section -->
@@ -156,6 +165,9 @@
 
     <section class="menu-section">
         <div class="container">
+            @isset($provider_menusWithSubMenus)
+
+
             <div class="row">
                 @foreach ($provider_menusWithSubMenus as $menu)
                 @if ($menu->is_home == 1)
@@ -186,6 +198,7 @@
 
 
             </div>
+            @endisset
 
 
         </div>
@@ -323,7 +336,7 @@
                 </div>
                 <div class="col-md-3">
                     <h3 class="mb-4"><strong>গুরুত্বপূর্ণ লিঙ্ক</strong></h3>
-
+                    @isset($important_links)
                     <div class="card important-links-card">
                         <div class="card-body">
                             <ul class="menus">
@@ -335,6 +348,9 @@
                             </ul>
                         </div>
                     </div>
+                    @endisset
+
+
                 </div>
             </div>
         </div>

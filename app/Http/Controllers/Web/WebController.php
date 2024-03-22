@@ -14,6 +14,15 @@ class WebController extends Controller
 {
     public function index()
     {
+        $send['provider_ntcs'] = DB::table('events')
+                ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
+                ->select('events.event_title','events.event_type_id', 'events.url', 'events.start_date', 'event_types.type_name', 'events.created_at', 'events.upload')
+                ->where(['events.event_status' => 1])
+                // ->where('events.end_date', '>=', now())
+                ->orderByDesc('events.end_date')
+                ->get();
+
+
         $send['histories'] = DB::table('histories')->first();
         $send['messages'] = DB::table('messages')->orderByDesc('created_at')->first();
         $send['uploads'] = DB::table('uploads')->where(['status' => 1])
@@ -52,8 +61,6 @@ class WebController extends Controller
         ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
         ->where(['events.event_status' => 1, 'events.url' => $slug])
         ->first();
-
-
         return view('web.notice_detail', $send);
     }
 
@@ -63,8 +70,10 @@ class WebController extends Controller
             ->select('submenu_name', 'submenu_slug', 'submenu_desc', 'upload')
             ->where(['submenu_status' => 1, 'submenu_slug' => $slug])
             ->first();
+
         return view('web.menudesc', $send);
     }
+
 
     public function submenudesc($submenu_slug=null)
     {

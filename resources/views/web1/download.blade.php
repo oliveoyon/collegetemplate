@@ -2,63 +2,99 @@
 
 @section('webcontent')
 
-    <!-- Content Row for 8-4 column content -->
-    <div class="mt-4">
-      <div class="row">
-          <!-- 8-column content -->
-            <div class="col-md-9">
-                <div class="message-box">
-                    <div class="msg-header">
-                        <p>ডাউনলোড</p>
-                    </div>
-                    <div class="card-body" style="background-color: white;">
-                        <!-- Notice List -->
-                        <h2 class="notice_title">{{ $upload->title }}</h2>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <small class="notice-date">
-                                    <i class="far fa-calendar-alt calendar-icon"></i> {{ date('F j, Y', strtotime($upload->created_at)) }}
-                                </small>
-                            </div>
-                            <div>
-                                <a href="{{ asset('storage/img/upload/' . $upload->upload) }}" class="btn btn-success btn-sm">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
+
+    <!-- ======= Blog Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+
+          <div class="col-lg-8 entries">
+
+            <article class="entry">
+                @if ($upload->upload)
+                    @if (pathinfo($upload->upload, PATHINFO_EXTENSION) === 'pdf')
+                        <object data="{{ asset('storage/img/upload/' . $upload->upload) }}" type="application/pdf" width="100%" height="800">
+                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/submenu_img/' . $upload->upload) }}">Download</a> instead.</p>
+                        </object>
+                    @else
+                        <div class="entry-img">
+                            <img src="{{ asset('storage/img/upload/' . $upload->upload) }}" alt="" class="img-fluid">
                         </div>
-                        
-                        
-                        <p class="mt-4 mb-4">{!! $upload->description !!}</p>
-                        
-                        @if ($upload->upload)
-                            @if (pathinfo($upload->upload, PATHINFO_EXTENSION) === 'pdf')
-                                <object data="{{ asset('storage/img/upload/' . $upload->upload) }}" type="application/pdf" width="100%" height="800">
-                                    <p>Unable to display PDF file. <a href="{{ asset('storage/img/upload/' . $upload->upload) }}">Download</a> instead.</p>
-                                </object>
+                    @endif
+                @endif
+
+                <h2 class="entry-title">
+                    <a href="blog-single.html">{{ $upload->title }}</a>
+                  </h2>
+
+                  <div class="entry-meta">
+                    <ul>
+
+                      <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href=""><time>{{ \Carbon\Carbon::parse($upload->created_at)->format('F j, Y') }}
+                    </time></a></li>
+                    </ul>
+                  </div>
+
+
+
+              <div class="entry-content mt-5">
+                <p>
+                    {!! $upload->description !!}
+                </p>
+
+              </div>
+
+            </article><!-- End blog entry -->
+
+
+
+          </div><!-- End blog entries list -->
+
+          <div class="col-lg-4">
+
+            <div class="sidebar">
+              <h3 class="sidebar-title">অন্যান্য নোটিশ</h3>
+              <div class="sidebar-item recent-posts">
+
+                @php $count = 0; @endphp
+
+                @foreach ($provider_ntcs as $ntcs)
+                        @if ($count < 10)
+                            <div class="post-item clearfix">
+                                @if ($ntcs->upload)
+                                    @if (pathinfo($ntcs->upload, PATHINFO_EXTENSION) === 'pdf')
+                                    <img src="{{ asset('web/assets/img/pdf.png') }}" alt="" class="img-fluid">
+                                    @else
+                                        <div class="entry-img">
+                                            <img src="{{ asset('storage/img/events/' . $ntcs->upload) }}" alt="" class="img-fluid">
+                                        </div>
+                                    @endif
+                                @else
+                                <img src="{{ asset('web/assets/img/noimg.png') }}" alt="" class="img-fluid">
+                                @endif
+                                <h4><a href="{{ url('notice/'.$ntcs->url) }}">{{ $ntcs->event_title }}</a></h4>
+                                <time>{{ date('F j, Y', strtotime($ntcs->created_at)) }}</time>
+                            </div>
+                            @php $count++; @endphp
                             @else
-                                <img class="img-thumbnail mt-2" src="{{ asset('storage/img/upload/' . $upload->upload) }}" alt="Image" style="max-width: 100%; height: auto;">
-                            @endif
+                            @break
                         @endif
-                        
-                    </div>
-                </div>
-            </div>
-          
-        <!-- Right Side Bar -->
-        <div class="col-md-3">
-            @include('web.layouts.rightbar')
+                @endforeach
+
+
+
+              </div><!-- End sidebar recent posts-->
+
+
+
+            </div><!-- End sidebar -->
+
+          </div><!-- End blog sidebar -->
+
         </div>
-        {{-- End Right Side bar --}}
-          
-          
-          
-    </div>
 
+      </div>
+    </section><!-- End Blog Section -->
 
-      
-  </div>
-  
-@endsection
-
-
-
+    @endsection

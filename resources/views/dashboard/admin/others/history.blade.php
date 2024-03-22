@@ -39,25 +39,25 @@
                           <i class="fas fa-chalkboard-teacher mr-1"></i>
                           প্রতিষ্ঠানের ইতিহাস
                         </h3>
-                        
+
                       </div>
                       <form action="{{ route('admin.updatehistory') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="add-notice-form">
                         @csrf
-                        
+
                         <input type="hidden" name="history_id" value="{{ $history->id }}">
                         <div class="form-group">
                             <textarea name="history" class="summernote" id="history" required>{{ $history->history }}</textarea>
                             <span class="text-danger error-text history_error"></span>
                         </div>
-            
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-block btn-success">আপডেট করুন</button>
                         </div>
                     </form>
-                      
+
                   </div>
             </div>
-            
+
         </div>
 
 
@@ -70,7 +70,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  
+
 @endsection
 
 
@@ -87,10 +87,10 @@
 <script>
   new DataTable('#menu-table');
 </script>
-    
 
 
 
-    
+
+
 @endpush
 

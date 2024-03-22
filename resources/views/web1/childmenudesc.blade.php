@@ -14,17 +14,17 @@
             <article class="entry">
 
                 <h2 class="entry-title">
-                    <a href="">{{ $menudesc->submenu_name }}</a>
+                    <a href=""></a>
                   </h2>
 
-                @if ($menudesc->upload)
-                    @if (pathinfo($menudesc->upload, PATHINFO_EXTENSION) === 'pdf')
-                        <object data="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" type="application/pdf" width="100%" height="800">
-                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}">Download</a> instead.</p>
+                @if ($childmenudesc->upload)
+                    @if (pathinfo($childmenudesc->upload, PATHINFO_EXTENSION) === 'pdf')
+                        <object data="{{ asset('storage/img/childmenu_img/' . $childmenudesc->upload) }}" type="application/pdf" width="100%" height="800">
+                            <p>Unable to display PDF file. <a href="{{ asset('storage/img/childmenu_img/' . $childmenudesc->upload) }}">Download</a> instead.</p>
                         </object>
                     @else
                         <div class="entry-img">
-                            <img src="{{ asset('storage/img/submenu_img/' . $menudesc->upload) }}" alt="" class="img-fluid">
+                            <img src="{{ asset('storage/img/childmenu_img/' . $childmenudesc->upload) }}" alt="" class="img-fluid">
                         </div>
                     @endif
                 @endif
@@ -33,7 +33,7 @@
 
               <div class="entry-content mt-5">
                 <p>
-                    {!! $menudesc->submenu_desc !!}
+                    {!! $childmenudesc->child_menu_desc !!}
                 </p>
 
               </div>

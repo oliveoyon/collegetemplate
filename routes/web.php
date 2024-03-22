@@ -10,6 +10,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/migrate-and-seed', function () {
+    // Roll back migrations
+    Artisan::call('migrate:reset');
+
+    // Run migration
+    Artisan::call('migrate');
+
+    // Run DatabaseSeeder seeder
+    Artisan::call('db:seed --class=DatabaseSeeder');
+
+    return 'Database migrated and seeded successfully.';
+});
+
+Route::get('/symlink', function () {
+    Artisan::call('storage:link');
+});
+
 Route::get('/', [WebController::class, 'index'])->name('index');
 Route::get('notice-board/{cat}', [WebController::class, 'allnotice'])->name('allnotice');
 Route::get('contact', [WebController::class, 'contact'])->name('contact');
@@ -20,10 +37,9 @@ Route::get('message/{slug}', [WebController::class, 'message'])->name('message')
 Route::get('download/{slug}', [WebController::class, 'download'])->name('download');
 Route::get('mujib-corner', [WebController::class, 'mujib_corner'])->name('mujib-corner');
 Route::get('mujib-corner-detail/{slug}', [WebController::class, 'mujib_detail'])->name('mujib_detail');
-Route::get('/symlink', function () {
-    Artisan::call('storage:link');
-});
+
 // Move the catch-all route to the end
+
 Route::get('/{slug}', [WebController::class, 'menudesc'])->name('menudesc');
 Route::get('/child-menu/{childSlug}', [WebController::class, 'submenudesc'])->name('submenudesc');
 

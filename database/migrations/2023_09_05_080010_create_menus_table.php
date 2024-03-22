@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('menu_name');
             $table->string('menu_slug')->unique();
+            $table->string('upload')->nullable();
             $table->integer('menu_status');
+            $table->integer('is_home');
             $table->integer('dept_id')->default(0);
-            $table->rememberToken();
             $table->timestamps();
         });
     }

@@ -54,7 +54,7 @@ class MenuController extends Controller
 
             $menu = new Menu();
             $menu->menu_name = $request->input('menu_name');
-            $menu->slug = Str::slug($request->input('menu_name'));
+            $menu->menu_slug = Str::slug($request->input('menu_name'));
             $menu->menu_status = $request->input('menu_status');
             $menu->is_home = $request->input('is_home') ? 1 : 0;
             $menu->upload = $file_name;

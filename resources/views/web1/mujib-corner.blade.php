@@ -2,33 +2,35 @@
 
 @section('webcontent')
 
-    <!-- Content Row for 8-4 column content -->
-    <div class="mt-4">
+<!-- ======= Our Team Section ======= -->
+<section id="team" class="team section-bg">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2><strong>মুজিব কর্ণার</strong></h2>
+        <p>বঙ্গবন্ধু শেখ মুজিবুর রহমান স্বপ্ন দেখতে ভালোবাসতেন।</p>
+      </div>
+
       <div class="row">
-          <!-- 8-column content -->
-            <div class="col-md-9">
-                <div class="row">
-                    @foreach ($mujibs as $mujib)
-                    <div class="col-md-4">
-                        <div class="image-box">
-                            <img class="hover-zoom" src="{{ asset('storage/img/mujib/'.$mujib->upload) }}" alt="{{ $mujib->title }}">
-                            <h4><a href="{{ url('mujib-corner-detail/'.$mujib->url) }}" class="title-link">{{ $mujib->title }}</a></h4>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
+
+        @foreach ($mujibs as $mujib)
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member" data-aos="fade-up">
+              <div class="member-img">
+                <img src="{{ asset('storage/img/mujib/' . $mujib->upload) }}" class="img-fluid" alt="">
+
+              </div>
+              <div class="member-info">
+                <h4><a href="{{ url('mujib-corner-detail/'.$mujib->url) }}">{{ $mujib->title }}</a></h4>
+              </div>
             </div>
-            <!-- Right Side Bar -->
-            <div class="col-md-3">
-                @include('web.layouts.rightbar')
-            </div>
-            
-            {{-- End Right Side bar --}}
-          
+          </div>
+        @endforeach
+
+      </div>
+
     </div>
-  </div>
-  
+  </section><!-- End Our Team Section -->
+
+
 @endsection
-
-
-
