@@ -64,24 +64,40 @@ class WebController extends Controller
         return view('web.notice_detail', $send);
     }
 
-    public function menudesc($slug=null)
+    public function menudesc($menu=null, $submenu=null, $childmenu=null)
     {
-        $send['menudesc'] = DB::table('sub_menus')
-            ->select('submenu_name', 'submenu_slug', 'submenu_desc', 'upload')
-            ->where(['submenu_status' => 1, 'submenu_slug' => $slug])
-            ->first();
 
-        return view('web.menudesc', $send);
-    }
+        if ($menu && $submenu && $childmenu) {
 
-
-    public function submenudesc($submenu_slug=null)
-    {
-        $send['childmenudesc'] = DB::table('child_menus')
+            $send['childmenudesc'] = DB::table('child_menus')
             ->select('childmenu_name', 'child_menu_slug', 'child_menu_desc', 'upload')
-            ->where(['child_menu_status' => 1, 'child_menu_slug' => $submenu_slug])
+            ->where(['child_menu_status' => 1, 'child_menu_slug' => $childmenu])
             ->first();
-        return view('web.childmenudesc', $send);
+            return view('web.childmenudesc', $send);
+
+        } elseif ($menu && $submenu) {
+
+            $send['submenudesc'] = DB::table('sub_menus')
+            ->select('submenu_name', 'submenu_slug', 'submenu_desc', 'upload')
+            ->where(['submenu_status' => 1, 'submenu_slug' => $submenu])
+            ->first();
+
+            return view('web.submenudesc', $send);
+
+        } elseif ($menu) {
+
+            $send['menudesc'] = DB::table('menus')
+            ->select('menu_name', 'menu_slug', 'menu_desc', 'upload')
+            ->where(['menu_status' => 1, 'menu_slug' => $menu])
+            ->first();
+
+            return view('web.menudesc', $send);
+
+        } else {
+            // No parameters provided
+            return abort(404); // or redirect to a default view
+        }
+
     }
 
     public function allnotice($slug = Null)

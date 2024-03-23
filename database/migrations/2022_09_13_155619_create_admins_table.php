@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('admin_hash_id', 100)->unique();
-            $table->integer('school_id')->unique();
+            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

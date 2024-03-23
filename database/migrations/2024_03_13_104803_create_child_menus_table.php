@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('child_menu_desc')->nullable();
             $table->string('upload');
             $table->integer('child_menu_status');
-            $table->integer('dept_id')->default(0);
+            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

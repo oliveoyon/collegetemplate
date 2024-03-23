@@ -40,9 +40,9 @@
                           <i class="fas fa-chalkboard-teacher mr-1"></i>
                           ওয়েব সেটিংস
                         </h3>
-                        
+
                       </div>
-                      
+
                       <div class="card-body">
                         <form action="{{ route('admin.updatewebsettings') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off">
                             @csrf
@@ -54,84 +54,93 @@
                                         <input type="text" class="form-control" id="school_title" name="school_title" value="{{ $data->school_title }}" required>
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="phone1">ফোন-১</label>
                                         <input type="text" class="form-control" id="phone1" name="phone1" value="{{ $data->phone1 }}" required>
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="phone2">ফোন-২</label>
                                         <input type="text" class="form-control" id="phone2" name="phone2" value="{{ $data->phone2 }}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="fax">গুগল ম্যাপ</label>
+                                        <label for="fax">ফ্যাক্স</label>
                                         <input type="text" class="form-control" id="fax" name="fax" value="{{ $data->fax }}">
                                     </div>
                                 </div>
-                        
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="fax">গুগল ম্যাপ</label>
+                                        <input type="text" class="form-control" id="map" name="map" value="{{ $data->map }}">
+                                        <span><a target="_blank" href="https://www.maps.ie/create-google-map/">Create Map</a></span>
+
+                                    </div>
+                                </div>
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="email">ইমেইল</label>
                                         <input type="email" class="form-control" id="email" name="email" value="{{ $data->email }}" required>
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="address_one">ঠিকানা-১</label>
                                         <input type="text" class="form-control" id="address_one" name="address_one" value="{{ $data->address_one }}" required>
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="address_two">ঠিকানা-২</label>
                                         <input type="text" class="form-control" id="address_two" name="address_two" value="{{ $data->address_two }}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="eiin">ইআইআইএন</label>
                                         <input type="text" class="form-control" id="eiin" name="eiin" value="{{ $data->eiin }}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="facebook">ফেইসবুক</label>
                                         <input type="text" class="form-control" id="facebook" name="facebook" value="{{ $data->facebook }}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="twitter">টুইটার</label>
                                         <input type="text" class="form-control" id="twitter" name="twitter" value="{{ $data->twitter }}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="linkedin">লিঙ্কডইন</label>
                                         <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{ $data->linkedin }}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="instagram">ইন্সটাগ্রাম</label>
                                         <input type="text" class="form-control" id="instagram" name="instagram" value="{{ $data->instagram }}">
                                     </div>
                                 </div>
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="logo">লোগো</label>
@@ -141,13 +150,13 @@
                             </div>
                             <button type="submit" class="btn btn-primary">আপডেট করুন</button>
                         </form>
-                        
-                        
+
+
                       </div>
-                    
+
                   </div>
             </div>
-            
+
         </div>
 
 
@@ -162,7 +171,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  
+
 @endsection
 
 

@@ -3,6 +3,8 @@
 @push('admincss')
 <!-- DataTables -->
 <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css">
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.28.11/dist/sweetalert2.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 @endpush
@@ -42,7 +44,7 @@
                         <div class="card-tools">
                           <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
-                                
+
                               <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#addmenus"><i class="fas fa-plus-square mr-1"></i> মেনু যোগ করুন</button>
                             </li>
                           </ul>
@@ -53,6 +55,7 @@
                               <thead class="font-weight-bold bg-info">
                                   <th>#</th>
                                   <th>মেনুর নাম</th>
+                                  <th>বর্ণনা</th>
                                   <th>ছবি</th>
                                   <th>হোমে সংযুক্ত</th>
                                   <th>স্ট্যাটাস</th>
@@ -63,6 +66,7 @@
                                 <tr>
                                   <td>{{ $loop->iteration }}</td>
                                   <td class="font-weight-bold">{{ $menu->menu_name }}</td>
+                                  <td>{{ strip_tags(substr($menu->menu_desc, 0, 500)) }}</td>
                                   <td><img height="50" src="{{ asset('storage/img/menu_img/'.$menu->upload) }}" alt=""></td>
                                   <td class="{{ $menu->is_home == 1 ? 'text-success' : 'text-danger' }} font-weight-bold">
                                     {{ $menu->is_home == 1 ? 'সংযুক্ত' : 'সংযুক্ত নয়' }}
@@ -76,13 +80,13 @@
                                   </td>
                                 </tr>
                                 @endforeach
-                                
+
                               </tbody>
                           </table>
                       </div>
                   </div>
             </div>
-            
+
         </div>
 
 
@@ -99,19 +103,25 @@
         <div class="modal-body">
           <form action="{{ route('admin.addMenu') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="add-menu-form">
             @csrf
-        
+
             <div class="form-group">
                 <label for="menu_name">মেনুর নাম</label>
                 <input type="text" class="form-control" name="menu_name" id="menu_name" placeholder="মেনুর নাম যোগ করুন">
                 <span class="text-danger error-text menu_name_error"></span>
             </div>
-        
+
+            <div class="form-group">
+                <label for="menu_desc">বর্ণনা</label>
+                    <textarea name="menu_desc" class="summernote" id="summernote"></textarea>
+                    <span class="text-danger error-text menu_desc_error"></span>
+              </div>
+
             <div class="form-group">
                 <label for="upload">ছবি আপলোড</label>
                 <input type="file" class="form-control" name="upload" id="upload">
                 <span class="text-danger error-text upload_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="status">স্ট্যাটাস</label>
                 <select class="form-control" name="menu_status" id="menu_status">
@@ -120,31 +130,31 @@
                 </select>
                 <span class="text-danger error-text menu_status_error"></span>
             </div>
-        
+
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="is_home" name="is_home" value="1">
                 <label class="form-check-label" for="is_home">হোমে সংযুক্ত করুন</label>
             </div>
-        
+
             <div class="form-group">
                 <label for="image_preview">Image Preview</label>
                 <div class="img-holder" id="image_preview"></div>
             </div>
-        
+
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-success">যোগ করুন</button>
             </div>
         </form>
 
-        
+
         </div>
-        
+
       </div>
     </div>
   </div>
   {{-- Modal End --}}
 
-  
+
 {{-- Edit Modal --}}
   <div class="modal fade editMenu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -165,13 +175,19 @@
                     <input type="text" class="form-control" name="menu_name" id="menu_name" placeholder="মেনুর নাম যোগ করুন">
                     <span class="text-danger error-text menu_name_error"></span>
                 </div>
-            
+
+                <div class="form-group">
+                    <label for="menu_desc">বর্ণনা</label>
+                        <textarea name="menu_desc" class="summernote" id="summernote"></textarea>
+                        <span class="text-danger error-text menu_desc_error"></span>
+                  </div>
+
                 <div class="form-group">
                     <label for="upload">ছবি আপলোড</label>
                     <input type="file" class="form-control" name="upload" id="upload">
                     <span class="text-danger error-text upload_error"></span>
                 </div>
-            
+
                 <div class="form-group">
                     <label for="status">স্ট্যাটাস</label>
                     <select class="form-control" name="menu_status" id="menu_status">
@@ -180,23 +196,23 @@
                     </select>
                     <span class="text-danger error-text menu_status_error"></span>
                 </div>
-            
+
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="is_home" name="is_home" value="1">
                     <label class="form-check-label" for="is_home">হোমে সংযুক্ত করুন</label>
                 </div>
-            
+
                 <div class="form-group">
                     <label for="image_preview">Image Preview</label>
                     <div class="img-holder" id="image_preview"></div>
                 </div>
-            
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-success">আপডেট করুন</button>
                 </div>
             </form>
-                
-  
+
+
             </div>
         </div>
     </div>
@@ -215,7 +231,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  
+
 @endsection
 
 
@@ -228,11 +244,12 @@
 
 <!-- Toastr -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
 
 <script>
   new DataTable('#menu-table');
 </script>
-    
+
 
 
 <script>
@@ -262,7 +279,7 @@ $.ajaxSetup({
         }
     }
 
-    
+
       $('#add-menu-form').on('submit', function(e){
         e.preventDefault();
         var form = this;
@@ -298,7 +315,7 @@ $.ajaxSetup({
 
     $(document).on('click','#editMenuBtn', function(){
       var menu_id = $(this).data('id');
-      
+
       $('.editMenu').find('form')[0].reset();
       $('.editMenu').find('span.error-text').text('');
       $.post("{{ route('admin.getMenuDetails') }}",{menu_id:menu_id}, function(data){
@@ -306,13 +323,14 @@ $.ajaxSetup({
           var menuModal = $('.editMenu');
           $('.editMenu').find('input[name="mid"]').val(data.details.id);
           $('.editMenu').find('input[name="menu_name"]').val(data.details.menu_name);
+          $('#summernote').summernote('code', data.details.menu_desc);
           $('.editMenu').find('select[name="menu_status"]').val(data.details.menu_status);
           var isHomeValue = data.details.is_home;
           isHomeValue = (isHomeValue === 1); // Convert 1 to true, 0 to false
           $('.form-check-input').prop('checked', isHomeValue);
           if (data.details.upload !== '') {
             $('.editMenu').find('form').find('.img-holder').html('<img src="/storage/img/menu_img/'+data.details.upload+'" class="img-fluid" style="max-width:100px;margin-bottom:10px;">');
-          } 
+          }
           $('.editMenu').modal('show');
       },'json');
     });
@@ -341,11 +359,11 @@ $.ajaxSetup({
                     $('.editMenu').modal('hide');
                     $('.editMenu').find('form')[0].reset();
                     toastr.success(data.msg);
-                    
+
                     setTimeout(function() {
                         window.location.href = redirectUrl;
                     }, 2000); // Adjust the delay as needed (in milliseconds)
-                    
+
                 }
           }
       });
@@ -389,6 +407,6 @@ $.ajaxSetup({
 </script>
 
 
-    
+
 @endpush
 

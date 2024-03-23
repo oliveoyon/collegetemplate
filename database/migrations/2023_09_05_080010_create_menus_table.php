@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('menu_name');
             $table->string('menu_slug')->unique();
+            $table->text('menu_desc')->nullable();
             $table->string('upload')->nullable();
             $table->integer('menu_status');
             $table->integer('is_home');
-            $table->integer('dept_id')->default(0);
+            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

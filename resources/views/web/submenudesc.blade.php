@@ -13,31 +13,29 @@
 
                     <article class="entry">
 
-
-
-                        @if ($menudesc->upload)
-                            @if (pathinfo($menudesc->upload, PATHINFO_EXTENSION) === 'pdf')
+                        @if ($submenudesc->upload)
+                            @if (pathinfo($submenudesc->upload, PATHINFO_EXTENSION) === 'pdf')
                                 <h2 class="entry-title">
-                                    <a href="">{{ $menudesc->menu_name }}</a>
+                                    <a href="">{{ $submenudesc->submenu_name }}</a>
                                 </h2>
-                                <object data="{{ asset('storage/img/menu_img/' . $menudesc->upload) }}"
+                                <object data="{{ asset('storage/img/submenu_img/' . $submenudesc->upload) }}"
                                     type="application/pdf" width="100%" height="800">
                                     <p>Unable to display PDF file. <a
-                                            href="{{ asset('storage/img/menu_img/' . $menudesc->upload) }}">Download</a>
+                                            href="{{ asset('storage/img/submenu_img/' . $submenudesc->upload) }}">Download</a>
                                         instead.</p>
                                 </object>
                             @else
                                 <div class="entry-img">
-                                    <img src="{{ asset('storage/img/menu_img/' . $menudesc->upload) }}" alt=""
+                                    <img src="{{ asset('storage/img/submenu_img/' . $submenudesc->upload) }}" alt=""
                                         class="img-fluid">
                                 </div>
                                 <h2 class="entry-title">
-                                    <a href="">{{ $menudesc->menu_name }}</a>
+                                    <a href="">{{ $submenudesc->submenu_name }}</a>
                                 </h2>
                             @endif
                         @else
                             <h2 class="entry-title">
-                                <a href="">{{ $menudesc->menu_name }}</a>
+                                <a href="">{{ $submenudesc->submenu_name }}</a>
                             </h2>
                         @endif
 
@@ -45,7 +43,7 @@
 
                         <div class="entry-content mt-5">
                             <p>
-                                {!! $menudesc->menu_desc !!}
+                                {!! $submenudesc->submenu_desc !!}
                             </p>
 
                         </div>

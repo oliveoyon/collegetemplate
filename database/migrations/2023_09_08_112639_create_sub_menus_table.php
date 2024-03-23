@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('submenu_slug')->unique();
             $table->text('submenu_desc')->nullable();
             $table->string('upload')->nullable();
-            $table->integer('dept_id')->default(0);
+            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
             $table->integer('submenu_status');
             $table->timestamps();
         });

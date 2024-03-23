@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('message_desc')->nullable();
             $table->string('upload')->nullable();
-            $table->integer('dept_id')->default(0);
+            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
             $table->integer('message_status');
             $table->timestamps();
         });

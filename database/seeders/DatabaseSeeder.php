@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $admins = [
             'admin_hash_id' => md5(uniqid(rand(), true)),
-            'school_id' => 100, // Adjust this value based on your needs
+            'dept_id' => 0, // Adjust this value based on your needs
             'name' => 'Admin User',
             'email' => 'admin@email.com', // Change this email address
             'password' => Hash::make(1234), // Change this password
@@ -61,7 +61,6 @@ class DatabaseSeeder extends Seeder
             'color' => '#ebebeb', // Example color value
             'status' => 1, // Example status value
             'dept_id' => 0, // Assuming default value is 0
-            'school_id' => 1, // Example school ID value
             'created_at' => now(),
             'updated_at' => now(),
         ]);

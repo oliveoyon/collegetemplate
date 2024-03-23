@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('upload')->nullable();
             $table->string('url', 200);
-            $table->integer('dept_id')->default(0);
+            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
             $table->integer('status');
             $table->timestamps();
         });

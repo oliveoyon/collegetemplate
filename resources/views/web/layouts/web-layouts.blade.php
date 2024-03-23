@@ -50,6 +50,10 @@
         .bottom-border-table tbody tr {
             border-bottom: 1px solid #ddd;
         }
+
+        .dropdown-item:active {
+            background-color: transparent !important;
+        }
     </style>
 
 
@@ -210,39 +214,91 @@
             <ul>
                 <li><a class="active" href="{{ route('index') }}">হোম</a></li>
                 @foreach ($provider_menusWithSubMenus as $menu)
-    @if ($menu->is_home == 0)
-        <li class="nav-item">
-            @if ($menu->subMenus->isNotEmpty())
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}"
-                        role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ $menu->menu_name }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown{{ $menu->id }}">
-                        @foreach ($menu->subMenus as $subMenu)
-                            @if($subMenu->childMenus->isNotEmpty())
-                                <li class="dropdown-item dropdown">
-                                    <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ $subMenu->submenu_name }}
+                    @if ($menu->is_home == 0)
+                        <li class="nav-item">
+                            @if ($menu->subMenus->isNotEmpty())
+                                <div class="dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#"
+                                        id="navbarDropdown{{ $menu->id }}" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ $menu->menu_name }}
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="submenuDropdown{{ $subMenu->id }}">
-                                        @foreach ($subMenu->childMenus as $childMenu)
-                                            <li><a class="dropdown-item" href="{{ route('submenudesc', ['childSlug' => $childMenu->child_menu_slug]) }}">{{ $childMenu->childmenu_name }}</a></li>
+                                    <ul class="dropdown-menu dropdown-menu-start"
+                                        aria-labelledby="navbarDropdown{{ $menu->id }}">
+                                        @foreach ($menu->subMenus as $subMenu)
+                                            @if ($subMenu->childMenus->isNotEmpty())
+                                                <li class="dropdown-item dropdown">
+                                                    <a class="dropdown-toggle" href="#" role="button"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        {{ $subMenu->submenu_name }}
+                                                    </a>
+                                                    <ul class="dropdown-menu"
+                                                        aria-labelledby="submenuDropdown{{ $subMenu->id }}">
+                                                        @foreach ($subMenu->childMenus as $childMenu)
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('menudesc', ['slug' => $menu->menu_slug, 'submenu' => $subMenu->submenu_slug, 'childmenu' => $childMenu->child_menu_slug]) }}">{{ $childMenu->childmenu_name }}</a>
+                                                            </li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </li>
+                                            @else
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('menudesc', ['slug' => $menu->menu_slug, 'submenu' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @else
+                                <a class="nav-link"
+                                    href="{{ route('menudesc', ['slug' => $menu->menu_slug]) }}">{{ $menu->menu_name }}</a>
+                            @endif
+                        </li>
+                    @endif
+                @endforeach
+
+
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            বিভাগ-সমূহ
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @foreach ($faculties as $faculty)
+                                <li class="dropdown-item dropdown">
+                                    <a class="dropdown-toggle faculty-name" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ $faculty->faculty_name }}
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="submenuDropdown">
+                                        <li>
+                                            <a style="font-weight: 700" class="dropdown-item"
+                                                href="{{ url('department', $faculty->faculty_slug) }}">
+                                                {{ $faculty->faculty_name }}
+                                            </a>
+                                        </li>
+                                        @foreach ($faculty->departments as $department)
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('department', [$faculty->faculty_slug, $department->department_slug]) }}">
+                                                    {{ $department->department_name }}
+                                                </a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </li>
-                            @else
-                                <li><a class="dropdown-item" href="{{ route('menudesc', ['slug' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </div>
-            @else
-                <a class="nav-link" href="{{ route('menudesc', ['slug' => $menu->menu_slug]) }}">{{ $menu->menu_name }}</a>
-            @endif
-        </li>
-    @endif
-@endforeach
+                            @endforeach
+                        </ul>
+                    </div>
+                </li>
+
+
+
+
+
 
 
 
@@ -389,6 +445,8 @@ if (isset($eventsJson)) {
         });
     });
 </script>
+
+
 
 
 

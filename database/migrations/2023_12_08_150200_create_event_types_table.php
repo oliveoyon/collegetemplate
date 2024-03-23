@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('type_name');
             $table->string('color');
             $table->integer('status');
-            $table->integer('dept_id')->default(0);
-            $table->integer('school_id');
+            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

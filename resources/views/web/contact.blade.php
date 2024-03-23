@@ -20,7 +20,7 @@
 
   <!-- ======= Contact Section ======= -->
   <div class="map-section">
-    <div style="width: 100%">{!! $webs->fax !!}</div>
+    <div style="width: 100%">{!! $webs->map !!}</div>
   </div>
 
   <section id="contact" class="contact">

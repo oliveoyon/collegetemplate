@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email');
             $table->text('address_one');
             $table->text('address_two')->nullable();
+            $table->text('map')->nullable();
             $table->string('eiin')->nullable();
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();

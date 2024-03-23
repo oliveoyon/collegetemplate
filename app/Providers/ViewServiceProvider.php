@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Admin\Department;
+use App\Models\Admin\Faculty;
 use App\Models\Admin\Menu;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -47,6 +49,8 @@ class ViewServiceProvider extends ServiceProvider
                 ->where('events.event_status', 1)
                 ->orderByDesc('events.end_date')
                 ->get();
+
+                $send['faculties'] = Faculty::with('departments')->get();
 
 
 

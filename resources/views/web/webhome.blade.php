@@ -184,7 +184,7 @@
                                     <ul class="menus">
 
                                         @foreach ($menu->subMenus as $subMenu)
-                                        <li><i class="fa fa-caret-right"></i><a href="{{ $subMenu->submenu_slug }}">{{ $subMenu->submenu_name }}</a>
+                                        <li><i class="fa fa-caret-right"></i><a href="{{ route('menudesc', ['slug' => $menu->menu_slug, 'submenu' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
                                         </li>
                                         @endforeach
                                     </ul>

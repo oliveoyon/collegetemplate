@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\child_menu;
+use App\Models\Admin\Department;
 use App\Models\Admin\Menu;
 use App\Models\Admin\SubMenu;
 use App\Models\Admin\Events;
 use App\Models\Admin\EventType;
+use App\Models\Admin\Faculty;
 use App\Models\Admin\History;
 use App\Models\Admin\ImportantLink;
 use App\Models\Admin\Messages;
@@ -54,6 +56,7 @@ class MenuController extends Controller
 
             $menu = new Menu();
             $menu->menu_name = $request->input('menu_name');
+            $menu->menu_desc = $request->input('menu_desc');
             $menu->menu_slug = Str::slug($request->input('menu_name'));
             $menu->menu_status = $request->input('menu_status');
             $menu->is_home = $request->input('is_home') ? 1 : 0;
@@ -107,7 +110,8 @@ class MenuController extends Controller
 
 
             $menu->menu_name = $request->input('menu_name');
-            // $menu->slug = Str::slug($request->input('menu_name'));
+            $menu->menu_slug = Str::slug($request->input('menu_name'));
+            $menu->menu_desc = $request->input('menu_desc');
             $menu->menu_status = $request->input('menu_status');
             $menu->is_home = $request->input('is_home') ? 1 : 0;
             $menu->upload = $file_name;
@@ -160,7 +164,7 @@ class MenuController extends Controller
             'menu_id' => 'required',
             'submenu_name' => 'required|string|max:255',
             // 'submenu_desc' => 'string',
-            'upload' => 'files|mimes:pdf,jpeg,png,jpg,gif|max:5120', // Adjust the allowed file types and size as needed
+            'upload' => 'file|mimes:pdf,jpeg,png,jpg,gif|max:5120', // Adjust the allowed file types and size as needed
             'submenu_status' => 'required',
         ]);
 
@@ -463,7 +467,7 @@ class MenuController extends Controller
         $notice->start_date = date('Y-m-d', strtotime($request->input('start_date')));
         $notice->end_date = date('Y-m-d', strtotime($request->input('end_date')));
         $notice->color = $color->color;
-        $notice->school_id = auth()->user()->school_id;
+        $notice->dept_id = auth()->user()->dept_id;
         $notice->event_status = $request->input('event_status');
         $notice->upload = $file_name;
 
@@ -527,7 +531,7 @@ class MenuController extends Controller
             $notice->start_date = $request->input('start_date');
             $notice->end_date = $request->input('end_date');
             $notice->color = $color->color;
-            $notice->school_id = auth()->user()->school_id;
+            $notice->dept_id = auth()->user()->dept_id;
 
 
 
@@ -781,6 +785,7 @@ class MenuController extends Controller
             $ws->phone1 = $request->input('phone1');
             $ws->phone2 = $request->input('phone2');
             $ws->fax = $request->input('fax');
+            $ws->map = $request->input('map');
             $ws->email = $request->input('email');
             $ws->address_one = $request->input('address_one');
             $ws->address_two = $request->input('address_two');
@@ -1158,6 +1163,171 @@ class MenuController extends Controller
 
         if ($query1) {
             return response()->json(['code' => 1, 'msg' => 'Message has been deleted from database', 'redirect' => 'admin/message-list']);
+        } else {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
+    public function facultylist()
+    {
+        $send['facultys'] = Faculty::get();
+        return view('dashboard.admin.academic.faculty', $send);
+    }
+
+    public function addFaculty(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'faculty_name' => 'required|string|max:255',
+            'faculty_status' => 'required',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $faculty = new Faculty();
+            $faculty->faculty_hash_id = md5(uniqid(rand(), true));
+            $faculty->faculty_name = $request->input('faculty_name');
+            $faculty->faculty_slug = Str::slug($request->input('faculty_name'));
+            $faculty->faculty_status = $request->input('faculty_status');
+            $query = $faculty->save();
+
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => __('language.faculty_add_msg') , 'redirect'=> 'admin/faculty-list']);
+            }
+        }
+    }
+
+    public function getFacultyDetails(Request $request)
+    {
+        $faculty_id = $request->faculty_id;
+        $facultyDetails = Faculty::find($faculty_id);
+        return response()->json(['details' => $facultyDetails]);
+    }
+
+    //UPDATE Category DETAILS
+    public function updateFacultyDetails(Request $request)
+    {
+        $faculty_id = $request->vid;
+        $faculty = Faculty::find($faculty_id);
+
+        $validator = Validator::make($request->all(), [
+            'faculty_name' => 'required|string|max:255|unique:faculties,faculty_name,' . $faculty_id,
+            'faculty_status' => 'required',
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+
+            $faculty->faculty_name = $request->input('faculty_name');
+            $faculty->faculty_slug = Str::slug($request->input('faculty_name'));
+            $faculty->faculty_status = $request->input('faculty_status');
+            $query = $faculty->save();
+
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => __('language.faculty_edit_msg') , 'redirect'=> 'admin/faculty-list']);
+            }
+        }
+    }
+
+    public function deleteFaculty(Request $request)
+    {
+        $faculty_id = $request->faculty_id;
+        $query = Faculty::find($faculty_id);
+        $query = $query->delete();
+
+
+        if ($query) {
+            return response()->json(['code' => 1, 'msg' => __('language.faculty_del_msg') , 'redirect' => 'admin/faculty-list']);
+        } else {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
+    public function departmentlist()
+    {
+        $send['departments'] = Department::get();
+        $send['faculties'] = Faculty::get()->where('faculty_status', 1);
+        return view('dashboard.admin.academic.department', $send);
+    }
+
+    public function addDepartment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'department_name' => 'required|string|max:50|unique:departments,department_name,NULL,id,faculty_id,' . $request->input('faculty_id'),
+            'department_status' => 'required',
+            'faculty_id' => 'required|exists:faculties,id', // Make sure the faculty exists
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        }
+
+        $department = new Department();
+        $department->department_hash_id = md5(uniqid(rand(), true));
+        $department->department_name = $request->input('department_name');
+        $department->department_slug = Str::slug($request->input('department_name'));
+        $department->department_status = $request->input('department_status');
+        $department->faculty_id = $request->input('faculty_id'); // Assign the faculty_id
+        $query = $department->save();
+
+        if ($query) {
+            return response()->json(['code' => 1, 'msg' => __('language.department_add_msg'), 'redirect' => 'admin/department-list']);
+        } else {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
+    public function getDepartmentDetails(Request $request)
+    {
+        $department_id = $request->department_id;
+        $departmentDetails = Department::find($department_id);
+        return response()->json(['details' => $departmentDetails]);
+    }
+
+    public function updateDepartmentDetails(Request $request)
+    {
+        // dd($request);
+        $department_id = $request->cid;
+        $department = Department::find($department_id);
+
+
+
+        $validator = Validator::make($request->all(), [
+            'department_name' => 'required|string|max:255|unique:departments,department_name,' . $department_id,
+            'department_status' => 'required',
+            'faculty_id' => 'required|exists:faculties,id', // Make sure the faculty exists
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        }
+
+        $department->department_name = $request->input('department_name');
+        $department->department_slug = Str::slug($request->input('department_name', '-'));
+        $department->department_status = $request->input('department_status');
+        $department->faculty_id = $request->input('faculty_id'); // Update the faculty_id
+        $query = $department->save();
+
+        if ($query) {
+            return response()->json(['code' => 1, 'msg' => __('language.department_edit_msg'), 'redirect' => 'admin/department-list']);
+        } else {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
+    public function deleteDepartment(Request $request)
+    {
+        $department_id = $request->department_id;
+        $query = Department::find($department_id);
+        $query = $query->delete();
+
+        if ($query) {
+            return response()->json(['code' => 1, 'msg' => __('language.department_del_msg'), 'redirect' => 'admin/department-list']);
         } else {
             return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
         }

@@ -40,8 +40,8 @@ Route::get('mujib-corner-detail/{slug}', [WebController::class, 'mujib_detail'])
 
 // Move the catch-all route to the end
 
-Route::get('/{slug}', [WebController::class, 'menudesc'])->name('menudesc');
-Route::get('/child-menu/{childSlug}', [WebController::class, 'submenudesc'])->name('submenudesc');
+Route::get('/menu/{slug}/{submenu?}/{childmenu?}', [WebController::class, 'menudesc'])->name('menudesc');
+Route::get('/department/{faculty}/{dept}', [WebController::class, 'departmentMenu'])->name('department');
 
 
 
@@ -162,5 +162,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Web Settings
         Route::get('web-settings', [MenuController::class, 'web_settings'])->name('web-settings');
         Route::post('updatewebsettings', [MenuController::class, 'updatewebsettings'])->name('updatewebsettings');
+
+        // Faculty Management
+        Route::get('faculty-list', [MenuController::class, 'facultylist'])->name('faculty-list');
+        Route::post('addFaculty', [MenuController::class, 'addFaculty'])->name('addFaculty');
+        Route::post('getFacultyDetails', [MenuController::class, 'getFacultyDetails'])->name('getFacultyDetails');
+        Route::post('updateFacultyDetails', [MenuController::class, 'updateFacultyDetails'])->name('updateFacultyDetails');
+        Route::post('deleteFaculty', [MenuController::class, 'deleteFaculty'])->name('deleteFaculty');
+
+        // Department Management
+        Route::get('department-list', [MenuController::class, 'departmentlist'])->name('department-list');
+        Route::post('addDepartment', [MenuController::class, 'addDepartment'])->name('addDepartment');
+        Route::post('getDepartmentDetails', [MenuController::class, 'getDepartmentDetails'])->name('getDepartmentDetails');
+        Route::post('updateDepartmentDetails', [MenuController::class, 'updateDepartmentDetails'])->name('updateDepartmentDetails');
+        Route::post('deleteDepartment', [MenuController::class, 'deleteDepartment'])->name('deleteDepartment');
+
     });
 });

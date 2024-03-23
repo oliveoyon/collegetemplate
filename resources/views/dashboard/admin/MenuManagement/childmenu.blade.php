@@ -114,7 +114,7 @@
             <div class="form-group">
                 <label for="menu_name">মেনুর নাম</label>
                 <select name="menu_id" id="menu_id" class="form-control menu_id">
-                    <option value="">dfdf</option>
+                    <option value="">--Select a Menu--</option>
                   @foreach ($menus as $m)
                       <option value="{{ $m->id }}">{{ $m->menu_name }}</option>
                   @endforeach
