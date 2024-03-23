@@ -12,5 +12,10 @@ class Menu extends Model
         return $this->hasMany(SubMenu::class, 'menu_id');
     }
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'dept_id');
+    }
+
 
 }

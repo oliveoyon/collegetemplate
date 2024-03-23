@@ -28,7 +28,15 @@ class MenuController extends Controller
 {
     public function menulist()
     {
-        $send['menus'] = Menu::get();
+        $send['menus'] = DB::table('menus')
+        ->leftJoin('departments', 'menus.dept_id', '=', 'departments.id')
+        ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+        ->select('menus.*', 'faculties.faculty_name', 'departments.department_name')
+        ->addSelect(DB::raw("CASE WHEN menus.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department"))
+        ->get();
+
+        // dd( $send['menus']);
+        // $send['menus'] = Menu::get();
         return view('dashboard.admin.MenuManagement.menus', $send);
     }
 
@@ -59,6 +67,7 @@ class MenuController extends Controller
             $menu->menu_desc = $request->input('menu_desc');
             $menu->menu_slug = Str::slug($request->input('menu_name'));
             $menu->menu_status = $request->input('menu_status');
+            $menu->dept_id = $request->input('dept_id');
             $menu->is_home = $request->input('is_home') ? 1 : 0;
             $menu->upload = $file_name;
             $query = $menu->save();
@@ -113,6 +122,7 @@ class MenuController extends Controller
             $menu->menu_slug = Str::slug($request->input('menu_name'));
             $menu->menu_desc = $request->input('menu_desc');
             $menu->menu_status = $request->input('menu_status');
+            $menu->dept_id = $request->input('dept_id');
             $menu->is_home = $request->input('is_home') ? 1 : 0;
             $menu->upload = $file_name;
             $query = $menu->save();
