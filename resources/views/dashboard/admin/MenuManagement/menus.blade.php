@@ -117,14 +117,7 @@
                                     @csrf
 
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="menu_name">মেনুর নাম</label>
-                                                <input type="text" class="form-control" name="menu_name" id="menu_name"
-                                                    placeholder="মেনুর নাম যোগ করুন">
-                                                <span class="text-danger error-text menu_name_error"></span>
-                                            </div>
-                                        </div>
+                                        
                                         @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -145,6 +138,15 @@
                                         @else
                                             <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
                                         @endif
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="menu_name">মেনুর নাম</label>
+                                                <input type="text" class="form-control" name="menu_name" id="menu_name"
+                                                    placeholder="মেনুর নাম যোগ করুন">
+                                                <span class="text-danger error-text menu_name_error"></span>
+                                            </div>
+                                        </div>
 
                                     </div>
 
@@ -229,8 +231,7 @@
                         </div>
                         {{-- {{ route('admin.updatecategoryDetails'); }} --}}
                         <div class="modal-body">
-                            <form action="{{ route('admin.addMenu') }}" enctype="multipart/form-data" files="true"
-                                method="post" autocomplete="off" id="add-menu-form">
+                            <form action="{{ route('admin.updateMenuDetails') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="update-menu-form">
                                 @csrf
 
                                 <div class="row">

@@ -29,11 +29,11 @@ class MenuController extends Controller
     public function menulist()
     {
         $send['menus'] = DB::table('menus')
-        ->leftJoin('departments', 'menus.dept_id', '=', 'departments.id')
-        ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
-        ->select('menus.*', 'faculties.faculty_name', 'departments.department_name')
-        ->addSelect(DB::raw("CASE WHEN menus.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department"))
-        ->get();
+            ->leftJoin('departments', 'menus.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('menus.*', 'faculties.faculty_name', 'departments.department_name')
+            ->addSelect(DB::raw("CASE WHEN menus.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department"))
+            ->get();
 
         // dd( $send['menus']);
         // $send['menus'] = Menu::get();
@@ -161,10 +161,14 @@ class MenuController extends Controller
     public function submenulist()
     {
         $send['menus'] = Menu::get();
-        $send['submenus'] =  DB::table('sub_menus')
+        $send['submenus'] = DB::table('sub_menus')
             ->join('menus', 'sub_menus.menu_id', '=', 'menus.id')
-            ->select('sub_menus.*', 'menus.menu_name')
+            ->leftJoin('departments', 'menus.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('sub_menus.*', 'menus.menu_name', 'faculties.faculty_name', 'departments.department_name')
+            ->addSelect(DB::raw("CASE WHEN menus.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department"))
             ->get();
+
         return view('dashboard.admin.MenuManagement.submenus', $send);
     }
 
@@ -286,11 +290,15 @@ class MenuController extends Controller
     {
         $send['menus'] = Menu::get();
         $send['submenus'] = SubMenu::get();
-        $send['childmenus'] =  DB::table('child_menus')
+        $send['childmenus'] = DB::table('child_menus')
             ->join('menus', 'child_menus.menu_id', '=', 'menus.id')
             ->join('sub_menus', 'child_menus.submenu_id', '=', 'sub_menus.id')
-            ->select('child_menus.*', 'menus.menu_name', 'sub_menus.submenu_name')
+            ->leftJoin('departments', 'sub_menus.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('child_menus.*', 'menus.menu_name', 'sub_menus.submenu_name', 'faculties.faculty_name', 'departments.department_name')
+            ->addSelect(DB::raw("CASE WHEN sub_menus.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department"))
             ->get();
+
 
         // dd($send['childmenus']);
         return view('dashboard.admin.MenuManagement.childmenu', $send);
@@ -1204,7 +1212,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => __('language.faculty_add_msg') , 'redirect'=> 'admin/faculty-list']);
+                return response()->json(['code' => 1, 'msg' => __('language.faculty_add_msg'), 'redirect' => 'admin/faculty-list']);
             }
         }
     }
@@ -1239,7 +1247,7 @@ class MenuController extends Controller
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
-                return response()->json(['code' => 1, 'msg' => __('language.faculty_edit_msg') , 'redirect'=> 'admin/faculty-list']);
+                return response()->json(['code' => 1, 'msg' => __('language.faculty_edit_msg'), 'redirect' => 'admin/faculty-list']);
             }
         }
     }
@@ -1252,7 +1260,7 @@ class MenuController extends Controller
 
 
         if ($query) {
-            return response()->json(['code' => 1, 'msg' => __('language.faculty_del_msg') , 'redirect' => 'admin/faculty-list']);
+            return response()->json(['code' => 1, 'msg' => __('language.faculty_del_msg'), 'redirect' => 'admin/faculty-list']);
         } else {
             return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
         }
