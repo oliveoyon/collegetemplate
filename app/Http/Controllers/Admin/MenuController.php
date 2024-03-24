@@ -620,7 +620,10 @@ class MenuController extends Controller
         $send['links'] = DB::table('important_links')
             ->leftJoin('departments', 'important_links.dept_id', '=', 'departments.id')
             ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
-            ->select('important_links.*', 'departments.department_name','faculties.faculty_name',
+            ->select(
+                'important_links.*',
+                'departments.department_name',
+                'faculties.faculty_name',
                 DB::raw("CASE WHEN important_links.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
             )->get();
 
@@ -705,8 +708,11 @@ class MenuController extends Controller
     {
         $send['sliders'] = Slider::leftJoin('departments', 'sliders.dept_id', '=', 'departments.id')
             ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
-            ->select('sliders.*','departments.department_name','faculties.faculty_name',
-            DB::raw("CASE WHEN sliders.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
+            ->select(
+                'sliders.*',
+                'departments.department_name',
+                'faculties.faculty_name',
+                DB::raw("CASE WHEN sliders.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
             )->get();
 
         return view('dashboard.admin.others.sliders', $send);
@@ -855,7 +861,16 @@ class MenuController extends Controller
 
     public function uploadlist()
     {
-        $send['uploads'] = Uploads::get();
+        $send['uploads'] = Uploads::leftJoin('departments', 'uploads.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select(
+                'uploads.*',
+                'departments.department_name',
+                'faculties.faculty_name',
+                DB::raw("CASE WHEN uploads.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
+            )
+            ->get();
+
         return view('dashboard.admin.others.upload', $send);
     }
 
@@ -884,6 +899,7 @@ class MenuController extends Controller
             $upload->title = $request->input('title');
             $upload->url = Str::slug($request->input('title'));
             $upload->description = $request->input('description');
+            $upload->dept_id = $request->input('dept_id');
             $upload->status = $request->input('status');
             $upload->upload = $file_name;
             $query = $upload->save();
@@ -936,6 +952,7 @@ class MenuController extends Controller
             $upload->title = $request->input('title');
             $upload->url = Str::slug($request->input('title'));
             $upload->description = $request->input('description');
+            $upload->dept_id = $request->input('dept_id');
             $upload->status = $request->input('status');
             $upload->upload = $file_name;
 
@@ -1093,12 +1110,27 @@ class MenuController extends Controller
 
     public function messagelist()
     {
-        $send['messages'] = Messages::get();
+        $send['messages'] = Messages::leftJoin('departments', 'messages.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select(
+                'messages.*',
+                'departments.department_name',
+                'faculties.faculty_name',
+                DB::raw("CASE WHEN messages.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
+            )
+            ->get();
+
         return view('dashboard.admin.others.message', $send);
     }
 
     public function addMessage(Request $request)
     {
+        // Check if a message already exists for this department
+        $existingMessage = Messages::where('dept_id', $request->input('dept_id'))->first();
+        if ($existingMessage) {
+            return response()->json(['code' => 0, 'msg' => 'A message already exists for this department']);
+        }
+
         $validator = Validator::make($request->all(), [
             'message_type' => 'required|string|max:255',
             'name' => 'required|string|max:255',
@@ -1106,10 +1138,9 @@ class MenuController extends Controller
             'message_status' => 'required',
         ]);
 
-        if (!$validator->passes()) {
+        if ($validator->fails()) {
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-
             $file_name = '';
             if ($request->file('upload')) {
                 $path = 'img/message_img/';
@@ -1125,6 +1156,7 @@ class MenuController extends Controller
             $message->message_slug = Str::slug($request->input('message_type'));
             $message->message_status = $request->input('message_status');
             $message->message_desc = $request->input('message_desc');
+            $message->dept_id = $request->input('dept_id');
             $message->upload = $file_name;
             $query = $message->save();
 
@@ -1135,6 +1167,7 @@ class MenuController extends Controller
             }
         }
     }
+
 
     public function getMessageDetails(Request $request)
     {
@@ -1153,10 +1186,23 @@ class MenuController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'message_type' => 'required|string|max:255|unique:messages,message_type,' . $message_id,
-            // 'message_desc' => 'string',
             'upload' => 'image|mimes:jpeg,png,jpg,gif|max:5120', // Adjust the allowed file types and size as needed
             'message_status' => 'required',
+            'dept_id' => [
+                'required',
+                'integer',
+                function ($attribute, $value, $fail) use ($message_id) {
+                    $message = Messages::find($message_id);
+                    if ($message && $message->dept_id != $value) {
+                        $existingMessage = Messages::where('dept_id', $value)->exists();
+                        if ($existingMessage) {
+                            $fail("The $attribute already exists.");
+                        }
+                    }
+                },
+            ],
         ]);
+
 
         if (!$validator->passes()) {
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
@@ -1176,10 +1222,12 @@ class MenuController extends Controller
 
             $message->message_type = $request->input('message_type');
             $message->name = $request->input('name');
-            $message->message_slug = Str::slug($request->input('message_slug'));
+            $message->message_slug = Str::slug($request->input('message_type')); // Generate slug from message_type
             $message->message_status = $request->input('message_status');
             $message->message_desc = $request->input('message_desc');
+            $message->dept_id = $request->input('dept_id');
             $message->upload = $file_name;
+
             $query = $message->save();
 
             if (!$query) {

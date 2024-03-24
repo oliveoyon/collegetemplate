@@ -44,7 +44,7 @@
                         <div class="card-tools">
                           <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
-                                
+
                               <button class="btn btn-flat btn-success" data-toggle="modal" data-target="#adduploads"><i class="fas fa-plus-square mr-1"></i> আপলোড করুন</button>
                             </li>
                           </ul>
@@ -54,6 +54,7 @@
                           <table class="table table-hover table-condensed" id="menu-table">
                               <thead class="font-weight-bold bg-info">
                                   <th>#</th>
+                                  <th>ডিপার্টমেন্ট</th>
                                   <th>শিরোনাম</th>
                                   <th>বর্ণনা</th>
                                   <th>সংযুক্তি</th>
@@ -64,6 +65,7 @@
                                 @foreach ($uploads as $upload)
                                 <tr>
                                   <td>{{ $loop->iteration }}</td>
+                                  <td>{{ $upload->faculty_department }}</td>
                                   <td class="font-weight-bold">{{ $upload->title }}</td>
                                   <td>{{ strip_tags(substr($upload->description, 0, 500)) }}</td>
                                   <td><img height="100" src="{{ asset('storage/img/mujib/'.$upload->upload) }}" alt=""></td>
@@ -76,13 +78,13 @@
                                   </td>
                                 </tr>
                                 @endforeach
-                                
+
                               </tbody>
                           </table>
                       </div>
                   </div>
             </div>
-            
+
         </div>
 
 
@@ -99,26 +101,46 @@
         <div class="modal-body">
           <form action="{{ route('admin.addUpload') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="add-upload-form">
             @csrf
-        
+
+            @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="menu_name">ডিপার্টমেন্ট</label>
+                                                    <select class="form-control" name="dept_id" id="dept_id">
+                                                        @foreach ($faculties as $faculty)
+                                                            <option value="0">Main Website</option>
+                                                            @foreach ($faculty->departments as $department)
+                                                                <option value="{{ $department->id }}">
+                                                                    {{ $faculty->faculty_name }} -
+                                                                    {{ $department->department_name }}</option>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="text-danger error-text dept_id_error"></span>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
+                                        @endif
             <div class="form-group">
                 <label for="menu_name">শিরোনাম</label>
                 <input type="text" class="form-control" name="title" required placeholder="শিরোনাম যোগ করুন">
                 <span class="text-danger error-text title_error"></span>
             </div>
-            
+
             <div class="form-group">
                 <label for="menu_name">বর্ণনা</label>
                     <textarea name="description" class="summernote" id="description"></textarea>
                     <span class="text-danger error-text description_error"></span>
             </div>
 
-                    
+
             <div class="form-group">
                 <label for="upload">ছবি আপলোড</label>
                 <input type="file" class="form-control" name="upload" id="upload">
                 <span class="text-danger error-text upload_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="status">স্ট্যাটাস</label>
                 <select class="form-control" name="status" id="status">
@@ -127,26 +149,26 @@
                 </select>
                 <span class="text-danger error-text status_error"></span>
             </div>
-        
+
             <div class="form-group">
                 <label for="image_preview">Image Preview</label>
                 <div class="img-holder" id="image_preview"></div>
             </div>
-        
+
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-success">যোগ করুন</button>
             </div>
         </form>
 
-        
+
         </div>
-        
+
       </div>
     </div>
   </div>
   {{-- Modal End --}}
 
-  
+
 {{-- Edit Modal --}}
   <div class="modal fade editmujib" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
@@ -162,25 +184,45 @@
               <form action="{{ route('admin.updateUploadDetails') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="update-upload-form">
                 @csrf
                 <input type="hidden" name="nid">
+                @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="menu_name">ডিপার্টমেন্ট</label>
+                                                    <select class="form-control" name="dept_id" id="dept_id">
+                                                        @foreach ($faculties as $faculty)
+                                                            <option value="0">Main Website</option>
+                                                            @foreach ($faculty->departments as $department)
+                                                                <option value="{{ $department->id }}">
+                                                                    {{ $faculty->faculty_name }} -
+                                                                    {{ $department->department_name }}</option>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="text-danger error-text dept_id_error"></span>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
+                                        @endif
                 <div class="form-group">
                   <label for="menu_name">শিরোনাম</label>
                   <input type="text" class="form-control" name="title" required placeholder="শিরোনাম যোগ করুন">
                   <span class="text-danger error-text title_error"></span>
               </div>
-              
+
               <div class="form-group">
                   <label for="menu_name">বর্ণনা</label>
                       <textarea name="description" class="summernote" id="description1"></textarea>
                       <span class="text-danger error-text description_error"></span>
               </div>
-  
-                      
+
+
               <div class="form-group">
                   <label for="upload">ছবি আপলোড</label>
                   <input type="file" class="form-control" name="upload" id="upload">
                   <span class="text-danger error-text upload_error"></span>
               </div>
-          
+
               <div class="form-group">
                   <label for="status">স্ট্যাটাস</label>
                   <select class="form-control" name="status" id="status">
@@ -189,13 +231,13 @@
                   </select>
                   <span class="text-danger error-text status_error"></span>
               </div>
-            
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-block btn-success">আপডেট করুন</button>
                 </div>
             </form>
-                
-  
+
+
             </div>
         </div>
     </div>
@@ -214,7 +256,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  
+
 @endsection
 
 
@@ -233,7 +275,7 @@
 <script>
   new DataTable('#menu-table');
 </script>
-    
+
 
 
 <script>
@@ -263,7 +305,7 @@ $.ajaxSetup({
         }
     }
 
-    
+
       $('#add-upload-form').on('submit', function(e){
         e.preventDefault();
         var form = this;
@@ -299,7 +341,7 @@ $.ajaxSetup({
 
     $(document).on('click','#editEventBtn', function(){
       var upload_id = $(this).data('id');
-      
+
       $('.editmujib').find('form')[0].reset();
       $('.editmujib').find('span.error-text').text('');
       $.post("{{ route('admin.getUploadDetails') }}",{upload_id:upload_id}, function(data){
@@ -308,6 +350,7 @@ $.ajaxSetup({
           $('.editmujib').find('input[name="nid"]').val(data.details.id);
           $('.editmujib').find('input[name="title"]').val(data.details.title);
           $('#description1').summernote('code', data.details.description);
+          $('.editmujib').find('select[name="dept_id"]').val(data.details.dept_id);
           $('.editmujib').find('select[name="status"]').val(data.details.status);
           $('.editmujib').modal('show');
       },'json');
@@ -337,11 +380,11 @@ $.ajaxSetup({
                     $('.editmujib').modal('hide');
                     $('.editmujib').find('form')[0].reset();
                     toastr.success(data.msg);
-                    
+
                     setTimeout(function() {
                         window.location.href = redirectUrl;
                     }, 2000); // Adjust the delay as needed (in milliseconds)
-                    
+
                 }
           }
       });
@@ -385,6 +428,6 @@ $.ajaxSetup({
 </script>
 
 
-    
+
 @endpush
 

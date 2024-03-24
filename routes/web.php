@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Web\DepartmentController;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -41,9 +42,10 @@ Route::get('mujib-corner-detail/{slug}', [WebController::class, 'mujib_detail'])
 // Move the catch-all route to the end
 
 Route::get('/menu/{slug}/{submenu?}/{childmenu?}', [WebController::class, 'menudesc'])->name('menudesc');
-Route::get('/department/{faculty}/{dept}', [WebController::class, 'departmentMenu'])->name('department');
+// Route::get('/department/{faculty}/{dept}', [WebController::class, 'departmentMenu'])->name('department');
 
-
+//
+Route::get('/department/{faculty}/{dept}', [DepartmentController::class, 'index'])->name('department');
 
 
 
