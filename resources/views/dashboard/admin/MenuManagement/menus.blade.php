@@ -117,7 +117,14 @@
                                     @csrf
 
                                     <div class="row">
-                                        
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="menu_name">মেনুর নাম</label>
+                                                <input type="text" class="form-control" name="menu_name" id="menu_name"
+                                                    placeholder="মেনুর নাম যোগ করুন">
+                                                <span class="text-danger error-text menu_name_error"></span>
+                                            </div>
+                                        </div>
                                         @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -138,15 +145,6 @@
                                         @else
                                             <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
                                         @endif
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="menu_name">মেনুর নাম</label>
-                                                <input type="text" class="form-control" name="menu_name" id="menu_name"
-                                                    placeholder="মেনুর নাম যোগ করুন">
-                                                <span class="text-danger error-text menu_name_error"></span>
-                                            </div>
-                                        </div>
 
                                     </div>
 
@@ -231,8 +229,11 @@
                         </div>
                         {{-- {{ route('admin.updatecategoryDetails'); }} --}}
                         <div class="modal-body">
-                            <form action="{{ route('admin.updateMenuDetails') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="update-menu-form">
+                            <form action="{{ route('admin.updateMenuDetails') }}" enctype="multipart/form-data" files="true"
+                                method="post" autocomplete="off" id="update-menu-form">
                                 @csrf
+
+                                <input type="hidden" name="mid">
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -243,26 +244,26 @@
                                             <span class="text-danger error-text menu_name_error"></span>
                                         </div>
                                     </div>
-                                    @if (auth()->user()->dept_id == 0)
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="menu_name">ডিপার্টমেন্ট</label>
-                                                <select class="form-control" name="dept_id" id="dept_id">
-                                                    @foreach ($faculties as $faculty)
-                                                        <option value="0">Main Website</option>
-                                                        @foreach ($faculty->departments as $department)
-                                                            <option value="{{ $department->id }}">
-                                                                {{ $faculty->faculty_name }} -
-                                                                {{ $department->department_name }}</option>
+                                    @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="menu_name">ডিপার্টমেন্ট</label>
+                                                    <select class="form-control" name="dept_id" id="dept_id">
+                                                        @foreach ($faculties as $faculty)
+                                                            <option value="0">Main Website</option>
+                                                            @foreach ($faculty->departments as $department)
+                                                                <option value="{{ $department->id }}">
+                                                                    {{ $faculty->faculty_name }} -
+                                                                    {{ $department->department_name }}</option>
+                                                            @endforeach
                                                         @endforeach
-                                                    @endforeach
-                                                </select>
-                                                <span class="text-danger error-text dept_id_error"></span>
+                                                    </select>
+                                                    <span class="text-danger error-text dept_id_error"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @else
-                                        <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
-                                    @endif
+                                        @else
+                                            <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
+                                        @endif
 
                                 </div>
 

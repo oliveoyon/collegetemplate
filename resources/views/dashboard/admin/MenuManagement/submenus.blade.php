@@ -220,6 +220,7 @@
             <form action="{{ route('admin.updateSubMenuDetails') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="update-submenu-form">
                 @csrf
 
+                <input type="hidden" name="sid">
                 <div class="row">
 
                   @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
@@ -384,6 +385,8 @@
 
     $(document).on('click', '#editSubMenuBtn', function() {
       var submenu_id = $(this).data('id');
+
+      alert(submenu_id);
 
       $('.editSubMenu').find('form')[0].reset();
       $('.editSubMenu').find('span.error-text').text('');

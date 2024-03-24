@@ -93,7 +93,9 @@ class MenuController extends Controller
         $menu_id = $request->mid;
         $menu = Menu::find($menu_id);
         $path = 'img/menu_img/';
-        $file_name = $menu->upload;
+        // dd($request->input());
+
+
 
         $validator = Validator::make($request->all(), [
             'menu_name' => 'required|string|max:255|unique:menus,menu_name,' . $menu_id,
@@ -115,16 +117,17 @@ class MenuController extends Controller
                 $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
                 //$upload = $file->storeAs($path, $file_name);
                 $upload = $file->storeAs($path, $file_name, 'public');
+                $menu->upload = $file_name;
             }
 
-
+            // dd($request->input('menu_name'));
             $menu->menu_name = $request->input('menu_name');
             $menu->menu_slug = Str::slug($request->input('menu_name'));
             $menu->menu_desc = $request->input('menu_desc');
             $menu->menu_status = $request->input('menu_status');
             $menu->dept_id = $request->input('dept_id');
             $menu->is_home = $request->input('is_home') ? 1 : 0;
-            $menu->upload = $file_name;
+
             $query = $menu->save();
 
             if (!$query) {
@@ -198,6 +201,7 @@ class MenuController extends Controller
             $submenu = new SubMenu();
             $submenu->menu_id = $request->input('menu_id');
             $submenu->submenu_name = $request->input('submenu_name');
+            $submenu->dept_id = $request->input('dept_id');
             $submenu->submenu_slug = Str::slug($request->input('submenu_name'));
             $submenu->submenu_status = $request->input('submenu_status');
             $submenu->submenu_desc = $request->input('submenu_desc');
@@ -215,7 +219,7 @@ class MenuController extends Controller
     public function getSubMenuDetails(Request $request)
     {
         $submenu_id = $request->submenu_id;
-        $submenuDetails = chil::find($submenu_id);
+        $submenuDetails = SubMenu::find($submenu_id);
         return response()->json(['details' => $submenuDetails]);
     }
 
@@ -252,6 +256,7 @@ class MenuController extends Controller
 
             $submenu->submenu_name = $request->input('submenu_name');
             $submenu->submenu_slug = Str::slug($request->input('submenu_name'));
+            $submenu->dept_id = $request->input('dept_id');
             $submenu->submenu_desc = $request->input('submenu_desc');
             $submenu->submenu_status = $request->input('submenu_status');
             $submenu->upload = $file_name;
@@ -340,6 +345,7 @@ class MenuController extends Controller
             $childmenu->menu_id = $request->input('menu_id');
             $childmenu->submenu_id = $request->input('submenu_id');
             $childmenu->childmenu_name = $request->input('childmenu_name');
+            $childmenu->dept_id = $request->input('dept_id');
             $childmenu->child_menu_slug = Str::slug($request->input('childmenu_name'));
             $childmenu->child_menu_status = $request->input('child_menu_status');
             $childmenu->child_menu_desc = $request->input('child_menu_desc');
@@ -394,7 +400,8 @@ class MenuController extends Controller
 
 
             $childmenu->childmenu_name = $request->input('childmenu_name');
-            $childmenu->childmenu_slug = Str::slug($request->input('childmenu_name'));
+            $childmenu->child_menu_slug = Str::slug($request->input('childmenu_name'));
+            $childmenu->dept_id = $request->input('dept_id');
             $childmenu->child_menu_desc = $request->input('child_menu_desc');
             $childmenu->child_menu_status = $request->input('child_menu_status');
             $childmenu->upload = $file_name;
@@ -437,11 +444,13 @@ class MenuController extends Controller
         $send['eventTypes'] = EventType::where('status', 1)->get();
         $send['notices'] = DB::table('events')
             ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
+            ->leftJoin('departments', 'events.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
             ->select('events.*', 'event_types.type_name')
-            // ->where(['events.event_status' => 1])
-            // ->where('events.end_date', '>', now())
+            ->addSelect(DB::raw("CASE WHEN events.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department"))
             ->orderByDesc('events.end_date')
             ->get();
+
         return view('dashboard.admin.NoticeManagement.notice', $send);
     }
 
@@ -482,6 +491,7 @@ class MenuController extends Controller
         $notice->url = Str::slug($request->input('event_title'));
         $notice->event_description = $request->input('event_description');
         $notice->event_type_id = $request->input('event_type_id');
+        $notice->dept_id = $request->input('dept_id');
         $notice->start_date = date('Y-m-d', strtotime($request->input('start_date')));
         $notice->end_date = date('Y-m-d', strtotime($request->input('end_date')));
         $notice->color = $color->color;
@@ -546,6 +556,7 @@ class MenuController extends Controller
             $notice->url = Str::slug($request->input('event_title'));
             $notice->event_description = $request->input('event_description');
             $notice->event_type_id = $request->input('event_type_id');
+            $notice->dept_id = $request->input('dept_id');
             $notice->start_date = $request->input('start_date');
             $notice->end_date = $request->input('end_date');
             $notice->color = $color->color;
@@ -606,7 +617,13 @@ class MenuController extends Controller
 
     public function linklist()
     {
-        $send['links'] = ImportantLink::get();
+        $send['links'] = DB::table('important_links')
+            ->leftJoin('departments', 'important_links.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('important_links.*', 'departments.department_name','faculties.faculty_name',
+                DB::raw("CASE WHEN important_links.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
+            )->get();
+
         return view('dashboard.admin.others.links', $send);
     }
 
@@ -623,6 +640,7 @@ class MenuController extends Controller
             $link = new ImportantLink();
             $link->link_name = $request->input('link_name');
             $link->link = $request->input('link');
+            $link->dept_id = $request->input('dept_id');
             $query = $link->save();
 
             if (!$query) {
@@ -658,6 +676,7 @@ class MenuController extends Controller
 
             $link->link_name = $request->input('link_name');
             $link->link = $request->input('link');
+            $link->dept_id = $request->input('dept_id');
             $query = $link->save();
 
             if (!$query) {
@@ -684,7 +703,12 @@ class MenuController extends Controller
 
     public function sliderlist()
     {
-        $send['sliders'] = Slider::get();
+        $send['sliders'] = Slider::leftJoin('departments', 'sliders.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('sliders.*','departments.department_name','faculties.faculty_name',
+            DB::raw("CASE WHEN sliders.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
+            )->get();
+
         return view('dashboard.admin.others.sliders', $send);
     }
 
@@ -712,6 +736,7 @@ class MenuController extends Controller
             $slider->upload = $file_name;
             $slider->title = $request->input('title');
             $slider->desc = $request->input('desc');
+            $slider->dept_id = $request->input('dept_id');
             $slider->slider_status = $request->input('slider_status');
             $query = $slider->save();
 

@@ -114,7 +114,7 @@
                 @csrf
 
                 <div class="row">
-                @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
+                  @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="menu_name">ডিপার্টমেন্ট</label>
@@ -169,7 +169,7 @@
                   </div>
                 </div>
 
-                
+
 
                 <div class="row">
                   <div class="col-md-12">
@@ -201,7 +201,7 @@
                   </div>
                 </div>
 
-              
+
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
@@ -231,11 +231,11 @@
             </div>
             {{-- {{ route('admin.updatecategoryDetails'); }} --}}
             <div class="modal-body">
-            <form action="{{ route('admin.updateChildMenuDetails') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="update-childmenu-form">
+              <form action="{{ route('admin.updateChildMenuDetails') }}" enctype="multipart/form-data" files="true" method="post" autocomplete="off" id="update-childmenu-form">
                 @csrf
-
+                <input type="hidden" name="sid">
                 <div class="row">
-                @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
+                  @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="menu_name">ডিপার্টমেন্ট</label>
@@ -290,7 +290,7 @@
                   </div>
                 </div>
 
-                
+
 
                 <div class="row">
                   <div class="col-md-12">
@@ -322,7 +322,7 @@
                   </div>
                 </div>
 
-              
+
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
