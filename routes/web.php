@@ -44,8 +44,9 @@ Route::get('mujib-corner-detail/{slug}', [WebController::class, 'mujib_detail'])
 Route::get('/menu/{slug}/{submenu?}/{childmenu?}', [WebController::class, 'menudesc'])->name('menudesc');
 // Route::get('/department/{faculty}/{dept}', [WebController::class, 'departmentMenu'])->name('department');
 
-//
+// Department
 Route::get('/department/{faculty}/{dept}', [DepartmentController::class, 'index'])->name('department');
+Route::get('/department-menu/{faculty}/{dept}/{slug}/{submenu?}/{childmenu?}', [DepartmentController::class, 'deptmenudesc'])->name('deptmenudesc');
 
 
 
