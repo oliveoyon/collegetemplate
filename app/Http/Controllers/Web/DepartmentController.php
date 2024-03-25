@@ -11,34 +11,46 @@ use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
-    public function index(Request $request, $faculty = null, $dept = null)
+    protected $menus;
+    public function getMenus(Request $request)
+    {
+        // Retrieve department ID
+        $departmentId = Department::where('department_slug', $request->route('dept'))->value('id');
+
+        $this->menus = Menu::with([
+            'subMenus' => function ($query) {
+                $query->where('submenu_status', 1);
+            },
+            'subMenus.childMenus' => function ($query) {
+                $query->where('child_menu_status', 1);
+            },
+        ])->where(['menu_status' => 1, 'dept_id' => $departmentId])->get();
+    }
+
+    public function index(Request $request)
+    {
+        $this->getMenus($request);
+        $send['menus'] = $this->menus;
+        dd($send['menus']);
+        return view('department.depthome', $send);
+    }
+
+    public function indexs($faculty = null, $dept = null)
     {
         if ($faculty && $dept) {
-
-            $departmentId = Department::where('department_slug', $request->route('dept'))->value('id');
-            $send['menuss'] = Menu::with([
-                'subMenus' => function ($query) {
-                    $query->where('submenu_status', 1); // Filter submenus by submenu_status
-                },
-                'subMenus.childMenus' => function ($query) {
-                    $query->where('child_menu_status', 1); // Filter child_menus by child_menu_status
-                },
-            ])->where(['menu_status' => 1, 'dept_id' => $departmentId])->get();
-            
             return view('department.depthome', $send);
-            // return view('department.layouts.test', $send);
         } elseif ($faculty) {
-            // return response()->json(['error' => '404 Not Found'], 404);
             return "Data for faculty:". $faculty;
         } else {
             return view('default-view');
         }
     }
 
-    public function deptmenudesc($faculty = null, $dept = null, $menu=null, $submenu=null, $childmenu=null)
+    public function deptmenudesc(Request $request,$faculty = null, $dept = null, $menu=null, $submenu=null, $childmenu=null)
     {
-
-        if ($faculty && $dept && $menu && $submenu && $childmenu) {  
+        $this->getMenus($request);
+        $send['menus'] = $this->menus;
+        if ($faculty && $dept && $menu && $submenu && $childmenu) {
 
             $send['childmenudesc'] = DB::table('child_menus')
             ->select('childmenu_name', 'child_menu_slug', 'child_menu_desc', 'upload')

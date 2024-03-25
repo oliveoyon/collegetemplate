@@ -6,6 +6,7 @@ use App\Models\Admin\Department;
 use App\Models\Admin\Faculty;
 use App\Models\Admin\Menu;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,7 +26,6 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('*', function ($view) {
-
             $send['provider_menusWithSubMenus'] = Menu::with([
                 'subMenus' => function ($query) {
                     $query->where('submenu_status', 1); // Filter submenus by submenu_status

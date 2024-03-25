@@ -45,10 +45,10 @@
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
                     <li><a href="index.html" class="active">Home</a></li>
-                    @foreach($provider_menusWithSubMenus as $menu)
+                    @foreach($menus as $menu)
                     @if ($menu->is_home == 0)
                     @if($menu->subMenus->isEmpty())
-                    <li><a href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug]) }}">{{ $menu->menu_name }}">{{ $menu->menu_name }}</a></li>
+                    <li><a href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug]) }}">{{ $menu->menu_name }}</a></li>
                     @else
                     <li class="dropdown"><a href="#"><span>{{ $menu->menu_name }}</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
@@ -63,7 +63,7 @@
                                 </ul>
                             </li>
                             @else
-                            <li><a href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug, 'submenu' => $submenu->submenu_slug, 'childmenu' => $childmenu]) }}">{{ $submenu->submenu_name }}</a></li>
+                            <li><a href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug, 'submenu' => $submenu->submenu_slug]) }}">{{ $submenu->submenu_name }}</a></li>
                             @endif
                             @endforeach
                         </ul>

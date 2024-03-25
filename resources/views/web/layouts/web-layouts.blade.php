@@ -260,6 +260,8 @@
                 @endforeach
 
 
+
+
                 <li class="nav-item">
                     <div class="dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -304,6 +306,30 @@
 
 
                 <li><a class="active" href="{{ route('contact') }}">যোগাযোগ</a></li>
+                @foreach($provider_menusWithSubMenus as $menu)
+                    @if($menu->subMenus->isEmpty())
+                        <li><a href="">{{ $menu->menu_name }}</a></li>
+                    @else
+                        <li class="dropdown"><a href="#"><span>{{ $menu->menu_name }}</span> <i class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                @foreach($menu->subMenus as $submenu)
+
+                                    @if(!$submenu->childMenus->isEmpty())
+                                        <li class="dropdown"><a href="#"><span>{{ $submenu->submenu_name }}</span> <i class="bi bi-chevron-right"></i></a>
+                                            <ul>
+                                                @foreach($submenu->childMenus as $childMenu)
+                                                    <li><a href="">{{ $childMenu->childmenu_name }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @else
+                                    <li><a href="">{{ $submenu->submenu_name }}</a></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
