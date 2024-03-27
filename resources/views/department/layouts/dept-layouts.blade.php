@@ -15,7 +15,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
     <!-- Vendor CSS Files -->
     <link href="{{asset('dept/assets/')}}/vendor/animate.css/animate.min.css" rel="stylesheet">
     <link href="{{asset('dept/assets/')}}/vendor/aos/aos.css" rel="stylesheet">
@@ -25,7 +25,7 @@
     <link href="{{asset('dept/assets/')}}/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="{{asset('dept/assets/')}}/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="{{asset('dept/assets/')}}/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
+    @stack('admincss')
     <!-- Template Main CSS File -->
     <link href="{{asset('dept/assets/')}}/css/style.css" rel="stylesheet">
 
@@ -177,6 +177,41 @@
 
     <!-- Template Main JS File -->
     <script src="{{asset('dept/assets/')}}/js/main.js"></script>
+
+    <?php
+if (isset($eventsJson)) {
+} else {
+    $eventsJson = '';
+}
+?>
+<script>
+    $(document).ready(function() {
+        // Use PHP to echo the dynamic data from the controller
+        var noticedata = <?php echo $eventsJson; ?>;
+
+        // Initialize FullCalendar
+        $('#fullCalendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay',
+            },
+            events: noticedata,
+            eventRender: function(event, element) {
+                // Check if the event has a URL
+                if (event.url) {
+                    // Make the event a clickable link
+                    element.css('cursor', 'pointer');
+                    element.attr('onclick', "window.location='" + event.url + "'");
+                }
+
+                // Set the title attribute for additional information
+                element.attr('title', event.title);
+                element.css('background-color', event.color);
+            },
+        });
+    });
+</script>
 
 </body>
 

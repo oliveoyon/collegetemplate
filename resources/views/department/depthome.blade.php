@@ -1,44 +1,34 @@
 @extends('department.layouts.dept-layouts')
 
 @section('deptcontent')
+@push('admincss')
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
+@endpush
 
 <section id="hero">
     <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
       <div class="carousel-inner" role="listbox">
 
-        <!-- Slide 1 -->
-        <div class="carousel-item active" style="background-image: url({{asset('dept/assets/')}}/img/slide/slide-1.jpg);">
-          <div class="carousel-container">
-            <div class="carousel-content animate__animated animate__fadeInUp">
-              <h2>Welcome to <span>Company</span></h2>
-              <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
-              <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
+        @foreach ($sliders as $slider)
+            <div class="carousel-item active" style="background-image: url('{{ asset('storage/img/slider/' . $slider->upload) }}');">
+                @if ($slider->title)
+                    <div class="carousel-container">
+                        <div class="carousel-content animate__animated animate__fadeInUp">
+                            <h2>{{ $slider->title }}</h2>
+                            <p>{{ $slider->desc }}</p>
+                        </div>
+                    </div>
+                @endif
             </div>
-          </div>
-        </div>
+        @endforeach
 
-        <!-- Slide 2 -->
-        <div class="carousel-item" style="background-image: url({{asset('dept/assets/')}}/img/slide/slide-2.jpg);">
-          <div class="carousel-container">
-            <div class="carousel-content animate__animated animate__fadeInUp">
-              <h2>Lorem Ipsum Dolor</h2>
-              <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
-              <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Slide 3 -->
-        <div class="carousel-item" style="background-image: url({{asset('dept/assets/')}}/img/slide/slide-3.jpg);">
-          <div class="carousel-container">
-            <div class="carousel-content animate__animated animate__fadeInUp">
-              <h2>Sequi ea ut et est quaerat</h2>
-              <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
-              <div class="text-center"><a href="" class="btn-get-started">Read More</a></div>
-            </div>
-          </div>
-        </div>
+
+
 
       </div>
 
@@ -56,6 +46,220 @@
   </section><!-- End Hero -->
 
   <main id="main">
+
+    <section class="principal-message-section">
+        <div class="container principal-container">
+            @if($messages)
+            <div class="row">
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    <div class="image-container" data-aos="fade-right">
+                        <img src="{{ asset('storage/img/message_img/' . $messages->upload) }}" height="200" class="principal-image float-left" alt="">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="principal-message" data-aos="fade-left">
+                        <h2>{{ $messages->message_type }}</h2>
+                        <p>{!! $messages->message_desc !!}</p>
+                        <!-- Add more content or styling as needed -->
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
+    </section>
+
+    <section id="features" class="features mt-5">
+        <div class="container">
+
+            <div class="section-title" data-aos="fade-up">
+                <h2 style="font-family: SolaimanLipi"><strong>নোটিশ বোর্ড</strong></h2>
+                <p>সকল নোটিশ, ইভেন্ট, সেমিনার, ওয়ার্কশপ ও অন্যান্য তথ্য</p>
+                <hr>
+            </div>
+
+            @if (isset($provider_ntcs))
+
+
+
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0" data-aos="fade-right" style="border-right: 1px solid rgb(189, 189, 189)">
+                    <ul class="nav nav-tabs flex-column">
+                        @php $index = 1; @endphp
+                        @foreach ($provider_ntcs->unique('type_name') as $ntcs)
+                        <li class="nav-item">
+                            <a class="nav-link {{ $index === 1 ? 'active show' : '' }}" data-bs-toggle="tab" href="#tab-{{ $index }}">
+                                <h4>{{ $ntcs->type_name }}</h4>
+                                <p>সকল প্রকার {{ $ntcs->type_name }} তথ্য</p>
+                            </a>
+                        </li>
+                        @php $index++; @endphp
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="col-lg-8 ml-auto" data-aos="fade-left" data-aos-delay="100">
+                    <div class="tab-content">
+                        @php $tabIndex = 1; @endphp
+                        @foreach ($provider_ntcs->unique('type_name') as $ntcs)
+                        <div class="tab-pane {{ $tabIndex === 1 ? 'active show' : '' }}" id="tab-{{ $tabIndex }}">
+                            <table class="table bottom-border-table">
+                                <tbody>
+                                    @php $count = 0; @endphp
+                                    @foreach ($provider_ntcs as $event)
+                                    @if ($event->type_name === $ntcs->type_name)
+                                    @if ($count < 10) <tr>
+                                        <td>{{ $event->event_title }}</td>
+                                        <td><small>{{ \Carbon\Carbon::parse($event->created_at)->format('d F, Y') }}</small></td>
+                                        <td>
+                                            <a href="{{ url('notice/' . $event->url) }}" class="btn btn-sm btn-info">View</a>
+                                        </td>
+                                        </tr>
+                                        @php $count++; @endphp
+                                        @else
+                                        @break
+                                        @endif
+                                        @endif
+                                        @endforeach
+
+                                        @if ($count > 8)
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <a href="{{ route('allnotice', ['cat' => $ntcs->type_name]) }}" class="btn btn-success show-all-button btn-sm">
+                                                    সকল নোটিশ
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        @php $tabIndex++; @endphp
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            @endif
+
+
+        </div>
+    </section><!-- End Features Section -->
+
+    <section class="menu-section">
+        <div class="container">
+            @isset($menus)
+
+
+            <div class="row">
+                @foreach ($menus as $menu)
+                @if ($menu->is_home == 1)
+                <div class="col-sm-4 col-12 mb-4">
+                    <div class="menu-box d-flex flex-column h-100">
+                        <div class="col-sm-12 col-12 pt-3 pb-2" id="cart" data-aos="fade-in" data-aos-duration="1000">
+                            <p class="session" style="font-weight: bold">&nbsp;&nbsp;{{ $menu->menu_name }}
+                            </p>
+                            <div class="row">
+                                <div class="col-sm-3 col-3">
+                                    <img width="200" src="{{ asset('storage/img/menu_img/' . $menu->upload) }}" class="img-fluid">
+                                </div>
+                                <div class="col-sm-9 col-9 p-0">
+                                    <ul class="menus">
+
+                                        @foreach ($menu->subMenus as $subMenu)
+                                        <li><i class="fa fa-caret-right"></i><a href="{{ route('menudesc', ['slug' => $menu->menu_slug, 'submenu' => $subMenu->submenu_slug]) }}">{{ $subMenu->submenu_name }}</a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @endforeach
+
+
+            </div>
+            @endisset
+
+
+        </div>
+    </section>
+
+
+
+    <!-- ======= Services Section ======= -->
+    <section class="custom-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center text-lg-left">
+                    <h3 style="font-family: SolaimanLipi" class="mb-4"><strong>ডাউনলোড</strong></h3>
+                    <div class="card-body table-container">
+                        <!-- Notice List -->
+                        <table class="custom-table table-striped">
+                            <tr>
+                                <th>নং</th>
+                                <th>শিরোনাম</th>
+                                <th>বর্ণনা</th>
+                                <th>তারিখ</th>
+                                <th>একশন</th>
+                            </tr>
+                            @foreach ($uploads as $upload)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $upload->title }}</td>
+                                <td>{!! Str::substr($upload->description, 0, 100) !!}</td>
+                                <td>{{ date('M j, Y', strtotime($upload->created_at)) }}</td>
+                                <td><a href="{{ url('download/' . $upload->url) }}" class="btn btn-sm btn-success">বিস্তারিত</a></td>
+                            </tr>
+                            @endforeach
+                        </table>
+                        <div class="show-all-notices">
+                            <a href="{{ route('alldownload') }}" class="btn btn-success show-all-button btn-sm">সকল
+                                ডাউনলোড</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-9">
+                    <h3 style="font-family: SolaimanLipi" class="mb-4"><strong>একাডেমিক ক্যালেন্ডার</strong></h3>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="container">
+                                <div id="fullCalendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h3 style="font-family: SolaimanLipi" class="mb-4"><strong>গুরুত্বপূর্ণ লিঙ্ক</strong></h3>
+                    @isset($important_links)
+                    <div class="card important-links-card">
+                        <div class="card-body">
+                            <ul class="menus">
+
+                                @foreach($important_links as $link)
+                                <li class="list-group-item"><a href="{{ $link->link }}">{{ $link->link_name }}</a></li>
+                                @endforeach
+                                <!-- Add more links as needed -->
+                            </ul>
+                        </div>
+                    </div>
+                    @endisset
+
+
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ======= About Us Section ======= -->
     <section id="about-us" class="about-us">
@@ -175,117 +379,7 @@
       </div>
     </section><!-- End Services Section -->
 
-    <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio">
-      <div class="container">
 
-        <div class="row" data-aos="fade-up">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">App</li>
-              <li data-filter=".filter-card">Card</li>
-              <li data-filter=".filter-web">Web</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row portfolio-container" data-aos="fade-up">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 1</h4>
-              <p>App</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 2</h4>
-              <p>App</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 2"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 2</h4>
-              <p>Card</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 2"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 2</h4>
-              <p>Web</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 2"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 3</h4>
-              <p>App</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 1</h4>
-              <p>Card</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 1"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 3</h4>
-              <p>Card</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <img src="{{asset('dept/assets/')}}/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <a href="{{asset('dept/assets/')}}/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Portfolio Section -->
 
     <!-- ======= Our Clients Section ======= -->
     <section id="clients" class="clients">

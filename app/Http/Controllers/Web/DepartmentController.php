@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Department;
+use App\Models\Admin\Events;
 use App\Models\Admin\Menu;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +14,12 @@ use Illuminate\Support\Facades\DB;
 class DepartmentController extends Controller
 {
     protected $menus;
+    protected $deptId;
+
+    public function __construct(Request $request)
+    {
+        $this->deptId = Department::where('department_slug', $request->route('dept'))->value('id');
+    }
     public function getMenus(Request $request)
     {
         // Retrieve department ID
@@ -31,7 +39,24 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
-        dd($send['menus']);
+        $send['messages'] = DB::table('messages')->where(['message_status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->first();
+        $send['uploads'] = DB::table('uploads')->where(['status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->limit(6)->get();
+        $send['sliders'] = DB::table('sliders')->where(['slider_status' => 1, 'dept_id' => $this->deptId])->limit(3)->get();
+        $events = Events::where(['event_status' => 1, 'dept_id' => $this->deptId])
+        // ->whereDate('start_date', '>=', now())
+        ->select('event_title', 'start_date', 'end_date', 'url', 'color')
+        ->get()
+        ->map(function ($event) {
+            return [
+                'title' => $event->event_title,
+                'start' => Carbon::parse($event->start_date)->toDateTimeString(),
+                'end' => Carbon::parse($event->end_date)->toDateTimeString(),
+                'url' => 'notice/'.$event->url,
+                'color' => $event->color,
+            ];
+        });
+
+        $send['eventsJson'] = $events->toJson();
         return view('department.depthome', $send);
     }
 

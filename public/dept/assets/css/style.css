@@ -10,7 +10,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'SolaimanLipi', "Open Sans", sans-serif;
   color: #4d4643;
 }
 
@@ -143,7 +143,7 @@ h6 {
 # Navigation Menu
 --------------------------------------------------------------*/
 /**
-* Desktop Navigation 
+* Desktop Navigation
 */
 .navbar {
   padding: 0;
@@ -258,7 +258,7 @@ h6 {
 }
 
 /**
-* Mobile Navigation 
+* Mobile Navigation
 */
 .mobile-nav-toggle {
   color: #111;
@@ -2228,3 +2228,258 @@ section {
   color: #fff;
   text-decoration: none;
 }
+
+/*--------------------------------------------------------------
+# Menu Section
+--------------------------------------------------------------*/
+.menu-section{
+    background-color: #ebebeb;
+  }
+
+  .menu-box {
+    background-color: #fff;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease-in-out, border-width 0.3s ease-in-out; /* Added transition for border color and width */
+  }
+
+  .menu-box:hover {
+  border-color: #3498db; /* Change border color on hover */
+  border-width: 2px; /* Increase border width on hover */
+  }
+
+  .menus {
+  list-style: none;
+  padding: 0;
+  }
+
+  .menus li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 8px;
+  color: black;
+  transition: color 0.3s ease-in-out;
+  }
+
+  .menus li::before {
+  content: "\25B6"; /* Unicode character for right-pointing triangle (you can change this) */
+  font-size: 18px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #3498db; /* Adjust the icon color */
+  }
+
+  .menus a {
+  color: inherit;
+  text-decoration: none;
+  }
+
+  .menus a:hover {
+  color: #e74c3c;
+  }
+
+
+
+/*--------------------------------------------------------------
+# Features
+--------------------------------------------------------------*/
+.features {
+    padding-top: 0;
+  }
+
+  .features .nav-tabs {
+    border: 0;
+  }
+
+  .features .nav-link {
+    border: 0;
+    padding: 25px 20px;
+    transition: 0.3s;
+    color: #2b2320;
+  }
+
+  .features .nav-link:hover {
+    color: #f03c02;
+  }
+
+  .features .nav-link h4 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .features .nav-link p {
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+
+  .features .nav-link.active {
+    box-shadow: 0px 0 15px rgba(0, 0, 0, 0.12);
+    color: #f03c02;
+  }
+
+  .features .tab-pane.active {
+    animation: slide-down 0.5s ease-out;
+  }
+
+  @keyframes slide-down {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+
+/* Custom */
+
+.notice_title {
+    font-weight: bold;
+  }
+
+  .notice-lists {
+    color: #000000;
+    padding: 5px;
+    display: flex;
+  }
+
+  .left-bar {
+    background-color: #3498db;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-right: 3px;
+  }
+
+
+
+  .info-box-link {
+    text-decoration: none;
+    color: inherit;
+    /* Remove underline for the link */
+  }
+
+  .info-box:hover .info-box-content {
+    background-color: #f4f4f4;
+    /* Change background color on hover */
+    cursor: pointer;
+    /* Show hand cursor on hover */
+  }
+
+  /* Add your custom styles here */
+
+  .principal-message-section {
+    padding: 50px 0;
+    background-color: #e4e3e3;
+    /* Set the background color for the entire section */
+  }
+
+  .principal-container {
+    background-color: #ffffff;
+    /* Set the background color for the container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add a subtle box-shadow */
+    overflow: hidden;
+    /* Hide overflow to prevent the image from protruding */
+  }
+
+  .image-container {
+    overflow: hidden;
+    text-align: center;
+    /* Center the image within the container */
+    margin: 20px 0;
+    /* Add margin for top and bottom space */
+  }
+
+  .principal-image {
+    transition: transform 0.3s ease-in-out;
+    /* Add a smooth transition effect */
+  }
+
+  .image-container:hover .principal-image {
+    transform: scale(1.1);
+    /* Add a simple scale effect on hover */
+  }
+
+  .principal-message {
+    padding: 20px;
+  }
+
+  @media (max-width: 767px) {
+
+    /* Center the principal's image on mobile devices */
+    .image-container {
+      text-align: center;
+    }
+
+    /* Adjust the spacing between the image and message on mobile */
+    .principal-message {
+      margin-top: 20px;
+    }
+  }
+
+  .notices {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .notices thead {
+    background-color: #007bff !important;
+    /* Use !important to override Bootstrap styles */
+    color: #fff;
+  }
+
+  .notices th,
+  .notices td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .notices tbody tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  .custom-section {
+      background-color: rgb(241, 251, 254);
+      padding: 20px; /* Add padding as needed */
+  }
+
+  .table-container {
+      margin-top: 20px; /* Adjust margin as needed */
+  }
+
+  .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px; /* Adjust margin as needed */
+  }
+
+  .custom-table th,
+  .custom-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+
+  }
+
+  .custom-table th {
+      background-color: #000000;
+      color: #fff;
+  }
+
+  .show-all-notices {
+      margin-top: 20px; /* Adjust margin as needed */
+  }

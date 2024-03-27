@@ -30,7 +30,7 @@ class WebController extends Controller
         ->limit(6) // Replace '5' with your desired limit
         ->get();
         $send['sliders'] = DB::table('sliders')->where(['slider_status' => 1])
-        ->limit(3) // Replace '5' with your desired limit
+        ->limit(4) // Replace '5' with your desired limit
         ->get();
 
         $events = Events::where('event_status', 1)
