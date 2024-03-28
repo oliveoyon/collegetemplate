@@ -15,11 +15,13 @@ use App\Models\Admin\ImportantLink;
 use App\Models\Admin\Messages;
 use App\Models\Admin\MujibCorners;
 use App\Models\Admin\Slider;
+use App\Models\Admin\Teacher;
 use App\Models\Admin\Uploads;
 use App\Models\Admin\WebSetting;
 use Illuminate\Http\Request;
 use Datatables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Validator;
@@ -1419,6 +1421,144 @@ class MenuController extends Controller
 
         if ($query) {
             return response()->json(['code' => 1, 'msg' => __('language.department_del_msg'), 'redirect' => 'admin/department-list']);
+        } else {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
+    public function teacherlist()
+    {
+        $send['teachers'] = DB::table('teachers')
+            ->leftJoin('departments', 'teachers.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('teachers.*', 'faculties.faculty_name', 'departments.department_name')
+            ->addSelect(DB::raw("CASE WHEN teachers.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department"))
+            ->get();
+        return view('dashboard.admin.others.teacher-list', $send);
+    }
+
+    public function addTeacher(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'teacher_name' => 'required|string|max:255',
+            'teacher_user_name' => 'required|string|max:50|unique:teachers,teacher_user_name',
+            'teacher_mobile' => 'required|string|max:20',
+            'teacher_email' => 'nullable|email|max:100',
+            'teacher_designation' => 'required|string|max:100',
+            'teacher_gender' => 'required|string|max:10',
+            'teacher_password' => 'required|string|max:300',
+            'teacher_status' => 'required',
+            'teacher_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+        ]);
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $teacher = new Teacher();
+            $teacher->teacher_hash_id = md5(uniqid(rand(), true));
+            $teacher->teacher_name = $request->input('teacher_name');
+            $teacher->teacher_user_name = $request->input('teacher_user_name');
+            $teacher->teacher_mobile = $request->input('teacher_mobile');
+            $teacher->teacher_email = $request->input('teacher_email');
+            $teacher->teacher_designation = $request->input('teacher_designation');
+            $teacher->teacher_gender = $request->input('teacher_gender');
+            $teacher->teacher_password = Hash::make($request->input('teacher_password'));
+            $teacher->teacher_status = $request->input('teacher_status');
+            $teacher->dept_id = $request->input('dept_id');
+
+            if ($request->hasFile('teacher_image')) {
+                $path = 'img/teacher_img/';
+                $file = $request->file('teacher_image');
+                $file_name = time() . '.' . $request->file('teacher_image')->getClientOriginalExtension();
+                $file->storeAs($path, $file_name, 'public');
+                $teacher->teacher_image = $file_name;
+            }
+
+            $query = $teacher->save();
+
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => __('language.teacher_add_msg'), 'redirect' => 'admin/teacher-list']);
+            }
+        }
+    }
+
+    public function getTeacherDetails(Request $request)
+    {
+        $teacher_id = $request->teacher_id;
+        $teacherDetails = Teacher::find($teacher_id);
+        return response()->json(['details' => $teacherDetails]);
+    }
+
+    public function updateTeacherDetails(Request $request)
+    {
+        $teacher_id = $request->teacher_id;
+        $teacher = Teacher::find($teacher_id);
+    
+        $validator = Validator::make($request->all(), [
+            'teacher_name' => 'required|string|max:255',
+            'teacher_user_name' => 'required|string|max:50|unique:teachers,teacher_user_name,' . $teacher_id,
+            'teacher_mobile' => 'required|string|max:20',
+            'teacher_email' => 'nullable|email|max:100',
+            'teacher_designation' => 'required|string|max:100',
+            'teacher_gender' => 'required|string|max:10',
+            'teacher_status' => 'required',
+            'teacher_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+        ]);
+    
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $teacher->teacher_name = $request->input('teacher_name');
+            $teacher->teacher_user_name = $request->input('teacher_user_name');
+            $teacher->teacher_mobile = $request->input('teacher_mobile');
+            $teacher->teacher_email = $request->input('teacher_email');
+            $teacher->teacher_designation = $request->input('teacher_designation');
+            $teacher->teacher_gender = $request->input('teacher_gender');
+    
+            if ($request->has('teacher_password')) {
+                $teacher->teacher_password = Hash::make($request->input('teacher_password'));
+            }
+    
+            $teacher->teacher_status = $request->input('teacher_status');
+            $teacher->dept_id = $request->input('dept_id');
+            $file_path = 'img/teacher_img/'. $teacher->teacher_image;
+            // Update teacher image if provided
+            if ($request->hasFile('teacher_image') && $request->file('teacher_image')->isValid()) {
+                // Delete existing image if it exists
+                if ($teacher->teacher_image != null && \Storage::disk('public')->exists($file_path)) {
+                    \Storage::disk('public')->delete($file_path);
+                }
+                // Upload new image
+                $path = 'img/teacher_img/';
+                $file = $request->file('teacher_image');
+                $file_name = time() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs($path, $file_name, 'public');
+                $teacher->teacher_image = $file_name;
+            }
+    
+            $query = $teacher->save();
+    
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => __('language.teacher_edit_msg'), 'redirect' => 'admin/teacher-list']);
+            }
+        }
+    }
+
+    public function deleteTeacher(Request $request)
+    {
+        $teacher_id = $request->teacher_id;
+        $query = Teacher::find($teacher_id);
+        $file_path = 'img/teacher_img/'. $query->teacher_image;
+        \Storage::disk('public')->delete($file_path);
+       
+        $query = $query->delete();
+
+        if ($query) {
+            return response()->json(['code' => 1, 'msg' => __('language.teacher_del_msg'), 'redirect' => 'admin/teacher-list']);
         } else {
             return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
         }

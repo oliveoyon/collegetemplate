@@ -271,7 +271,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="submenu_desc">বর্ণনা</label>
-                      <textarea name="submenu_desc" class="summernote form-control" id="submenu_desc"></textarea>
+                      <textarea name="submenu_desc" class="summernote form-control" id="submenu_desc1"></textarea>
                       <span class="text-danger error-text submenu_desc_error"></span>
                     </div>
                   </div>
@@ -386,7 +386,6 @@
     $(document).on('click', '#editSubMenuBtn', function() {
       var submenu_id = $(this).data('id');
 
-      alert(submenu_id);
 
       $('.editSubMenu').find('form')[0].reset();
       $('.editSubMenu').find('span.error-text').text('');
@@ -398,6 +397,7 @@
         $('.editSubMenu').find('input[name="sid"]').val(data.details.id);
         $('.editSubMenu').find('select[name="menu_id"]').val(data.details.menu_id);
         $('.editSubMenu').find('input[name="submenu_name"]').val(data.details.submenu_name);
+        $('#submenu_desc1').summernote('code', data.details.submenu_desc);
         $('.editSubMenu').find('select[name="dept_id"]').val(data.details.dept_id);
         $('.editSubMenu').find('select[name="submenu_status"]').val(data.details.submenu_status);
         $('#summernote').summernote('code', data.details.submenu_desc);

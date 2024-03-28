@@ -296,7 +296,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="child_menu_desc">বর্ণনা</label>
-                      <textarea name="child_menu_desc" class="summernote form-control" id="child_menu_desc"></textarea>
+                      <textarea name="child_menu_desc1" class="summernote form-control" id="child_menu_desc1"></textarea>
                       <span class="text-danger error-text child_menu_desc_error"></span>
                     </div>
                   </div>
@@ -453,6 +453,7 @@
         $('.editChildMenu').find('select[name="menu_id"]').val(data.details.menu_id);
         $('.editChildMenu').find('select[name="submenu_id"]').val(data.details.submenu_id);
         $('.editChildMenu').find('input[name="childmenu_name"]').val(data.details.childmenu_name);
+        $('#child_menu_desc1').summernote('code', data.details.child_menu_desc1);
         $('.editChildMenu').find('select[name="dept_id"]').val(data.details.dept_id);
         $('.editChildMenu').find('select[name="child_menu_status"]').val(data.details.child_menu_status);
         $('#child_menu_desc1').summernote('code', data.details.child_menu_desc);

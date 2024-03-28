@@ -41,6 +41,7 @@ class DepartmentController extends Controller
         $send['menus'] = $this->menus;
         $send['messages'] = DB::table('messages')->where(['message_status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->first();
         $send['uploads'] = DB::table('uploads')->where(['status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->limit(6)->get();
+        $send['teachers'] = DB::table('teachers')->where(['teacher_status' => 1, 'dept_id' => $this->deptId])->get();
         $send['sliders'] = DB::table('sliders')->where(['slider_status' => 1, 'dept_id' => $this->deptId])->limit(3)->get();
         $events = Events::where(['event_status' => 1, 'dept_id' => $this->deptId])
         // ->whereDate('start_date', '>=', now())

@@ -154,6 +154,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('updateUploadDetails', [MenuController::class, 'updateUploadDetails'])->name('updateUploadDetails');
         Route::post('deleteUpload', [MenuController::class, 'deleteUpload'])->name('deleteUpload');
 
+        // Teacher Management
+        Route::get('teacher-list', [MenuController::class, 'teacherlist'])->name('teacher-list');
+        Route::post('addTeacher', [MenuController::class, 'addTeacher'])->name('addTeacher');
+        Route::post('getTeacherDetails', [MenuController::class, 'getTeacherDetails'])->name('getTeacherDetails');
+        Route::post('updateTeacherDetails', [MenuController::class, 'updateTeacherDetails'])->name('updateTeacherDetails');
+        Route::post('deleteTeacher', [MenuController::class, 'deleteTeacher'])->name('deleteTeacher');
+
+
 
         //Message Management
         Route::get('message-list', [MenuController::class, 'messagelist'])->name('message-list');

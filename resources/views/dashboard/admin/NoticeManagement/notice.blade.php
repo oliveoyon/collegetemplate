@@ -253,7 +253,7 @@
 
                 <div class="form-group">
                   <label for="menu_name">বর্ণনা</label>
-                  <textarea name="event_description" class="summernote" id="event_description"></textarea>
+                  <textarea name="event_description" class="summernote" id="event_description1"></textarea>
                   <span class="text-danger error-text event_description_error"></span>
                 </div>
 

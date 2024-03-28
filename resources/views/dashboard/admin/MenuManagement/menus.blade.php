@@ -271,7 +271,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="menu_desc">বর্ণনা</label>
-                                            <textarea name="menu_desc" class="summernote" id="summernote"></textarea>
+                                            <textarea name="menu_desc" class="summernote" id="summernote1"></textarea>
                                             <span class="text-danger error-text menu_desc_error"></span>
                                         </div>
                                     </div>
@@ -430,12 +430,12 @@
                 $.post("{{ route('admin.getMenuDetails') }}", {
                     menu_id: menu_id
                 }, function(data) {
-                    //alert(data.details.version_name);
+                    // alert(data.details.menu_desc);
                     var menuModal = $('.editMenu');
                     $('.editMenu').find('input[name="mid"]').val(data.details.id);
                     $('.editMenu').find('input[name="menu_name"]').val(data.details.menu_name);
                     $('.editMenu').find('select[name="dept_id"]').val(data.details.dept_id);
-                    $('#summernote').summernote('code', data.details.menu_desc);
+                    $('#summernote1').summernote('code', data.details.menu_desc);
                     $('.editMenu').find('select[name="menu_status"]').val(data.details.menu_status);
                     var isHomeValue = data.details.is_home;
                     isHomeValue = (isHomeValue === 1); // Convert 1 to true, 0 to false
