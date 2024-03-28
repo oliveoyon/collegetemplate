@@ -158,7 +158,7 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="member" data-aos="fade-up">
               <div class="member-img">
-                <img src="{{ asset('storage/img/teacher_img/' . $teacher->teacher_image) }}" class="img-fluid" alt=""> 
+                <img src="{{ asset('storage/img/teacher_img/' . $teacher->teacher_image) }}" class="img-fluid" alt="">
                 <div class="social">
                   <a href=""><i class="bi bi-twitter"></i></a>
                   <a href=""><i class="bi bi-facebook"></i></a>
@@ -174,7 +174,7 @@
           </div>
           @endforeach
 
-          
+
 
         </div>
 

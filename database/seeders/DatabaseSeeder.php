@@ -65,6 +65,83 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        DB::table('faculties')->insert([
+            [
+                'faculty_hash_id' => 'FAC001',
+                'faculty_name' => 'Faculty of Engineering',
+                'faculty_slug' => 'engineering',
+                'faculty_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'faculty_hash_id' => 'FAC002',
+                'faculty_name' => 'Faculty of Medicine',
+                'faculty_slug' => 'medicine',
+                'faculty_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        // Seed departments table
+        DB::table('departments')->insert([
+            [
+                'department_hash_id' => 'DEP001',
+                'faculty_id' => 1, // Engineering
+                'department_name' => 'Department of Computer Science',
+                'department_slug' => 'computer-science',
+                'department_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'department_hash_id' => 'DEP002',
+                'faculty_id' => 1, // Engineering
+                'department_name' => 'Department of Electrical Engineering',
+                'department_slug' => 'electrical-engineering',
+                'department_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'department_hash_id' => 'DEP003',
+                'faculty_id' => 1, // Engineering
+                'department_name' => 'Department of Mechanical Engineering',
+                'department_slug' => 'mechanical-engineering',
+                'department_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'department_hash_id' => 'DEP004',
+                'faculty_id' => 2, // Medicine
+                'department_name' => 'Department of Surgery',
+                'department_slug' => 'surgery',
+                'department_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'department_hash_id' => 'DEP005',
+                'faculty_id' => 2, // Medicine
+                'department_name' => 'Department of Pediatrics',
+                'department_slug' => 'pediatrics',
+                'department_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'department_hash_id' => 'DEP006',
+                'faculty_id' => 2, // Medicine
+                'department_name' => 'Department of Obstetrics and Gynecology',
+                'department_slug' => 'obstetrics-gynecology',
+                'department_status' => 1, // Active
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
     }
 
 
