@@ -43,6 +43,7 @@ class DepartmentController extends Controller
         $send['uploads'] = DB::table('uploads')->where(['status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->limit(6)->get();
         $send['teachers'] = DB::table('teachers')->where(['teacher_status' => 1, 'dept_id' => $this->deptId])->get();
         $send['sliders'] = DB::table('sliders')->where(['slider_status' => 1, 'dept_id' => $this->deptId])->limit(3)->get();
+        $send['about'] = DB::table('about_departments')->where(['about_status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->first();
         $events = Events::where(['event_status' => 1, 'dept_id' => $this->deptId])
         // ->whereDate('start_date', '>=', now())
         ->select('event_title', 'start_date', 'end_date', 'url', 'color')
@@ -103,6 +104,25 @@ class DepartmentController extends Controller
             return view('department.menudesc', $send);
 
         } else {
+            // No parameters provided
+            return abort(404); // or redirect to a default view
+        }
+
+    }
+    public function deptnotice(Request $request, $faculty = null, $dept = null, $noticeslug=null)
+    {
+        $this->getMenus($request);
+        $send['menus'] = $this->menus;
+        if ($faculty && $dept && $noticeslug ) {
+            $send['events'] = DB::table('events')
+            ->select('events.*',  'event_types.type_name')
+            ->join('event_types', 'events.event_type_id', '=', 'event_types.id')
+            ->where(['events.event_status' => 1, 'events.url' => $noticeslug])
+            ->first();
+            return view('department.notice-details', $send);
+
+
+        }else {
             // No parameters provided
             return abort(404); // or redirect to a default view
         }

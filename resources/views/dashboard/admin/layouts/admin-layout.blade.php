@@ -162,6 +162,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ route('admin.about-list') }}" class="nav-link">
+                                        <i class="fas fa-bars nav-icon"></i>
+                                        <p>ডিপার্টমেন্ট সম্বন্ধে</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ route('admin.notice-list') }}" class="nav-link">
                                         <i class="far fa-bell nav-icon"></i>
                                         <p>নোটিশ ম্যানেজমেন্ট</p>

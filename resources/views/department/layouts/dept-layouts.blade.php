@@ -1,3 +1,8 @@
+@php
+    $segments = Request::segments();
+    $currentFaculty = isset($segments[1]) ? $segments[1] : '';
+    $currentDept = isset($segments[2]) ? $segments[2] : '';
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,24 +15,27 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{asset('dept/assets/')}}/img/favicon.png" rel="icon">
-    <link href="{{asset('dept/assets/')}}/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="{{ asset('dept/assets/') }}/img/favicon.png" rel="icon">
+    <link href="{{ asset('dept/assets/') }}/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
     <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
     <!-- Vendor CSS Files -->
-    <link href="{{asset('dept/assets/')}}/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="{{asset('dept/assets/')}}/vendor/aos/aos.css" rel="stylesheet">
-    <link href="{{asset('dept/assets/')}}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{asset('dept/assets/')}}/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="{{asset('dept/assets/')}}/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="{{asset('dept/assets/')}}/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="{{asset('dept/assets/')}}/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="{{asset('dept/assets/')}}/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/aos/aos.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     @stack('admincss')
     <!-- Template Main CSS File -->
-    <link href="{{asset('dept/assets/')}}/css/style.css" rel="stylesheet">
+    <link href="{{ asset('dept/assets/') }}/css/style.css" rel="stylesheet">
+
 
 
 </head>
@@ -38,38 +46,52 @@
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
 
-            <h1 class="logo me-auto"><a href="index.html"><span>Com</span>pany</a></h1>
+
+
+            <h1 class="logo me-auto"><a
+                    href="{{ route('department', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}"><span>Com</span>pany</a>
+            </h1>
             <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="{{asset('dept/assets/')}}/img/logo.png" alt="" class="img-fluid"></a>-->
+            <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="{{ asset('dept/assets/') }}/img/logo.png" alt="" class="img-fluid"></a>-->
 
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
-                    <li><a href="index.html" class="active">Home</a></li>
-                    @foreach($menus as $menu)
-                    @if ($menu->is_home == 0)
-                    @if($menu->subMenus->isEmpty())
-                    <li><a href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug]) }}">{{ $menu->menu_name }}</a></li>
-                    @else
-                    <li class="dropdown"><a href="#"><span>{{ $menu->menu_name }}</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            @foreach($menu->subMenus as $submenu)
-
-                            @if(!$submenu->childMenus->isEmpty())
-                            <li class="dropdown"><a href="#"><span>{{ $submenu->submenu_name }}</span> <i class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    @foreach($submenu->childMenus as $childMenu)
-                                    <li><a href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug, 'submenu' => $submenu->submenu_slug, 'childmenu' => $childMenu->child_menu_slug]) }}">{{ $childMenu->childmenu_name }}</a></li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            @else
-                            <li><a href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug, 'submenu' => $submenu->submenu_slug]) }}">{{ $submenu->submenu_name }}</a></li>
-                            @endif
-                            @endforeach
-                        </ul>
+                    <li><a
+                            href="{{ route('department', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}">Home</a>
                     </li>
-                    @endif
-                    @endif
+                    @foreach ($menus as $menu)
+                        @if ($menu->is_home == 0)
+                            @if ($menu->subMenus->isEmpty())
+                                <li><a
+                                        href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug]) }}">{{ $menu->menu_name }}</a>
+                                </li>
+                            @else
+                                <li class="dropdown"><a href="#"><span>{{ $menu->menu_name }}</span> <i
+                                            class="bi bi-chevron-down"></i></a>
+                                    <ul>
+                                        @foreach ($menu->subMenus as $submenu)
+                                            @if (!$submenu->childMenus->isEmpty())
+                                                <li class="dropdown"><a
+                                                        href="#"><span>{{ $submenu->submenu_name }}</span> <i
+                                                            class="bi bi-chevron-right"></i></a>
+                                                    <ul>
+                                                        @foreach ($submenu->childMenus as $childMenu)
+                                                            <li><a
+                                                                    href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug, 'submenu' => $submenu->submenu_slug, 'childmenu' => $childMenu->child_menu_slug]) }}">{{ $childMenu->childmenu_name }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                            @else
+                                                <li><a
+                                                        href="{{ route('deptmenudesc', ['faculty' => request()->segment(2), 'dept' => request()->segment(3), 'slug' => $menu->menu_slug, 'submenu' => $submenu->submenu_slug]) }}">{{ $submenu->submenu_name }}</a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endif
+                        @endif
                     @endforeach
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -165,54 +187,55 @@
         </div>
     </footer><!-- End Footer -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="{{asset('dept/assets/')}}/vendor/aos/aos.js"></script>
-    <script src="{{asset('dept/assets/')}}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('dept/assets/')}}/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="{{asset('dept/assets/')}}/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="{{asset('dept/assets/')}}/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="{{asset('dept/assets/')}}/vendor/waypoints/noframework.waypoints.js"></script>
-    <script src="{{asset('dept/assets/')}}/vendor/php-email-form/validate.js"></script>
+    <script src="{{ asset('dept/assets/') }}/vendor/aos/aos.js"></script>
+    <script src="{{ asset('dept/assets/') }}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('dept/assets/') }}/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="{{ asset('dept/assets/') }}/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="{{ asset('dept/assets/') }}/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="{{ asset('dept/assets/') }}/vendor/waypoints/noframework.waypoints.js"></script>
+    <script src="{{ asset('dept/assets/') }}/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="{{asset('dept/assets/')}}/js/main.js"></script>
+    <script src="{{ asset('dept/assets/') }}/js/main.js"></script>
 
     <?php
-if (isset($eventsJson)) {
-} else {
-    $eventsJson = '';
-}
-?>
-<script>
-    $(document).ready(function() {
-        // Use PHP to echo the dynamic data from the controller
-        var noticedata = <?php echo $eventsJson; ?>;
+    if (isset($eventsJson)) {
+    } else {
+        $eventsJson = '';
+    }
+    ?>
+    <script>
+        $(document).ready(function() {
+            // Use PHP to echo the dynamic data from the controller
+            var noticedata = <?php echo $eventsJson; ?>;
 
-        // Initialize FullCalendar
-        $('#fullCalendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay',
-            },
-            events: noticedata,
-            eventRender: function(event, element) {
-                // Check if the event has a URL
-                if (event.url) {
-                    // Make the event a clickable link
-                    element.css('cursor', 'pointer');
-                    element.attr('onclick', "window.location='" + event.url + "'");
-                }
+            // Initialize FullCalendar
+            $('#fullCalendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay',
+                },
+                events: noticedata,
+                eventRender: function(event, element) {
+                    // Check if the event has a URL
+                    if (event.url) {
+                        // Make the event a clickable link
+                        element.css('cursor', 'pointer');
+                        element.attr('onclick', "window.location='" + event.url + "'");
+                    }
 
-                // Set the title attribute for additional information
-                element.attr('title', event.title);
-                element.css('background-color', event.color);
-            },
+                    // Set the title attribute for additional information
+                    element.attr('title', event.title);
+                    element.css('background-color', event.color);
+                },
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 

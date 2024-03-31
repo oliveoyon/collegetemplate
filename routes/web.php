@@ -47,6 +47,7 @@ Route::get('/menu/{slug}/{submenu?}/{childmenu?}', [WebController::class, 'menud
 // Department
 Route::get('/department/{faculty}/{dept}', [DepartmentController::class, 'index'])->name('department');
 Route::get('/department-menu/{faculty}/{dept}/{slug}/{submenu?}/{childmenu?}', [DepartmentController::class, 'deptmenudesc'])->name('deptmenudesc');
+Route::get('/department-notice/{faculty}/{dept}/{noticeslug}', [DepartmentController::class, 'deptnotice'])->name('deptnotice');
 
 
 
@@ -161,14 +162,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('updateTeacherDetails', [MenuController::class, 'updateTeacherDetails'])->name('updateTeacherDetails');
         Route::post('deleteTeacher', [MenuController::class, 'deleteTeacher'])->name('deleteTeacher');
 
-
-
         //Message Management
         Route::get('message-list', [MenuController::class, 'messagelist'])->name('message-list');
         Route::post('addMessage', [MenuController::class, 'addMessage'])->name('addMessage');
         Route::post('getMessageDetails', [MenuController::class, 'getMessageDetails'])->name('getMessageDetails');
         Route::post('updateMessageDetails', [MenuController::class, 'updateMessageDetails'])->name('updateMessageDetails');
         Route::post('deleteMessage', [MenuController::class, 'deleteMessage'])->name('deleteMessage');
+
+        //About Management
+        Route::get('about-list', [MenuController::class, 'aboutlist'])->name('about-list');
+        Route::post('addAbout', [MenuController::class, 'addAbout'])->name('addAbout');
+        Route::post('getAboutDetails', [MenuController::class, 'getAboutDetails'])->name('getAboutDetails');
+        Route::post('updateAboutDetails', [MenuController::class, 'updateAboutDetails'])->name('updateAboutDetails');
+        Route::post('deleteAbout', [MenuController::class, 'deleteAbout'])->name('deleteAbout');
 
         // Web Settings
         Route::get('web-settings', [MenuController::class, 'web_settings'])->name('web-settings');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\AboutDepartment;
 use App\Models\Admin\child_menu;
 use App\Models\Admin\Department;
 use App\Models\Admin\Menu;
@@ -1261,6 +1262,153 @@ class MenuController extends Controller
         }
     }
 
+    public function aboutlist()
+    {
+        $send['abouts'] = AboutDepartment::leftJoin('departments', 'about_departments.dept_id', '=', 'departments.id')
+            ->leftJoin('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select(
+                'about_departments.*',
+                'departments.department_name',
+                'faculties.faculty_name',
+                DB::raw("CASE WHEN about_departments.dept_id = 0 THEN 'Main Website' ELSE CONCAT(faculties.faculty_name, ' - ', departments.department_name) END AS faculty_department")
+            )
+            ->get();
+
+        return view('dashboard.admin.others.about', $send);
+    }
+
+    public function addabout(Request $request)
+    {
+        // Check if a about already exists for this department
+        $existingabout = AboutDepartment::where('dept_id', $request->input('dept_id'))->first();
+        if ($existingabout) {
+            return response()->json(['code' => 0, 'msg' => 'A about already exists for this department']);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'upload' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // Adjust the allowed file types and size as needed
+            'about_status' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            $file_name = '';
+            if ($request->file('upload')) {
+                $path = 'img/about_img/';
+                $file = $request->file('upload');
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
+                //$upload = $file->storeAs($path, $file_name);
+                $file->storeAs($path, $file_name, 'public');
+            }
+
+            $about = new AboutDepartment();
+            $about->name = $request->input('name');
+            $about->about_slug = Str::slug($request->input('name'));
+            $about->about_status = $request->input('about_status');
+            $about->about_desc = $request->input('about_desc');
+            $about->dept_id = $request->input('dept_id');
+            $about->upload = $file_name;
+            $query = $about->save();
+
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => 'about has been successfully saved', 'redirect' => 'admin/about-list']);
+            }
+        }
+    }
+
+
+    public function getaboutDetails(Request $request)
+    {
+        $about_id = $request->about_id;
+        $aboutDetails = AboutDepartment::find($about_id);
+        return response()->json(['details' => $aboutDetails]);
+    }
+
+    public function updateaboutDetails(Request $request)
+    {
+        $about_id = $request->sid;
+        $about = AboutDepartment::find($about_id);
+        $path = 'img/about_img/';
+        $file_name = $about->upload;
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:about_departments,name,' . $about_id,
+            'upload' => 'image|mimes:jpeg,png,jpg,gif|max:5120', // Adjust the allowed file types and size as needed
+            'about_status' => 'required',
+            'dept_id' => [
+                'required',
+                'integer',
+                function ($attribute, $value, $fail) use ($about_id) {
+                    $about = AboutDepartment::find($about_id);
+                    if ($about && $about->dept_id != $value) {
+                        $existingabout = AboutDepartment::where('dept_id', $value)->exists();
+                        if ($existingabout) {
+                            $fail("The $attribute already exists.");
+                        }
+                    }
+                },
+            ],
+        ]);
+
+
+        if (!$validator->passes()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+
+            if ($request->hasFile('upload')) {
+                $file_path = $path . $about->upload;
+                if ($about->upload != null && \Storage::disk('public')->exists($file_path)) {
+                    \Storage::disk('public')->delete($file_path);
+                }
+                $file = $request->file('upload');
+                $file_name = time() . '.' . $request->file('upload')->getClientOriginalExtension();
+                //$upload = $file->storeAs($path, $file_name);
+                $upload = $file->storeAs($path, $file_name, 'public');
+            }
+
+
+            $about->name = $request->input('name');
+            $about->about_slug = Str::slug($request->input('about_type')); // Generate slug from about_type
+            $about->about_status = $request->input('about_status');
+            $about->about_desc = $request->input('about_desc');
+            $about->dept_id = $request->input('dept_id');
+            $about->upload = $file_name;
+
+            $query = $about->save();
+
+            if (!$query) {
+                return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+            } else {
+                return response()->json(['code' => 1, 'msg' => 'Sub Menu has been successfully saved', 'redirect' => 'admin/about-list']);
+            }
+        }
+    }
+
+    public function deleteabout(Request $request)
+    {
+        $about_id = $request->about_id;
+        $query = AboutDepartment::find($about_id);
+
+        $path = 'img/about_img/';
+        $img_path = $path . $query->upload;
+        if ($query->upload != null && \Storage::disk('public')->exists($img_path)) {
+            \Storage::disk('public')->delete($img_path);
+        }
+        $query1 = $query->delete();
+
+        // ->delete()
+
+        if ($query1) {
+            return response()->json(['code' => 1, 'msg' => 'about has been deleted from database', 'redirect' => 'admin/about-list']);
+        } else {
+            return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
+        }
+    }
+
     public function facultylist()
     {
         $send['facultys'] = Faculty::get();
@@ -1495,7 +1643,7 @@ class MenuController extends Controller
     {
         $teacher_id = $request->teacher_id;
         $teacher = Teacher::find($teacher_id);
-    
+
         $validator = Validator::make($request->all(), [
             'teacher_name' => 'required|string|max:255',
             'teacher_user_name' => 'required|string|max:50|unique:teachers,teacher_user_name,' . $teacher_id,
@@ -1506,7 +1654,7 @@ class MenuController extends Controller
             'teacher_status' => 'required',
             'teacher_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
         ]);
-    
+
         if (!$validator->passes()) {
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
@@ -1516,11 +1664,11 @@ class MenuController extends Controller
             $teacher->teacher_email = $request->input('teacher_email');
             $teacher->teacher_designation = $request->input('teacher_designation');
             $teacher->teacher_gender = $request->input('teacher_gender');
-    
+
             if ($request->has('teacher_password')) {
                 $teacher->teacher_password = Hash::make($request->input('teacher_password'));
             }
-    
+
             $teacher->teacher_status = $request->input('teacher_status');
             $teacher->dept_id = $request->input('dept_id');
             $file_path = 'img/teacher_img/'. $teacher->teacher_image;
@@ -1537,9 +1685,9 @@ class MenuController extends Controller
                 $file->storeAs($path, $file_name, 'public');
                 $teacher->teacher_image = $file_name;
             }
-    
+
             $query = $teacher->save();
-    
+
             if (!$query) {
                 return response()->json(['code' => 0, 'msg' => 'Something went wrong']);
             } else {
@@ -1554,7 +1702,7 @@ class MenuController extends Controller
         $query = Teacher::find($teacher_id);
         $file_path = 'img/teacher_img/'. $query->teacher_image;
         \Storage::disk('public')->delete($file_path);
-       
+
         $query = $query->delete();
 
         if ($query) {
