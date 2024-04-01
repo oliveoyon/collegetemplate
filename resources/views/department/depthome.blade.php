@@ -60,7 +60,7 @@ $currentDept = isset($segments[2]) ? $segments[2] : '';
             <div class="row content">
                 <div class="col-lg-6" data-aos="fade-right">
                     <img src="{{ asset('storage/img/about_img/' . $about->upload) }}" class="principal-image float-left" alt="" style="max-width: 100%; height: auto;">
-                    <h4>{{ $about->name }}</h4>
+                    <h4 class="mt-4">{{ $about->name }}</h4>
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-left">
                     <p>{!! $about->about_desc !!}</p>
