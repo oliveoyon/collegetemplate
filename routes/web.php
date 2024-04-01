@@ -46,8 +46,13 @@ Route::get('/menu/{slug}/{submenu?}/{childmenu?}', [WebController::class, 'menud
 
 // Department
 Route::get('/department/{faculty}/{dept}', [DepartmentController::class, 'index'])->name('department');
+Route::get('/contact/{faculty}/{dept}', [DepartmentController::class, 'deptcontact'])->name('deptcontact');
 Route::get('/department-menu/{faculty}/{dept}/{slug}/{submenu?}/{childmenu?}', [DepartmentController::class, 'deptmenudesc'])->name('deptmenudesc');
 Route::get('/department-notice/{faculty}/{dept}/{noticeslug}', [DepartmentController::class, 'deptnotice'])->name('deptnotice');
+Route::get('dept-download/{faculty}/{dept}', [DepartmentController::class, 'deptalldownload'])->name('deptalldownload');
+Route::get('dept-download/{faculty}/{dept}', [DepartmentController::class, 'deptalldownload'])->name('deptalldownload');
+Route::get('download-details/{faculty}/{dept}/{slug}', [DepartmentController::class, 'deptdownload'])->name('deptdownload');
+Route::get('teacher-profile/{faculty}/{dept}/{slug}', [DepartmentController::class, 'profile'])->name('profile');
 
 
 

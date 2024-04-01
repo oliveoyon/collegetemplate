@@ -14,7 +14,13 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->string('teacher_hash_id');
+            $table->string('teacher_slug');
             $table->string('teacher_name', 100);
+            $table->text('teacher_desc');
+            $table->string('twitter')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('linkedin')->nullable();
             $table->string('teacher_user_name', 50);
             $table->string('teacher_mobile', 20);
             $table->string('teacher_email', 100)->nullable();

@@ -498,7 +498,6 @@ class MenuController extends Controller
         $notice->start_date = date('Y-m-d', strtotime($request->input('start_date')));
         $notice->end_date = date('Y-m-d', strtotime($request->input('end_date')));
         $notice->color = $color->color;
-        $notice->dept_id = auth()->user()->dept_id;
         $notice->event_status = $request->input('event_status');
         $notice->upload = $file_name;
 
@@ -563,10 +562,6 @@ class MenuController extends Controller
             $notice->start_date = $request->input('start_date');
             $notice->end_date = $request->input('end_date');
             $notice->color = $color->color;
-            $notice->dept_id = auth()->user()->dept_id;
-
-
-
 
             if ($request->input('start_date')) {
                 $startDate = $request->input('start_date'); // Assuming it's in some format like "d/m/Y" or "m/d/Y"
@@ -1591,6 +1586,7 @@ class MenuController extends Controller
             'teacher_name' => 'required|string|max:255',
             'teacher_user_name' => 'required|string|max:50|unique:teachers,teacher_user_name',
             'teacher_mobile' => 'required|string|max:20',
+            'teacher_desc' => 'required|string',
             'teacher_email' => 'nullable|email|max:100',
             'teacher_designation' => 'required|string|max:100',
             'teacher_gender' => 'required|string|max:10',
@@ -1605,6 +1601,12 @@ class MenuController extends Controller
             $teacher = new Teacher();
             $teacher->teacher_hash_id = md5(uniqid(rand(), true));
             $teacher->teacher_name = $request->input('teacher_name');
+            $teacher->teacher_slug = Str::slug($request->input('teacher_name'));
+            $teacher->facebook = $request->input('facebook');
+            $teacher->twitter = $request->input('twitter');
+            $teacher->linkedin = $request->input('linkedin');
+            $teacher->instagram = $request->input('instagram');
+            $teacher->teacher_desc = $request->input('teacher_desc');
             $teacher->teacher_user_name = $request->input('teacher_user_name');
             $teacher->teacher_mobile = $request->input('teacher_mobile');
             $teacher->teacher_email = $request->input('teacher_email');
@@ -1647,6 +1649,7 @@ class MenuController extends Controller
         $validator = Validator::make($request->all(), [
             'teacher_name' => 'required|string|max:255',
             'teacher_user_name' => 'required|string|max:50|unique:teachers,teacher_user_name,' . $teacher_id,
+            'teacher_desc' => 'required|string',
             'teacher_mobile' => 'required|string|max:20',
             'teacher_email' => 'nullable|email|max:100',
             'teacher_designation' => 'required|string|max:100',
@@ -1659,6 +1662,12 @@ class MenuController extends Controller
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
             $teacher->teacher_name = $request->input('teacher_name');
+            $teacher->teacher_slug = Str::slug($request->input('teacher_name'));
+            $teacher->facebook = $request->input('facebook');
+            $teacher->twitter = $request->input('twitter');
+            $teacher->linkedin = $request->input('linkedin');
+            $teacher->instagram = $request->input('instagram');
+            $teacher->teacher_desc = $request->input('teacher_desc');
             $teacher->teacher_user_name = $request->input('teacher_user_name');
             $teacher->teacher_mobile = $request->input('teacher_mobile');
             $teacher->teacher_email = $request->input('teacher_email');

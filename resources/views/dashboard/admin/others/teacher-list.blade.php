@@ -3,6 +3,7 @@
 @push('admincss')
 <!-- DataTables -->
 <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.2.0/dist/sweetalert2.min.css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -113,8 +114,9 @@
                         <div class="modal-body">
                             <form action="{{ route('admin.addTeacher') }}" method="post" enctype="multipart/form-data" id="add-teacher-form">
                                 @csrf
+                                
                                 <div class="row">
-                                @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
+                                    @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="menu_name">ডিপার্টমেন্ট</label>
@@ -135,59 +137,105 @@
                                     @else
                                     <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
                                     @endif
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
+
+                                    <div class="col-md-8">
                                         <div class="form-group">
-                                            <label for="teacher_name">Teacher Name</label>
-                                            <input type="text" class="form-control form-control-sm" name="teacher_name" id="teacher_name" placeholder="Teacher Name">
+                                            <label for="teacher_name">{{ __('language.teacher_name') }}</label>
+                                            <input type="text" class="form-control form-control-sm" name="teacher_name" id="teacher_name" placeholder="{{ __('language.teacher_name') }}">
                                             <span class="text-danger error-text teacher_name_error"></span>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_user_name">Username</label>
-                                            <input type="text" class="form-control form-control-sm" name="teacher_user_name" id="teacher_user_name" placeholder="Username">
+                                            <label for="teacher_user_name">{{ __('language.teacher_user_name') }}</label>
+                                            <input type="text" class="form-control form-control-sm" name="teacher_user_name" id="teacher_user_name" placeholder="{{ __('language.teacher_user_name') }}">
                                             <span class="text-danger error-text teacher_user_name_error"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_mobile">Mobile</label>
-                                            <input type="text" class="form-control form-control-sm" name="teacher_mobile" id="teacher_mobile" placeholder="Mobile">
+                                            <label for="teacher_mobile">{{ __('language.teacher_mobile') }}</label>
+                                            <input type="text" class="form-control form-control-sm" name="teacher_mobile" id="teacher_mobile" placeholder="{{ __('language.teacher_mobile') }}">
                                             <span class="text-danger error-text teacher_mobile_error"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="teacher_email">{{ __('language.teacher_email') }}</label>
+                                            <input type="text" class="form-control form-control-sm" name="teacher_email" id="teacher_email" placeholder="{{ __('language.teacher_email') }}">
+                                            <span class="text-danger error-text teacher_email_error"></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="teacher_email">Email</label>
-                                            <input type="text" class="form-control form-control-sm" name="teacher_email" id="teacher_email" placeholder="Email">
-                                            <span class="text-danger error-text teacher_email_error"></span>
-                                        </div>
-                                    </div>
+
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_designation">Designation</label>
-                                            <input type="text" class="form-control form-control-sm" name="teacher_designation" id="teacher_designation" placeholder="Designation">
+                                            <label for="teacher_designation">{{ __('language.teacher_designation') }}</label>
+                                            <input type="text" class="form-control form-control-sm" name="teacher_designation" id="teacher_designation" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text teacher_designation_error"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_gender">Gender</label>
+                                            <label for="teacher_gender">{{ __('language.teacher_gender') }}</label>
                                             <select class="form-control form-control-sm" name="teacher_gender" id="teacher_gender">
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                                <option value="Other">Other</option>
+                                                <option value="Male">{{ __('language.male') }}</option>
+                                                <option value="Female">{{ __('language.female') }}</option>
+                                                <option value="Other">{{ __('language.other') }}</option>
                                             </select>
                                             <span class="text-danger error-text teacher_gender_error"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="twitter">Twitter</label>
+                                            <input type="text" class="form-control form-control-sm" name="twitter" id="twitter" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text twitter_error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="facebook">Facebook</label>
+                                            <input type="text" class="form-control form-control-sm" name="facebook" id="facebook" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text facebook_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="linkedin">LinkedIn</label>
+                                            <input type="text" class="form-control form-control-sm" name="linkedin" id="linkedin" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text linkedin_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="instagram">Instagram</label>
+                                            <input type="text" class="form-control form-control-sm" name="instagram" id="instagram" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text instagram_error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="instagram">বর্ণনা</label>
+                                            <textarea name="teacher_desc" class="summernote" id="summernotes"></textarea>
+                                            <span class="text-danger error-text teacher_desc_error"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -195,15 +243,15 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_password">Password</label>
-                                            <input type="password" class="form-control form-control-sm" name="teacher_password" id="teacher_password" placeholder="Password">
+                                            <label for="teacher_password">{{ __('language.teacher_password') }}</label>
+                                            <input type="password" class="form-control form-control-sm" name="teacher_password" id="teacher_password" placeholder="{{ __('language.teacher_password') }}">
                                             <span class="text-danger error-text teacher_password_error"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_image">Image</label>
+                                            <label for="teacher_image">{{ __('language.teacher_image') }}</label>
                                             <input type="file" class="form-control form-control-sm" name="teacher_image" id="teacher_image">
                                             <span class="text-danger error-text teacher_image_error"></span>
                                         </div>
@@ -211,10 +259,10 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_status">Status</label>
+                                            <label for="teacher_status">{{ __('language.teacher_status') }}</label>
                                             <select class="form-control form-control-sm" name="teacher_status" id="teacher_status">
-                                                <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="1">{{ __('language.active') }}</option>
+                                                <option value="0">{{ __('language.inactive') }}</option>
                                             </select>
                                             <span class="text-danger error-text teacher_status_error"></span>
                                         </div>
@@ -250,7 +298,7 @@
                                 <input type="hidden" name="teacher_id">
 
                                 <div class="row">
-                                @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
+                                    @if (auth()->user()->dept_id == 0 AND (count($faculties) > 0))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="menu_name">ডিপার্টমেন্ট</label>
@@ -271,17 +319,17 @@
                                     @else
                                     <input type="hidden" name="dept_id" value="{{ auth()->user()->dept_id }}">
                                     @endif
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="teacher_name">{{ __('language.teacher_name') }}</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_name" id="teacher_name" placeholder="{{ __('language.teacher_name') }}">
                                             <span class="text-danger error-text teacher_name_error"></span>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="teacher_user_name">{{ __('language.teacher_user_name') }}</label>
@@ -297,9 +345,7 @@
                                             <span class="text-danger error-text teacher_mobile_error"></span>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="teacher_email">{{ __('language.teacher_email') }}</label>
@@ -307,6 +353,10 @@
                                             <span class="text-danger error-text teacher_email_error"></span>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row">
+
 
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -325,6 +375,49 @@
                                                 <option value="Other">{{ __('language.other') }}</option>
                                             </select>
                                             <span class="text-danger error-text teacher_gender_error"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="twitter">Twitter</label>
+                                            <input type="text" class="form-control form-control-sm" name="twitter" id="twitter" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text twitter_error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="facebook">Facebook</label>
+                                            <input type="text" class="form-control form-control-sm" name="facebook" id="facebook" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text facebook_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="linkedin">LinkedIn</label>
+                                            <input type="text" class="form-control form-control-sm" name="linkedin" id="linkedin" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text linkedin_error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="instagram">Instagram</label>
+                                            <input type="text" class="form-control form-control-sm" name="instagram" id="instagram" placeholder="{{ __('language.teacher_designation') }}">
+                                            <span class="text-danger error-text instagram_error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="instagram">বর্ণনা</label>
+                                            <textarea name="teacher_desc" class="summernote" id="summernote"></textarea>
+                                            <span class="text-danger error-text teacher_desc_error"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -393,6 +486,7 @@
 
 <!-- Toastr -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
 
 <script>
     new DataTable('#data-table');
@@ -473,6 +567,11 @@
                 $('.editTeacher').find('input[name="teacher_id"]').val(data.details.id);
                 $('.editTeacher').find('select[name="dept_id"]').val(data.details.dept_id);
                 $('.editTeacher').find('input[name="teacher_name"]').val(data.details.teacher_name);
+                $('.editTeacher').find('input[name="twitter"]').val(data.details.twitter);
+                $('.editTeacher').find('input[name="facebook"]').val(data.details.facebook);
+                $('.editTeacher').find('input[name="linkedin"]').val(data.details.linkedin);
+                $('.editTeacher').find('input[name="instagram"]').val(data.details.instagram);
+                $('#summernote').summernote('code', data.details.teacher_desc);
                 $('.editTeacher').find('input[name="teacher_user_name"]').val(data.details.teacher_user_name);
                 $('.editTeacher').find('input[name="teacher_mobile"]').val(data.details.teacher_mobile);
                 $('.editTeacher').find('input[name="teacher_email"]').val(data.details.teacher_email);

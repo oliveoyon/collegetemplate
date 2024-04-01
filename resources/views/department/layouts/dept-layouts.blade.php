@@ -2,6 +2,7 @@
     $segments = Request::segments();
     $currentFaculty = isset($segments[1]) ? $segments[1] : '';
     $currentDept = isset($segments[2]) ? $segments[2] : '';
+    $deptName = str_replace('-', ' ', $currentDept);
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Company Bootstrap Template - Index</title>
+    <title>{{$deptName}}</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -49,7 +50,7 @@
 
 
             <h1 class="logo me-auto"><a
-                    href="{{ route('department', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}"><span>Com</span>pany</a>
+                    href="{{ route('department', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}"><span>{{$deptName}}</span></a>
             </h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="{{ asset('dept/assets/') }}/img/logo.png" alt="" class="img-fluid"></a>-->
@@ -93,7 +94,7 @@
                             @endif
                         @endif
                     @endforeach
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="{{ route('deptcontact', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}">Contact</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -236,6 +237,24 @@
             });
         });
     </script>
+
+<script type="text/javascript">
+    // Get the current URL path
+    var url = window.location.pathname;
+
+    // Find and add the 'active' class to the appropriate navigation item
+    $('#navbar ul li a').each(function() {
+        // Check if the URL matches the href attribute of the link
+        if ($(this).attr('href') === url) {
+            $(this).addClass('active');
+
+            // If the link is in a dropdown menu, also add the 'active' class to its parent
+            $(this).closest('.dropdown').addClass('active');
+        }
+    });
+</script>
+
+
 
 </body>
 

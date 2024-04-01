@@ -6,10 +6,10 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Services</h2>
+          <h2>{{$submenudesc->submenu_name}}</h2>
           <ol>
             <li><a href="index.html">Home</a></li>
-            <li>Services</li>
+            <li>{{$submenudesc->submenu_name}}</li>
           </ol>
         </div>
 
