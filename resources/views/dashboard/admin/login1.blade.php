@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>dfd</title>
+  <title>{{ $webs->school_title }}</title>
   <!-- MDB icon -->
   <link rel="icon" href="{{ asset('login/img/favicon.svg') }}" type="image/x-icon" />
   <!-- Font Awesome -->
@@ -45,7 +45,7 @@
   
                     <div class="d-flex align-items-center mb-3 pb-1">
                       {{-- <i class="fas fa-cubes fa-2x me-3" style="color: #3f86b3;"></i> --}}
-                      <span class="h1 fw-bold mb-0" style="font-size: 30px">test</span>
+                      <span class="h1 fw-bold mb-0" style="font-size: 30px">{{ $webs->school_title }}</span>
                     </div>
   
                     {{-- <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">তথ্য দিয়ে লগইন করুন</h5> --}}
