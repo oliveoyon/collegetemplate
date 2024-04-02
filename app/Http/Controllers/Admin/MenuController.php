@@ -125,7 +125,7 @@ class MenuController extends Controller
 
             // dd($request->input('menu_name'));
             $menu->menu_name = $request->input('menu_name');
-            $menu->menu_slug = Str::slug($request->input('menu_name'));
+            // $menu->menu_slug = Str::slug($request->input('menu_name'));
             $menu->menu_desc = $request->input('menu_desc');
             $menu->menu_status = $request->input('menu_status');
             $menu->dept_id = $request->input('dept_id');
@@ -258,7 +258,7 @@ class MenuController extends Controller
 
 
             $submenu->submenu_name = $request->input('submenu_name');
-            $submenu->submenu_slug = Str::slug($request->input('submenu_name'));
+            // $submenu->submenu_slug = Str::slug($request->input('submenu_name'));
             $submenu->dept_id = $request->input('dept_id');
             $submenu->submenu_desc = $request->input('submenu_desc');
             $submenu->submenu_status = $request->input('submenu_status');
@@ -403,7 +403,7 @@ class MenuController extends Controller
 
 
             $childmenu->childmenu_name = $request->input('childmenu_name');
-            $childmenu->child_menu_slug = Str::slug($request->input('childmenu_name'));
+            // $childmenu->child_menu_slug = Str::slug($request->input('childmenu_name'));
             $childmenu->dept_id = $request->input('dept_id');
             $childmenu->child_menu_desc = $request->input('child_menu_desc');
             $childmenu->child_menu_status = $request->input('child_menu_status');

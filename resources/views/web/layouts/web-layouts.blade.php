@@ -306,7 +306,7 @@
 
 
                 <li><a class="active" href="{{ route('contact') }}">যোগাযোগ</a></li>
-                @foreach($provider_menusWithSubMenus as $menu)
+                {{-- @foreach($provider_menusWithSubMenus as $menu)
                     @if($menu->subMenus->isEmpty())
                         <li><a href="">{{ $menu->menu_name }}</a></li>
                     @else
@@ -329,7 +329,7 @@
                             </ul>
                         </li>
                     @endif
-                @endforeach
+                @endforeach --}}
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>

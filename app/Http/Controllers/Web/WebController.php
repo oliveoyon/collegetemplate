@@ -68,7 +68,7 @@ class WebController extends Controller
     {
 
         if ($menu && $submenu && $childmenu) {
-
+            // dd($childmenu);
             $send['childmenudesc'] = DB::table('child_menus')
             ->select('childmenu_name', 'child_menu_slug', 'child_menu_desc', 'upload')
             ->where(['child_menu_status' => 1, 'child_menu_slug' => $childmenu, 'dept_id' => 0])

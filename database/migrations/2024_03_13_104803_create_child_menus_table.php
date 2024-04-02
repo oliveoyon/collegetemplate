@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('childmenu_name');
             $table->string('child_menu_slug')->unique();
             $table->text('child_menu_desc')->nullable();
-            $table->string('upload');
+            $table->string('upload')->nullable();
             $table->integer('child_menu_status');
             $table->unsignedBigInteger('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
