@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type_name');
             $table->string('color');
             $table->integer('status');
-            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
+            $table->unsignedBigInteger('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

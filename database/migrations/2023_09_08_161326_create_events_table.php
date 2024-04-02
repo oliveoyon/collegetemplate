@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('url');
             $table->string('color', 15);
             $table->integer('event_status');
-            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
+            $table->unsignedBigInteger('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

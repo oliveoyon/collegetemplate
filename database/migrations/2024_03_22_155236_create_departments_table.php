@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
             $table->string('department_hash_id');
-            $table->foreignId('faculty_id')->constrained('faculties')->onDelete('cascade');
+            $table->unsignedBigInteger('faculty_id')->constrained('faculties')->onDelete('cascade');
             $table->string('department_name');
             $table->string('department_slug');
             $table->integer('department_status');

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->text('history');
-            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
+            $table->unsignedBigInteger('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('upload')->nullable();
             $table->integer('menu_status');
             $table->integer('is_home');
-            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
+            $table->unsignedBigInteger('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

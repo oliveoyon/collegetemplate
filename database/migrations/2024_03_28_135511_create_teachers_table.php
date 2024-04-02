@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('teacher_password', 300);
             $table->string('teacher_image', 50)->nullable();
             $table->integer('teacher_status');
-            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
+            $table->unsignedBigInteger('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }

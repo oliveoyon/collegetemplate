@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('link_name');
             $table->string('link');
-            $table->foreignId('dept_id')->default(0)->constrained('departments')->onDelete('cascade');
+            $table->unsignedBigInteger('dept_id')->constrained('departments')->onDelete('cascade');
             $table->timestamps();
         });
     }
