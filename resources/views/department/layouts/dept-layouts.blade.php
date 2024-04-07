@@ -1,3 +1,8 @@
+@php
+    $segments = Request::segments();
+    $currentFaculty = isset($segments[1]) ? $segments[1] : '';
+    $currentDept = isset($segments[2]) ? $segments[2] : '';
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
