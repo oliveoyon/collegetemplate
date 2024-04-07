@@ -1,5 +1,5 @@
 @extends('dashboard.admin.layouts.admin-layout')
-@section('title', 'Version')
+@section('title', 'Teacher Management')
 @push('admincss')
 <!-- DataTables -->
 <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -17,11 +17,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('language.version') }}</h1>
+                    <h1 class="m-0">শিক্ষক ম্যানেজমেন্ট</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('language.version') }}</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">হোম</a>
                         </li>
                     </ol>
                 </div><!-- /.col -->
@@ -40,14 +40,14 @@
                         <div class="card-header bg-navy">
                             <h3 class="card-title">
                                 <i class="fas fa-chalkboard-teacher mr-1"></i>
-                                {{ __('language.version_list') }}
+                                শিক্ষকবৃন্দের তালিকা
                             </h3>
                             <div class="card-tools">
                                 <ul class="nav nav-pills ml-auto">
                                     <li class="nav-item">
 
                                         <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addTeacherModal"><i class="fas fa-plus-square mr-1"></i>
-                                            {{ __('language.version_add') }}</button>
+                                            শিক্ষক নিবন্ধন করুন</button>
                                     </li>
                                 </ul>
                             </div>
@@ -57,15 +57,15 @@
                                 <thead style="border-top: 1px solid #b4b4b4">
                                     <th style="width: 15px">#</th>
                                     <th>ডিপার্টমেন্ট</th>
-                                    <th>Teacher Name</th>
-                                    <th>Username</th>
-                                    <th>Mobile</th>
-                                    <th>Email</th>
-                                    <th>Designation</th>
-                                    <th>Gender</th>
-                                    <th>Image</th>
-                                    <th>Status</th>
-                                    <th style="width: 40px">Action</th>
+                                    <th>শিক্ষকের নাম</th>
+                                    <th>ইউজার নাম</th>
+                                    <th>ফোন</th>
+                                    <th>ইমেইল</th>
+                                    <th>পদবী</th>
+                                    <th>লিঙ্গ</th>
+                                    <th>ছবি</th>
+                                    <th>অবস্থা</th>
+                                    <th style="width: 40px">একশন</th>
                                 </thead>
                                 <tbody>
                                     @foreach ($teachers as $teacher)
@@ -106,7 +106,7 @@
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-success">
-                            <h5 class="modal-title" id="addTeacherLabel">Add Teacher</h5>
+                            <h5 class="modal-title" id="addTeacherLabel">শিক্ষক নিবন্ধন করুন</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -140,7 +140,7 @@
 
                                     <div class="col-md-8">
                                         <div class="form-group">
-                                            <label for="teacher_name">{{ __('language.teacher_name') }}</label>
+                                            <label for="teacher_name">শিক্ষকের নাম</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_name" id="teacher_name" placeholder="{{ __('language.teacher_name') }}">
                                             <span class="text-danger error-text teacher_name_error"></span>
                                         </div>
@@ -150,7 +150,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_user_name">{{ __('language.teacher_user_name') }}</label>
+                                            <label for="teacher_user_name">ইউজার নাম</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_user_name" id="teacher_user_name" placeholder="{{ __('language.teacher_user_name') }}">
                                             <span class="text-danger error-text teacher_user_name_error"></span>
                                         </div>
@@ -158,7 +158,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_mobile">{{ __('language.teacher_mobile') }}</label>
+                                            <label for="teacher_mobile">ফোন</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_mobile" id="teacher_mobile" placeholder="{{ __('language.teacher_mobile') }}">
                                             <span class="text-danger error-text teacher_mobile_error"></span>
                                         </div>
@@ -166,7 +166,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_email">{{ __('language.teacher_email') }}</label>
+                                            <label for="teacher_email">ইমেইল</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_email" id="teacher_email" placeholder="{{ __('language.teacher_email') }}">
                                             <span class="text-danger error-text teacher_email_error"></span>
                                         </div>
@@ -178,7 +178,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_designation">{{ __('language.teacher_designation') }}</label>
+                                            <label for="teacher_designation">পদবী</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_designation" id="teacher_designation" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text teacher_designation_error"></span>
                                         </div>
@@ -186,11 +186,11 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_gender">{{ __('language.teacher_gender') }}</label>
+                                            <label for="teacher_gender">লিঙ্গ</label>
                                             <select class="form-control form-control-sm" name="teacher_gender" id="teacher_gender">
-                                                <option value="Male">{{ __('language.male') }}</option>
-                                                <option value="Female">{{ __('language.female') }}</option>
-                                                <option value="Other">{{ __('language.other') }}</option>
+                                                <option value="Male">পুরুষ</option>
+                                                <option value="Female">নারী</option>
+                                                <option value="Other">অন্যান্য</option>
                                             </select>
                                             <span class="text-danger error-text teacher_gender_error"></span>
                                         </div>
@@ -198,7 +198,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="twitter">Twitter</label>
+                                            <label for="twitter">টুইটার</label>
                                             <input type="text" class="form-control form-control-sm" name="twitter" id="twitter" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text twitter_error"></span>
                                         </div>
@@ -209,21 +209,21 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="facebook">Facebook</label>
+                                            <label for="facebook">ফেইসবুক</label>
                                             <input type="text" class="form-control form-control-sm" name="facebook" id="facebook" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text facebook_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="linkedin">LinkedIn</label>
+                                            <label for="linkedin">লিঙ্কডইন</label>
                                             <input type="text" class="form-control form-control-sm" name="linkedin" id="linkedin" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text linkedin_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="instagram">Instagram</label>
+                                            <label for="instagram">ইন্সটাগ্রাম</label>
                                             <input type="text" class="form-control form-control-sm" name="instagram" id="instagram" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text instagram_error"></span>
                                         </div>
@@ -243,7 +243,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_password">{{ __('language.teacher_password') }}</label>
+                                            <label for="teacher_password">পাসওয়ার্ড</label>
                                             <input type="password" class="form-control form-control-sm" name="teacher_password" id="teacher_password" placeholder="{{ __('language.teacher_password') }}">
                                             <span class="text-danger error-text teacher_password_error"></span>
                                         </div>
@@ -251,7 +251,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_image">{{ __('language.teacher_image') }}</label>
+                                            <label for="teacher_image">ছবি</label>
                                             <input type="file" class="form-control form-control-sm" name="teacher_image" id="teacher_image">
                                             <span class="text-danger error-text teacher_image_error"></span>
                                         </div>
@@ -259,10 +259,10 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_status">{{ __('language.teacher_status') }}</label>
+                                            <label for="teacher_status">অবস্থা</label>
                                             <select class="form-control form-control-sm" name="teacher_status" id="teacher_status">
-                                                <option value="1">{{ __('language.active') }}</option>
-                                                <option value="0">{{ __('language.inactive') }}</option>
+                                            <option value="1">একটিভ</option>
+                                                <option value="0">ইন একটিভ</option>
                                             </select>
                                             <span class="text-danger error-text teacher_status_error"></span>
                                         </div>
@@ -270,7 +270,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-block btn-success">Save</button>
+                                    <button type="submit" class="btn btn-block btn-success">সাবমিট</button>
                                 </div>
                             </form>
                         </div>
@@ -286,7 +286,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ __('language.teacher_edit') }}</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">সংশোধন</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -321,8 +321,7 @@
                                     @endif
 
                                     <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label for="teacher_name">{{ __('language.teacher_name') }}</label>
+                                        <div class="form-group">শিক্ষকের নাম{{ __('language.teacher_name') }}</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_name" id="teacher_name" placeholder="{{ __('language.teacher_name') }}">
                                             <span class="text-danger error-text teacher_name_error"></span>
                                         </div>
@@ -332,7 +331,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_user_name">{{ __('language.teacher_user_name') }}</label>
+                                            <label for="teacher_user_name">ইউজর নাম</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_user_name" id="teacher_user_name" placeholder="{{ __('language.teacher_user_name') }}">
                                             <span class="text-danger error-text teacher_user_name_error"></span>
                                         </div>
@@ -340,7 +339,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_mobile">{{ __('language.teacher_mobile') }}</label>
+                                            <label for="teacher_mobile">ফোন</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_mobile" id="teacher_mobile" placeholder="{{ __('language.teacher_mobile') }}">
                                             <span class="text-danger error-text teacher_mobile_error"></span>
                                         </div>
@@ -348,7 +347,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_email">{{ __('language.teacher_email') }}</label>
+                                            <label for="teacher_email">ইমেইল</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_email" id="teacher_email" placeholder="{{ __('language.teacher_email') }}">
                                             <span class="text-danger error-text teacher_email_error"></span>
                                         </div>
@@ -360,7 +359,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_designation">{{ __('language.teacher_designation') }}</label>
+                                            <label for="teacher_designation">পদবী</label>
                                             <input type="text" class="form-control form-control-sm" name="teacher_designation" id="teacher_designation" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text teacher_designation_error"></span>
                                         </div>
@@ -368,11 +367,11 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_gender">{{ __('language.teacher_gender') }}</label>
+                                            <label for="teacher_gender">লিঙ্গ</label>
                                             <select class="form-control form-control-sm" name="teacher_gender" id="teacher_gender">
-                                                <option value="Male">{{ __('language.male') }}</option>
-                                                <option value="Female">{{ __('language.female') }}</option>
-                                                <option value="Other">{{ __('language.other') }}</option>
+                                                <option value="Male">পুরুষ</option>
+                                                <option value="Female">নারী</option>
+                                                <option value="Other">অন্যান্য</option>
                                             </select>
                                             <span class="text-danger error-text teacher_gender_error"></span>
                                         </div>
@@ -380,7 +379,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="twitter">Twitter</label>
+                                            <label for="twitter">টুইটার</label>
                                             <input type="text" class="form-control form-control-sm" name="twitter" id="twitter" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text twitter_error"></span>
                                         </div>
@@ -391,21 +390,21 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="facebook">Facebook</label>
+                                            <label for="facebook">ফেইসবুক</label>
                                             <input type="text" class="form-control form-control-sm" name="facebook" id="facebook" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text facebook_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="linkedin">LinkedIn</label>
+                                            <label for="linkedin">লিঙ্কডইন</label>
                                             <input type="text" class="form-control form-control-sm" name="linkedin" id="linkedin" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text linkedin_error"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="instagram">Instagram</label>
+                                            <label for="instagram">ইন্সটাগ্রাম</label>
                                             <input type="text" class="form-control form-control-sm" name="instagram" id="instagram" placeholder="{{ __('language.teacher_designation') }}">
                                             <span class="text-danger error-text instagram_error"></span>
                                         </div>
@@ -425,7 +424,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_password">{{ __('language.teacher_password') }}</label>
+                                            <label for="teacher_password">পাসওয়ার্ড</label>
                                             <input type="password" class="form-control form-control-sm" name="teacher_password" id="teacher_password" placeholder="{{ __('language.teacher_password') }}">
                                             <span class="text-danger error-text teacher_password_error"></span>
                                         </div>
@@ -433,7 +432,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_image">{{ __('language.teacher_image') }}</label>
+                                            <label for="teacher_image">ছবি</label>
                                             <input type="file" class="form-control form-control-sm" name="teacher_image" id="teacher_image">
                                             <span class="text-danger error-text teacher_image_error"></span>
                                         </div>
@@ -441,10 +440,10 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="teacher_status">{{ __('language.teacher_status') }}</label>
+                                            <label for="teacher_status">অবস্থা</label>
                                             <select class="form-control form-control-sm" name="teacher_status" id="teacher_status">
-                                                <option value="1">{{ __('language.active') }}</option>
-                                                <option value="0">{{ __('language.inactive') }}</option>
+                                                <option value="1">একটিভ</option>
+                                                <option value="0">ইন একটিভ</option>
                                             </select>
                                             <span class="text-danger error-text teacher_status_error"></span>
                                         </div>
@@ -452,7 +451,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-block bg-purple">{{ __('language.update') }}</button>
+                                    <button type="submit" class="btn btn-block bg-purple">আপডেট</button>
                                 </div>
                             </form>
                         </div>

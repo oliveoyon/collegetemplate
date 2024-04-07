@@ -141,7 +141,12 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.teacher-list') }}" class="nav-link">
+                                        <i class="fas fa-bars nav-icon"></i>
+                                        <p>শিক্ষক ম্যানেজমেন্ট</p>
+                                    </a>
+                                </li>
 
                                 <li class="nav-item">
                                     <a href="{{ route('admin.menu-list') }}" class="nav-link">
