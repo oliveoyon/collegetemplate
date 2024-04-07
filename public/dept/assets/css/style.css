@@ -10,7 +10,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: 'SolaimanLipi', "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif, 'SolaimanLipi';
   color: #4d4643;
 }
 
@@ -169,7 +169,7 @@ h6 {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0 10px 30px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif, 'SolaimanLipi';
   font-size: 13px;
   font-weight: 600;
   color: #111;
