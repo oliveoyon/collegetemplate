@@ -57,7 +57,7 @@
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
                     <li><a
-                            href="{{ route('department', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}">Home</a>
+                            href="{{ route('department', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}">হোম</a>
                     </li>
                     @foreach ($menus as $menu)
                         @if ($menu->is_home == 0)
@@ -93,7 +93,7 @@
                             @endif
                         @endif
                     @endforeach
-                    <li><a href="{{ route('deptcontact', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}">Contact</a></li>
+                    <li><a href="{{ route('deptcontact', ['faculty' => $currentFaculty, 'dept' => $currentDept]) }}">যোগাযোগ</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
