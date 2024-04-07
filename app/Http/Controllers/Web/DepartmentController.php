@@ -39,6 +39,7 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
+        $send['deptName'] = Department::where('department_slug', $request->route('dept'))->value('department_name');
         $send['messages'] = DB::table('messages')->where(['message_status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->first();
         $send['uploads'] = DB::table('uploads')->where(['status' => 1, 'dept_id' => $this->deptId])->orderByDesc('created_at')->limit(6)->get();
         $send['teachers'] = DB::table('teachers')->where(['teacher_status' => 1, 'dept_id' => $this->deptId])->get();
@@ -83,6 +84,7 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
+        $send['deptName'] = Department::where('department_slug', $request->route('dept'))->value('department_name');
         if ($faculty && $dept && $menu && $submenu && $childmenu) {
 
             $send['childmenudesc'] = DB::table('child_menus')
@@ -115,6 +117,7 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
+        $send['deptName'] = Department::where('department_slug', $request->route('dept'))->value('department_name');
         if ($faculty && $dept && $noticeslug) {
             $send['events'] = DB::table('events')
                 ->select('events.*',  'event_types.type_name')
@@ -132,6 +135,7 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
+        $send['deptName'] = Department::where('department_slug', $request->route('dept'))->value('department_name');
         if ($faculty && $dept) {
             $send['uploads'] = DB::table('uploads')->where(['status' => 1, 'dept_id' => $this->deptId])
                 ->orderByDesc('created_at')
@@ -147,6 +151,7 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
+        $send['deptName'] = Department::where('department_slug', $request->route('dept'))->value('department_name');
         if ($faculty && $dept && $slug) {
             $send['upload'] = DB::table('uploads')->where(['status' => 1, 'url' => $slug, 'dept_id' => $this->deptId])->first();
             return view('department.download', $send);
@@ -160,6 +165,7 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
+        $send['deptName'] = Department::where('department_slug', $request->route('dept'))->value('department_name');
         if ($faculty && $dept && $slug) {
             $send['teacher'] = DB::table('teachers')->where(['teacher_status' => 1, 'teacher_slug' => $slug, 'dept_id' => $this->deptId])->first();
             return view('department.profile', $send);
@@ -172,6 +178,7 @@ class DepartmentController extends Controller
     {
         $this->getMenus($request);
         $send['menus'] = $this->menus;
+        $send['deptName'] = Department::where('department_slug', $request->route('dept'))->value('department_name');
         if ($faculty && $dept) {
             return view('department.contact', $send);
         } else {
